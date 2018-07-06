@@ -1,0 +1,41 @@
+konstuktor
+
+one to many
+
+datum 
+	import
+	i veliko date
+
+cenovnik
+	datum na string u modelu
+	nazivcenovnika na naziv u modelu
+	fetch = FetchType.EAGER
+faktura
+	float u modelu, umesto double?
+	newArray da se izbaci
+poslovnagodina
+	aktivna u character u modelu
+	brojposlonegodine u string u modelu
+
+poslovnipartner
+	naziv da bude u modelu
+	adresa, vrsta bez partner
+	pib da bude int
+	pib bez preduzece u modelu
+
+preduzece
+	pib u pib
+stavkacenovnika
+	cena u samo cena
+stavkafakture
+	sve double u float
+	cena u cena
+	fali polje iznosRabat
+stopa pdva
+	datum u string
+	double u float
+
+
+---general:
+	razmaci izmedhju polja
+	da se uvuce
