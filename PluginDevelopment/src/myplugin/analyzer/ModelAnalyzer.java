@@ -104,7 +104,7 @@ public class ModelAnalyzer {
 		if (cl.getName() == null)
 			throw new AnalyzeException("Classes must have names!");
 
-		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", true);
+		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", true, true, true);
 		
 		//StereotypesHelper.getStereotypedElement(cl);
 		
@@ -163,7 +163,7 @@ public class ModelAnalyzer {
 		int upper = p.getUpper();
 
 		FMProperty prop = new FMProperty(attName, typeName, p.getVisibility().toString(), lower, upper, false, false,
-				"", false, false);
+				"", false, false,"");
 
 		/*------------------------------------------------------------------------------------------------------------------------------ */
 		Stereotype zoomStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Zoom");
@@ -175,9 +175,14 @@ public class ModelAnalyzer {
 			}
 		}
 
+		// uzimamo kontrolere iz ManyToOne veza(tome sluzi controllerNameProp)
 		Stereotype nextStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Next");
 		if (nextStereotype != null) {
 			prop.setNext(true);
+			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype, "controllerNameProp");
+			if (showPropertiesList.size() > 0) {
+				prop.setControllerName(showPropertiesList.get(0).toString());
+			}
 		}
 
 		Stereotype editableStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Editable");

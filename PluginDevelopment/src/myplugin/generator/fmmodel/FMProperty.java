@@ -20,6 +20,9 @@ public class FMProperty extends FMElement {
 	
 	private boolean readonly;
 	private boolean editable;
+	
+	// za imena kontrolera
+	private String controllerName;
 
 	/**
 	 * @ToDo: Add length, precision, unique... whatever is needed for ejb class
@@ -28,7 +31,8 @@ public class FMProperty extends FMElement {
 	 */
 
 	public FMProperty(String name, String type, String visibility, int lower, int upper, boolean zoom, boolean next,
-			String mappedBy, boolean readonly, boolean editable) {
+			String mappedBy, boolean readonly, boolean editable,
+			String controllerName) {
 		super(name);
 		this.type = type;
 		this.visibility = visibility;
@@ -41,6 +45,7 @@ public class FMProperty extends FMElement {
 		this.mappedBy = mappedBy;
 		this.readonly = readonly;
 		this.editable = editable;
+		this.controllerName = controllerName;
 	}
 
 	public String getType() {
@@ -114,5 +119,15 @@ public class FMProperty extends FMElement {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
+
+	public String getControllerName() {
+		return controllerName;
+	}
+
+	public void setControllerName(String controllerName) {
+		this.controllerName = controllerName;
+	}
+	
+	
 	
 }

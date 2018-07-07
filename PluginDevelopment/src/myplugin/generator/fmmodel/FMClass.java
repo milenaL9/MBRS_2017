@@ -13,23 +13,30 @@ public class FMClass extends FMType {
 	
 	private boolean create;
 	
+	private boolean edit;
+	
+	private boolean delete;
+	
 	//Class properties
 	private List<FMProperty> FMProperties = new ArrayList<FMProperty>();
 	
 	private List<FMProperty> propertiesManyToOne = new ArrayList<FMProperty>();
 	
-	private List<FMProperty> classProperties = new ArrayList<FMProperty>();
+	private List<FMProperty> classProperties = new ArrayList<FMProperty>();  // procisceni
 	
 	//list of packages (for import declarations) 
 	private List<String> importedPackages = new ArrayList<String>();
 	
 	/** @ToDo: add list of methods */
 	
-	public FMClass(String name, String classPackage, String visibility, String controllerName, boolean create) {
+	public FMClass(String name, String classPackage, String visibility, String controllerName,
+			boolean create, boolean edit, boolean delete) {
 		super(name, classPackage);		
 		this.visibility = visibility;
 		this.controllerName = controllerName;
 		this.create = create;
+		this.edit = edit;
+		this.delete = delete;
 	}	
 	
 	public List<FMProperty> getProperties(){
@@ -103,6 +110,22 @@ public class FMClass extends FMType {
 
 	public void setClassProperties(List<FMProperty> classProperties) {
 		this.classProperties = classProperties;
+	}
+
+	public boolean isEdit() {
+		return edit;
+	}
+
+	public void setEdit(boolean edit) {
+		this.edit = edit;
+	}
+
+	public boolean isDelete() {
+		return delete;
+	}
+
+	public void setDelete(boolean delete) {
+		this.delete = delete;
 	}	
 	
 	
