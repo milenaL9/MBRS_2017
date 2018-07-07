@@ -104,12 +104,37 @@ public class ModelAnalyzer {
 		if (cl.getName() == null)
 			throw new AnalyzeException("Classes must have names!");
 
-		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString());
+		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", true);
+		
+		//StereotypesHelper.getStereotypedElement(cl);
+		
+		
+		Stereotype controllerStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, "Controller");
+		
+		if (controllerStereotype != null) {
+			fmClass.setControllerName(controllerStereotype.getName());
+			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "controllerName");
+			if (showPropertiesList.size() > 0) {
+				fmClass.setControllerName(showPropertiesList.get(0).toString());
+			}
+			
+			// TODO: Pitati asistenta, kako da dobijemo create iz stereotipa Controller; ovako ne radi
+			/*
+			List createList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "create");
+			if (createList.size() > 0) {
+				fmClass.setCreate((Boolean)createList.get(0));
+			}*/
+		}
+		
 		Iterator<Property> it = ModelHelper.attributes(cl);
 		while (it.hasNext()) {
 			Property p = it.next();
 			FMProperty prop = getPropertyData(p, cl);
 			fmClass.addProperty(prop);
+			
+			if(prop.isNext()){
+				fmClass.getPropertiesManyToOne().add(prop);
+			}
 		}
 
 		/**
@@ -153,7 +178,8 @@ public class ModelAnalyzer {
 
 		Stereotype editableStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Editable");
 		if (editableStereotype != null) {
-			prop.setNext(true);
+			prop.setEditable(true);
+			
 		}		
 		
 		return prop;

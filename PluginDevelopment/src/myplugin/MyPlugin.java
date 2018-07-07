@@ -36,6 +36,10 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		GeneratorOptions ejbOptions = new GeneratorOptions(pathProjekat + "/app/", "model", "templates", "{0}.java", true, "models");
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("EJBGenerator", ejbOptions);
 		ejbOptions.setTemplateDir(pluginDir + File.separator + ejbOptions.getTemplateDir()); // apsolutna putanja
+		
+		GeneratorOptions controllerOptions = new GeneratorOptions(pathProjekat + "/app/controllers", "controller", "templates", "{0}.java", true, "controllers");
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ControllerGenerator", controllerOptions);
+		controllerOptions.setTemplateDir(pluginDir + File.separator + controllerOptions.getTemplateDir()); // apsolutna putanja
 	}
 
 	private NMAction[] getSubmenuActions() {
