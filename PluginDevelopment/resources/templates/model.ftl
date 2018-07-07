@@ -29,5 +29,11 @@ ${class.visibility} class ${class.name} extends Model {
     </#if>     
 </#list>
 
+	${class.visibility} ${class.name}(<#list class.classProperties as property>${property.type} ${property.name}<#if property_has_next>, </#if></#list>){
+		super();
+		<#list class.classProperties as property>
+		this.${property.name} = ${property.name};
+		</#list>		
+	}
 
 }

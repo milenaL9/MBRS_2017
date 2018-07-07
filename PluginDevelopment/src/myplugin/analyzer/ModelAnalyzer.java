@@ -135,6 +135,10 @@ public class ModelAnalyzer {
 			if(prop.isNext()){
 				fmClass.getPropertiesManyToOne().add(prop);
 			}
+			
+			if(!prop.isNext() && !prop.isZoom()) {
+				fmClass.getClassProperties().add(prop);
+			}
 		}
 
 		/**

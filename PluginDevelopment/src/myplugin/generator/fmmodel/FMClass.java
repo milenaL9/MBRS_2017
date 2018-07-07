@@ -18,6 +18,8 @@ public class FMClass extends FMType {
 	
 	private List<FMProperty> propertiesManyToOne = new ArrayList<FMProperty>();
 	
+	private List<FMProperty> classProperties = new ArrayList<FMProperty>();
+	
 	//list of packages (for import declarations) 
 	private List<String> importedPackages = new ArrayList<String>();
 	
@@ -93,6 +95,14 @@ public class FMClass extends FMType {
 
 	public void setCreate(boolean create) {
 		this.create = create;
+	}
+
+	public List<FMProperty> getClassProperties() {
+		return classProperties;
+	}
+
+	public void setClassProperties(List<FMProperty> classProperties) {
+		this.classProperties = classProperties;
 	}	
 	
 	
