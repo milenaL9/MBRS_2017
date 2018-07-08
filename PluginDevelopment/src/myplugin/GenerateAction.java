@@ -14,6 +14,8 @@ import myplugin.analyzer.AnalyzeException;
 import myplugin.analyzer.ModelAnalyzer;
 import myplugin.generator.ControllerGenerator;
 import myplugin.generator.EJBGenerator;
+import myplugin.generator.MainGenerator;
+import myplugin.generator.ShowGnerator;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
 import myplugin.generator.options.ProjectOptions;
@@ -47,22 +49,34 @@ class GenerateAction extends MDAction {
 			analyzer.prepareModel();
 			GeneratorOptions go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("EJBGenerator");
 			EJBGenerator generator = new EJBGenerator(go);
-			generator.generate();
-			
+			generator.generate();			
 			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
 					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
-
 			exportToXml();
 
 			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ControllerGenerator");
 			ControllerGenerator contollerGenerator = new ControllerGenerator(go);
 			contollerGenerator.generate();			
-			
-			/** @ToDo: Also call other generators */
 			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
 					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
-
 			exportToXml();
+			
+			
+			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ShowGenerator");
+			ShowGnerator showGenerator = new ShowGnerator(go);
+			showGenerator.generate();			
+			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
+					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
+			exportToXml();
+			
+			/*
+			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("MainGenerator");
+			MainGenerator mainGenerator = new MainGenerator(go);
+			mainGenerator.generate();			
+			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
+					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
+			exportToXml();	*/		
+			
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

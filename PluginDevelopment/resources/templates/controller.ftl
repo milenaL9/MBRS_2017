@@ -1,11 +1,17 @@
 package ${class.typePackage};
 
+import java.util.ArrayList;
+import java.util.List;
+import play.cache.Cache;
 import play.mvc.Controller;
+<#list class.propertiesManyToOne as property>
+import models.${property.type};
+</#list>
+import models.${class.name};
 
 ${class.visibility} class ${class.controllerName} extends Controller{ 
 
-	public static void show(String mode) {
-	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
 		String mode = session.get("mode");
 

@@ -21,6 +21,8 @@ public class FMProperty extends FMElement {
 	private boolean readonly;
 	private boolean editable;
 	
+	private String label;
+	
 	// za imena kontrolera
 	private String controllerName;
 
@@ -32,7 +34,7 @@ public class FMProperty extends FMElement {
 
 	public FMProperty(String name, String type, String visibility, int lower, int upper, boolean zoom, boolean next,
 			String mappedBy, boolean readonly, boolean editable,
-			String controllerName) {
+			String controllerName, String label) {
 		super(name);
 		this.type = type;
 		this.visibility = visibility;
@@ -46,6 +48,7 @@ public class FMProperty extends FMElement {
 		this.readonly = readonly;
 		this.editable = editable;
 		this.controllerName = controllerName;
+		this.label = label;
 	}
 
 	public String getType() {
@@ -126,6 +129,14 @@ public class FMProperty extends FMElement {
 
 	public void setControllerName(String controllerName) {
 		this.controllerName = controllerName;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	
