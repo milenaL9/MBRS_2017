@@ -37,7 +37,7 @@ public class ControllerGenerator extends BasicGenerator {
 				if (out != null) {
 					context.clear();
 					context.put("class", cl);
-					context.put("importedPackages", cl.getImportedPackages());
+					context.put("importedPackages", "controllers");
 					getTemplate().process(context, out);
 					out.flush();
 				}

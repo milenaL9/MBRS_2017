@@ -1,0 +1,157 @@
+#{extends 'standardForm.html' /}
+#{set title:'Grupa' /}
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+<script>
+	function sync(item){
+		if ("${session.mode}" == "edit"){
+			nazivGrupe = item.find(".nazivGrupe").html()  		    	
+			preduzece = item.find(".preduzece").html()  		    	
+			vrstaPDVa = item.find(".vrstaPDVa").html()  		    	
+	    	id = item.find(".id").html()   	
+	    	$("#grupa_nazivGrupe").val(nazivGrupe);	 
+	    	$("#grupa_id").val(id);
+	    	
+	    	var options0 = document.getElementById("preduzece").children;
+			for (i = 0; i < options0.length; i++) { 
+    			if(options0[i].label == preduzece){
+    				document.getElementById("preduzece").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+	    	var options1 = document.getElementById("vrstaPDVa").children;
+			for (i = 0; i < options1.length; i++) { 
+    			if(options1[i].label == vrstaPDVa){
+    				document.getElementById("vrstaPDVa").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+    	}
+	}
+	
+	function remove(id){
+		if (id == null){
+			alert("Oznacite red u tabeli!");
+		} else {
+			var r  = confirm("Da li zelite da obrisete slog?");
+			if(r == true) {
+	    		$(location).attr('href', '/Grupe/delete?id='+id);
+			}else{
+				txt = "You pressed Cancel"
+			}
+		}
+	}
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="icon-bar">
+			<a href="#" onclick="openSideNav()">
+				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
+			</a>
+			<a id = "first">
+				<img src="@{'/public/images/first.gif'}"/>
+			</a>
+			<a id = "prev">
+				<img src="@{'/public/images/prev.gif'}"/>
+			</a>
+			<a id = "next">
+				<img src="@{'/public/images/next.gif'}"/>
+			</a>
+			<a id = "last">
+				<img src="@{'/public/images/last.gif'}"/>
+			</a>
+			<a href="@{Grupe.show("add")}" id = "add">
+				<img src="@{'/public/images/add.gif'}"/>
+			</a>
+			<a href="#" id = "remove">
+				<img src="@{'/public/images/remove.gif'}"/>
+			</a>
+		</div>
+			
+		<div class="container-fluid">
+			<h1>Grupe</h1>
+			<table>
+				<tr class = "header">
+	   				<th>Naziv grupe</th>
+	   				<th>Preduzece</th>
+	   				<th>Vrsta PDVa</th>
+				</tr>
+				
+				#{list items:grupe, as:'grupa'}
+				<tr #{if grupa.id == idd} class = "highlighted" #{/if} class="tableRow">
+					<td class = "nazivGrupe">${grupa.nazivGrupe}</td>
+					<td class = "preduzece">${grupa.preduzece}</td>
+					<td class = "vrstaPDVa">${grupa.vrstaPDVa}</td>
+					<td style = "visibility: hidden; max-width: 0px" class = "id">${grupa.id}</td>
+				</tr>				
+				#{/list}
+			</table>
+			
+			#{set 'action'}
+			#{if mode == 'add'}
+    			@{Grupe.create()}
+			#{/if}
+			#{else mode == 'edit'}
+   				@{Grupe.edit()}
+			#{/else}
+    		#{/set}
+    	
+			<div class="panel">
+				<form action=${action} method="post">
+					<p>
+						#{field 'grupa.id'}
+							<input type = "hidden" name = "${field.name}" id = "${field.id}" value="${session.idVPDVa}"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'grupa.nazivGrupe'}
+							<label for = "${field.id}">Naziv grupe</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'preduzece'} <label for="${field.id}">Preduzece</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:preduzeca, as:'preduzece'}
+							<option value="${preduzece.id}">${preduzece.naziv}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					<p>
+						#{field 'vrstaPDVa'} <label for="${field.id}">Vrsta PDVa</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:vrstePDVa, as:'vrstaPDVa'}
+							<option value="${vrstaPDVa.id}">${vrstaPDVa.nazivVrstePDVa}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					
+					<div id = "formActions">
+						<input type = "submit" value = "Potvrdi" style="margin-left:6em" class="btn btn-success"/>
+						<a href = "@{Grupe.show("edit")}" style="margin-left:1em">
+							<button type="button" class="btn btn-danger">Otkazi</button>
+						</a>
+					</div>				
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="status_line">Trenutni režim: ${session.mode}</p>
+
+<button onclick="topFunction()" id="myBtn" title="Idi na vrh">
+	<img src="@{'/public/images/back_top.png'}" alt=""
+		class="rounded-circle" width="40" height="40">
+</button>

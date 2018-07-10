@@ -11,7 +11,7 @@ import models.${class.name};
 
 ${class.visibility} class ${class.controllerName} extends Controller{ 
 
-	public static void show(String mode) {	
+	public static void show() {	
 		session.put("mode", "edit");
 		String mode = session.get("mode");
 
@@ -20,7 +20,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		</#list>
 		List<${class.name}> ${class.controllerName?uncap_first} = checkCache();
 
-		render(<#list class.propertiesManyToOne as property>${property.controllerName?uncap_first}<#if property_has_next>, </#if></#list>,  ${class.controllerName?uncap_first}, mode);
+		render(mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
 
 	<#if class.create >	 
@@ -49,7 +49,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${class.controllerName?uncap_first}.clear();
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
 
-		renderTemplate("${class.controllerName}/show.html", ${class.controllerName?uncap_first},<#list class.propertiesManyToOne as property>${property.controllerName?uncap_first}<#if property_has_next>, </#if></#list> , idd, mode);
+		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 		
 	}
 	</#if>
@@ -91,7 +91,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${class.controllerName?uncap_first}.clear();
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
 			
-		renderTemplate("${class.controllerName}/show.html", ${class.controllerName?uncap_first}, <#list class.propertiesManyToOne as property>${property.controllerName?uncap_first}<#if property_has_next>, </#if></#list> , mode);
+		renderTemplate("${class.controllerName}/show.html", mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	
 	
 	
@@ -122,31 +122,10 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
 		Cache.set("${class.controllerName?uncap_first}", ${class.controllerName?uncap_first});
 
-		renderTemplate("${class.controllerName}/show.html", ${class.controllerName?uncap_first}, <#list class.propertiesManyToOne as property>${property.controllerName?uncap_first}<#if property_has_next>, </#if></#list>, idd, mode);
+		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
 	</#if>
 	
-
-	
-	
-	/**
-	 * Pomocna metoda za punjenje liste.
-	 */
-	public static List<${class.name}> fillList() {
-		List<${class.name}> ${class.controllerName?uncap_first} = null;
-		
-		<#list class.propertiesManyToOne as property>
-		if (!session.get("id${property.controllerName}").equals("null")) {
-			Long id = Long.parseLong(session.get("id${property.controllerName}"));
-			${class.controllerName?uncap_first} = ${property.controllerName}.find${class.controllerName}(id);
-		} </#list>
-		else {
-			${class.controllerName?uncap_first} = checkCache();
-		}
-		
-
-		return ${class.controllerName?uncap_first};
-	}
 	
 	
 	/**
@@ -173,9 +152,9 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		<#list class.propertiesManyToOne as property>
 		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();
 		</#list>
-		List<${class.name}> ${class.controllerName?uncap_first} = ${class.name}.checkCache();
+		List<${class.name}> ${class.controllerName?uncap_first} = checkCache();
 
-		renderTemplate("${class.controllerName}/show.html", <#list class.propertiesManyToOne as property>${property.controllerName?uncap_first}<#if property_has_next>, </#if></#list>, ${class.controllerName?uncap_first}, mode);
+		renderTemplate("${class.controllerName}/show.html", ${class.controllerName?uncap_first}, mode<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
 	
 	

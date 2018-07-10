@@ -195,7 +195,7 @@ ${r"#{"}extends 'main.html'/}
 <div id="sidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
   <#list classes as item>
-  <a href="@{${item.controllerName}.show("edit")}">${item.label}</a>
+  <a href="@{${item.controllerName}.show()}">${item.label}</a>
   </#list>
 </div>
 ${r"#{"}doLayout/}

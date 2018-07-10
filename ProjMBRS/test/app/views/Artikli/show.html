@@ -1,0 +1,146 @@
+#{extends 'standardForm.html' /}
+#{set title:'Artikli' /}
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+<script>
+	function sync(item){
+		if ("${session.mode}" == "edit"){
+			nazivStavkeKataloga = item.find(".nazivStavkeKataloga").html()  		    	
+			opisStavkeKataloga = item.find(".opisStavkeKataloga").html()  		    	
+			podgrupa = item.find(".podgrupa").html()  		    	
+	    	id = item.find(".id").html()   	
+	    	$("#artikal_nazivStavkeKataloga").val(nazivStavkeKataloga);	 
+	    	$("#artikal_opisStavkeKataloga").val(opisStavkeKataloga);	 
+	    	$("#artikal_id").val(id);
+	    	
+	    	var options0 = document.getElementById("podgrupa").children;
+			for (i = 0; i < options0.length; i++) { 
+    			if(options0[i].label == podgrupa){
+    				document.getElementById("podgrupa").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+    	}
+	}
+	
+	function remove(id){
+		if (id == null){
+			alert("Oznacite red u tabeli!");
+		} else {
+			var r  = confirm("Da li zelite da obrisete slog?");
+			if(r == true) {
+	    		$(location).attr('href', '/Artikli/delete?id='+id);
+			}else{
+				txt = "You pressed Cancel"
+			}
+		}
+	}
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="icon-bar">
+			<a href="#" onclick="openSideNav()">
+				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
+			</a>
+			<a id = "first">
+				<img src="@{'/public/images/first.gif'}"/>
+			</a>
+			<a id = "prev">
+				<img src="@{'/public/images/prev.gif'}"/>
+			</a>
+			<a id = "next">
+				<img src="@{'/public/images/next.gif'}"/>
+			</a>
+			<a id = "last">
+				<img src="@{'/public/images/last.gif'}"/>
+			</a>
+			<a href="@{Artikli.show("add")}" id = "add">
+				<img src="@{'/public/images/add.gif'}"/>
+			</a>
+			<a href="#" id = "remove">
+				<img src="@{'/public/images/remove.gif'}"/>
+			</a>
+		</div>
+			
+		<div class="container-fluid">
+			<h1>Artikli</h1>
+			<table>
+				<tr class = "header">
+	   				<th>Naziv stavke kataloga</th>
+	   				<th>Opis stavke kataloga</th>
+	   				<th>Podgrupa</th>
+				</tr>
+				
+				#{list items:artikli, as:'artikal'}
+				<tr #{if artikal.id == idd} class = "highlighted" #{/if} class="tableRow">
+					<td class = "nazivStavkeKataloga">${artikal.nazivStavkeKataloga}</td>
+					<td class = "opisStavkeKataloga">${artikal.opisStavkeKataloga}</td>
+					<td class = "podgrupa">${artikal.podgrupa}</td>
+					<td style = "visibility: hidden; max-width: 0px" class = "id">${artikal.id}</td>
+				</tr>				
+				#{/list}
+			</table>
+			
+			#{set 'action'}
+			#{if mode == 'add'}
+    			@{Artikli.create()}
+			#{/if}
+			#{else mode == 'edit'}
+   				@{Artikli.edit()}
+			#{/else}
+    		#{/set}
+    	
+			<div class="panel">
+				<form action=${action} method="post">
+					<p>
+						#{field 'artikal.id'}
+							<input type = "hidden" name = "${field.name}" id = "${field.id}" value="${session.idVPDVa}"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'artikal.nazivStavkeKataloga'}
+							<label for = "${field.id}">Naziv stavke kataloga</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					<p>
+						#{field 'artikal.opisStavkeKataloga'}
+							<label for = "${field.id}">Opis stavke kataloga</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'podgrupa'} <label for="${field.id}">Podgrupa</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:podgrupe, as:'podgrupa'}
+							<option value="${podgrupa.id}">${podgrupa.nazivGrupe}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					
+					<div id = "formActions">
+						<input type = "submit" value = "Potvrdi" style="margin-left:6em" class="btn btn-success"/>
+						<a href = "@{Artikli.show("edit")}" style="margin-left:1em">
+							<button type="button" class="btn btn-danger">Otkazi</button>
+						</a>
+					</div>				
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="status_line">Trenutni režim: ${session.mode}</p>
+
+<button onclick="topFunction()" id="myBtn" title="Idi na vrh">
+	<img src="@{'/public/images/back_top.png'}" alt=""
+		class="rounded-circle" width="40" height="40">
+</button>

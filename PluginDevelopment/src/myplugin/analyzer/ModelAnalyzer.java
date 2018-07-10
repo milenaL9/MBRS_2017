@@ -174,7 +174,7 @@ public class ModelAnalyzer {
 		int upper = p.getUpper();
 
 		FMProperty prop = new FMProperty(attName, typeName, p.getVisibility().toString(), lower, upper, false, false,
-				"", false, false, false, "", "","");
+				"", false, false, false, "", "", "");
 
 		/*------------------------------------------------------------------------------------------------------------------------------ */
 		Stereotype zoomStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Zoom");
@@ -196,7 +196,7 @@ public class ModelAnalyzer {
 				prop.setControllerName(showPropertiesList.get(0).toString());
 			}
 		}
-		
+
 		if (nextStereotype != null) {
 			List labelList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype, "label");
 			if (!labelList.isEmpty()) {
@@ -204,7 +204,7 @@ public class ModelAnalyzer {
 				prop.setLabel(label);
 			}
 		}
-		
+
 		if (nextStereotype != null) {
 			List labelList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype, "lookupName");
 			if (!labelList.isEmpty()) {
@@ -241,7 +241,6 @@ public class ModelAnalyzer {
 				prop.setLabel(label);
 			}
 		}
-		
 
 		/*
 		 * Stereotype sfStereotype = StereotypesHelper.getAppliedStereotypeByString(p,
@@ -264,6 +263,14 @@ public class ModelAnalyzer {
 			fmEnum.addValue(literal.getName());
 		}
 		return fmEnum;
+	}
+
+	public String getFilePackage() {
+		return filePackage;
+	}
+
+	public void setFilePackage(String filePackage) {
+		this.filePackage = filePackage;
 	}
 
 }

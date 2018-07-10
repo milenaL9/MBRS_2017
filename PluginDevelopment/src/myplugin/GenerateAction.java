@@ -47,6 +47,7 @@ class GenerateAction extends MDAction {
 		ModelAnalyzer analyzer = new ModelAnalyzer(root, "");
 
 		try {
+			analyzer.setFilePackage("models");
 			analyzer.prepareModel();
 			GeneratorOptions go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("EJBGenerator");
 			EJBGenerator generator = new EJBGenerator(go);
@@ -55,6 +56,8 @@ class GenerateAction extends MDAction {
 					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
 			exportToXml();
 
+			analyzer.setFilePackage("controllers");
+			analyzer.prepareModel();
 			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ControllerGenerator");
 			ControllerGenerator contollerGenerator = new ControllerGenerator(go);
 			contollerGenerator.generate();			
