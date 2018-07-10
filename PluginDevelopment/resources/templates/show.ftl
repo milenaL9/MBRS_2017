@@ -74,7 +74,7 @@ ${r"#{set"} title:'${class.label}' /}
 			<table>
 				<tr class = "header">
 					<#list class.propertiesNoZoom as property>
-	   				<th>${property.name}</th>
+	   				<th>${property.label}</th>
 	   				</#list>
 				</tr>
 				
@@ -106,20 +106,22 @@ ${r"#{set"} title:'${class.label}' /}
 					</p>
 					
 					<#list class.classProperties as property>
+						<#if !property.readonly>
 					<p>
 						${r"#{field"} '${class.name?uncap_first}.${property.name}'}
-							<label for = "${r"${field.id}"}">${property.name}</label>
+							<label for = "${r"${field.id}"}">${property.label}</label>
 							<input type = "text" name = "${r"${field.name}"}" id = "${r"${field.id}"}" maxlength="40" size="40"/>
 						${r"#{/}"}
 					</p>
+						</#if>					
 					</#list>	
 					
 					<#list class.propertiesManyToOne as property>
 					<p>
-						${r"#{field"} '${property.name}'} <label for="${r"${field.id}"}">${property.name}</label>
+						${r"#{field"} '${property.name}'} <label for="${r"${field.id}"}">${property.label}</label>
 						&nbsp &nbsp &nbsp <select name="${r"${field.name}"}" id="${r"${field.id}"}">
 							${r"#{list"} items:${property.controllerName?uncap_first}, as:'${property.name}'}
-							<option value="${r"$"}{${property.name}.id}">${property.name}.LOOKUP</option>
+							<option value="${r"$"}{${property.name}.id}">${r"${"}${property.name}.${property.lookupName}${r"}"}</option>
 							${r"#{/list}"}
 						</select>
 						

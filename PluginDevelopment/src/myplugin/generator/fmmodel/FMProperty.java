@@ -3,13 +3,13 @@ package myplugin.generator.fmmodel;
 public class FMProperty extends FMElement {
 	// Property type
 	private String type;
-	
-	// Property visibility (public, private, protected, package)	
+
+	// Property visibility (public, private, protected, package)
 	private String visibility;
-	
+
 	// Multiplicity (lower value)
 	private Integer lower;
-	
+
 	// Multiplicity (upper value)
 	private Integer upper;
 
@@ -17,12 +17,15 @@ public class FMProperty extends FMElement {
 
 	private boolean next;
 	private String mappedBy;
-	
+
 	private boolean readonly;
 	private boolean editable;
-	
+	private boolean lookup;
+
 	private String label;
-	
+
+	private String lookupName;
+
 	// za imena kontrolera
 	private String controllerName;
 
@@ -33,8 +36,8 @@ public class FMProperty extends FMElement {
 	 */
 
 	public FMProperty(String name, String type, String visibility, int lower, int upper, boolean zoom, boolean next,
-			String mappedBy, boolean readonly, boolean editable,
-			String controllerName, String label) {
+			String mappedBy, boolean readonly, boolean editable, boolean lookup, String controllerName, String label,
+			String lookupName) {
 		super(name);
 		this.type = type;
 		this.visibility = visibility;
@@ -47,8 +50,10 @@ public class FMProperty extends FMElement {
 		this.mappedBy = mappedBy;
 		this.readonly = readonly;
 		this.editable = editable;
+		this.lookup = lookup;
 		this.controllerName = controllerName;
 		this.label = label;
+		this.lookupName = lookupName;
 	}
 
 	public String getType() {
@@ -138,7 +143,21 @@ public class FMProperty extends FMElement {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
-	
-	
+
+	public boolean isLookup() {
+		return lookup;
+	}
+
+	public void setLookup(boolean lookup) {
+		this.lookup = lookup;
+	}
+
+	public String getLookupName() {
+		return lookupName;
+	}
+
+	public void setLookupName(String lookupName) {
+		this.lookupName = lookupName;
+	}
+
 }

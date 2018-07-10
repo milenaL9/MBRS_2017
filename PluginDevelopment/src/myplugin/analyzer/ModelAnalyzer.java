@@ -104,48 +104,50 @@ public class ModelAnalyzer {
 		if (cl.getName() == null)
 			throw new AnalyzeException("Classes must have names!");
 
-		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", true, true, true, "");
-		
-		//StereotypesHelper.getStereotypedElement(cl);
-		
-		
+		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", true, true, true,
+				"");
+
+		// StereotypesHelper.getStereotypedElement(cl);
+
 		Stereotype controllerStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, "Controller");
-		
+
 		if (controllerStereotype != null) {
 			fmClass.setControllerName(controllerStereotype.getName());
-			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "controllerName");
+			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"controllerName");
 			if (showPropertiesList.size() > 0) {
 				fmClass.setControllerName(showPropertiesList.get(0).toString());
 			}
-			
-			// TODO: Pitati asistenta, kako da dobijemo create iz stereotipa Controller; ovako ne radi
+
+			// TODO: Pitati asistenta, kako da dobijemo create iz stereotipa Controller;
+			// ovako ne radi
 			/*
-			List createList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "create");
-			if (createList.size() > 0) {
-				fmClass.setCreate((Boolean)createList.get(0));
-			}*/
-			
+			 * List createList = StereotypesHelper.getStereotypePropertyValue(cl,
+			 * controllerStereotype, "create"); if (createList.size() > 0) {
+			 * fmClass.setCreate((Boolean)createList.get(0)); }
+			 */
+
 			showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "label");
 			if (showPropertiesList.size() > 0) {
 				fmClass.setLabel(showPropertiesList.get(0).toString());
 			}
 		}
-		
+
 		Iterator<Property> it = ModelHelper.attributes(cl);
 		while (it.hasNext()) {
 			Property p = it.next();
 			FMProperty prop = getPropertyData(p, cl);
 			fmClass.addProperty(prop);
-			
-			if(prop.isNext()){
+
+			if (prop.isNext()) {
 				fmClass.getPropertiesManyToOne().add(prop);
 			}
-			
-			if(!prop.isNext() && !prop.isZoom()) {
+
+			if (!prop.isNext() && !prop.isZoom()) {
 				fmClass.getClassProperties().add(prop);
 			}
-			
-			if(!prop.isZoom()) {
+
+			if (!prop.isZoom()) {
 				fmClass.getPropertiesNoZoom().add(prop);
 			}
 		}
@@ -172,7 +174,7 @@ public class ModelAnalyzer {
 		int upper = p.getUpper();
 
 		FMProperty prop = new FMProperty(attName, typeName, p.getVisibility().toString(), lower, upper, false, false,
-				"", false, false, "", "");
+				"", false, false, false, "", "","");
 
 		/*------------------------------------------------------------------------------------------------------------------------------ */
 		Stereotype zoomStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Zoom");
@@ -188,30 +190,67 @@ public class ModelAnalyzer {
 		Stereotype nextStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Next");
 		if (nextStereotype != null) {
 			prop.setNext(true);
-			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype, "controllerNameProp");
+			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype,
+					"controllerNameProp");
 			if (showPropertiesList.size() > 0) {
 				prop.setControllerName(showPropertiesList.get(0).toString());
+			}
+		}
+		
+		if (nextStereotype != null) {
+			List labelList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype, "label");
+			if (!labelList.isEmpty()) {
+				String label = labelList.get(0).toString();
+				prop.setLabel(label);
+			}
+		}
+		
+		if (nextStereotype != null) {
+			List labelList = StereotypesHelper.getStereotypePropertyValue(p, nextStereotype, "lookupName");
+			if (!labelList.isEmpty()) {
+				String label = labelList.get(0).toString();
+				prop.setLookupName(label);
 			}
 		}
 
 		Stereotype editableStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Editable");
 		if (editableStereotype != null) {
 			prop.setEditable(true);
-			
-			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, editableStereotype, "label");			
-			if (showPropertiesList.size() > 0) {
-				prop.setLabel(showPropertiesList.get(0).toString());
-			}			
-		}		
-		
-		Stereotype sfStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "UIElement");
-		if (sfStereotype != null) {
-			List showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, sfStereotype, "label");			
-			if (showPropertiesList.size() > 0) {
-				prop.setLabel(showPropertiesList.get(0).toString());
+		}
+
+		Stereotype readonlyStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "ReadOnly");
+		if (readonlyStereotype != null) {
+			prop.setReadonly(true);
+		}
+
+		Stereotype lookupStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "Lookup");
+		if (lookupStereotype != null) {
+			prop.setLookup(true);
+		}
+
+		if (editableStereotype != null) {
+			List labelList = StereotypesHelper.getStereotypePropertyValue(p, editableStereotype, "label");
+			if (!labelList.isEmpty()) {
+				String label = labelList.get(0).toString();
+				prop.setLabel(label);
+			}
+		} else if (readonlyStereotype != null) {
+			List labelList = StereotypesHelper.getStereotypePropertyValue(p, readonlyStereotype, "label");
+			if (!labelList.isEmpty()) {
+				String label = labelList.get(0).toString();
+				prop.setLabel(label);
 			}
 		}
 		
+
+		/*
+		 * Stereotype sfStereotype = StereotypesHelper.getAppliedStereotypeByString(p,
+		 * "UIElement"); if (sfStereotype != null) { List showPropertiesList =
+		 * StereotypesHelper.getStereotypePropertyValue(p, sfStereotype, "label"); if
+		 * (showPropertiesList.size() > 0) {
+		 * prop.setLabel(showPropertiesList.get(0).toString()); } }
+		 */
+
 		return prop;
 	}
 

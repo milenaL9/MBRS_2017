@@ -19,6 +19,7 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		JOptionPane.showMessageDialog(null, "My Plugin init");
 
 		pluginDir = getDescriptor().getPluginDirectory().getPath();
+		// pluginDir: D:\Program Files\MagicDraw 18.5 SP3\plugins\myplugin
 
 		// Creating submenu in the MagicDraw main menu
 		ActionsConfiguratorsManager manager = ActionsConfiguratorsManager.getInstance();
@@ -33,7 +34,7 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		// for test purpose only:
 		// GeneratorOptions ejbOptions = new GeneratorOptions("c:/temp", "ejbclass", "templates", "{0}.java", true, "ejb");
 
-		GeneratorOptions ejbOptions = new GeneratorOptions(pathProjekat + "/app/", "model", "templates", "{0}.java", true, "models");
+		GeneratorOptions ejbOptions = new GeneratorOptions(pathProjekat + "/app/models", "model", "templates", "{0}.java", true, "models");
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("EJBGenerator", ejbOptions);
 		ejbOptions.setTemplateDir(pluginDir + File.separator + ejbOptions.getTemplateDir()); // apsolutna putanja
 		
@@ -41,14 +42,20 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ControllerGenerator", controllerOptions);
 		controllerOptions.setTemplateDir(pluginDir + File.separator + controllerOptions.getTemplateDir()); // apsolutna putanja
 		
-		GeneratorOptions showOptions = new GeneratorOptions(pathProjekat + "/app/views", "show", "templates", "{0}.html", true, "svakoimasvoj");
+		GeneratorOptions showOptions = new GeneratorOptions(pathProjekat + "/app/views/", "show", "templates", "{0}.html", true, "views");
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ShowGenerator", showOptions);
 		showOptions.setTemplateDir(pluginDir + File.separator + showOptions.getTemplateDir()); // apsolutna putanja
 		
-		/*
-		GeneratorOptions mainOptions = new GeneratorOptions(pathProjekat + "/app/views", "main", "templates", "{0}.html", true, "bilosta");
+		GeneratorOptions mainOptions = new GeneratorOptions(pathProjekat + "/app/views", "main", "templates", "{0}.html", true, "views");
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("MainGenerator", mainOptions);
-		mainOptions.setTemplateDir(pluginDir + File.separator + mainOptions.getTemplateDir()); // apsolutna putanja	*/	
+		mainOptions.setTemplateDir(pluginDir + File.separator + mainOptions.getTemplateDir()); // apsolutna putanja
+		
+		GeneratorOptions standardFormOptions = new GeneratorOptions(pathProjekat + "/app/views", "standardForm", "templates", "{0}.html", true, "views");
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("StandardFormGenerator", standardFormOptions);
+		standardFormOptions.setTemplateDir(pluginDir + File.separator + standardFormOptions.getTemplateDir()); // apsolutna putanja	
+		
+		
+		
 	}
 
 	private NMAction[] getSubmenuActions() {

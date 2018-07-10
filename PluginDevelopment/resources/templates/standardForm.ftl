@@ -1,4 +1,4 @@
-#{extends 'main.html'/}
+${r"#{"}extends 'main.html'/}
 
 <script>
 	$(document).ready(function() {
@@ -194,11 +194,11 @@
 
 <div id="sidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-  <#list model.classes as item>
-  <a href="@{${item.name}.show("edit")}">${item.label}</a>
+  <#list classes as item>
+  <a href="@{${item.controllerName}.show("edit")}">${item.label}</a>
   </#list>
 </div>
-#{doLayout/}
+${r"#{"}doLayout/}
 
 
 

@@ -13,9 +13,9 @@ import myplugin.generator.fmmodel.FMClass;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
 
-public class ShowGnerator extends BasicGenerator {
+public class ShowGenerator extends BasicGenerator {
 
-	public ShowGnerator(GeneratorOptions generatorOptions) {
+	public ShowGenerator(GeneratorOptions generatorOptions) {
 		super(generatorOptions);
 	}
 
@@ -33,7 +33,7 @@ public class ShowGnerator extends BasicGenerator {
 			Writer out;
 			Map<String, Object> context = new HashMap<String, Object>();
 			try {
-				out = getWriter(cl.getName(), cl.getTypePackage());
+				out = getWriter("show", cl.getControllerName());
 				if (out != null) {
 					context.clear();
 					context.put("class", cl);

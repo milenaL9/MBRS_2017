@@ -15,7 +15,8 @@ import myplugin.analyzer.ModelAnalyzer;
 import myplugin.generator.ControllerGenerator;
 import myplugin.generator.EJBGenerator;
 import myplugin.generator.MainGenerator;
-import myplugin.generator.ShowGnerator;
+import myplugin.generator.ShowGenerator;
+import myplugin.generator.StandardFormGenerator;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
 import myplugin.generator.options.ProjectOptions;
@@ -43,7 +44,7 @@ class GenerateAction extends MDAction {
 		if (root == null)
 			return;
 
-		ModelAnalyzer analyzer = new ModelAnalyzer(root, "projekat");
+		ModelAnalyzer analyzer = new ModelAnalyzer(root, "");
 
 		try {
 			analyzer.prepareModel();
@@ -63,19 +64,26 @@ class GenerateAction extends MDAction {
 			
 			
 			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ShowGenerator");
-			ShowGnerator showGenerator = new ShowGnerator(go);
+			ShowGenerator showGenerator = new ShowGenerator(go);
 			showGenerator.generate();			
 			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
 					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
 			exportToXml();
 			
-			/*
+			
 			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("MainGenerator");
 			MainGenerator mainGenerator = new MainGenerator(go);
 			mainGenerator.generate();			
 			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
 					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
-			exportToXml();	*/		
+			exportToXml();
+			
+			go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("StandardFormGenerator");
+			StandardFormGenerator standardFormGenerator = new StandardFormGenerator(go);
+			standardFormGenerator.generate();			
+			JOptionPane.showMessageDialog(null, "Code is successfully generated!\nGenerated code is in folder: "
+					+ go.getOutputPath() + " \npackage: " + go.getFilePackage());
+			exportToXml();			
 			
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
