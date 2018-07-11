@@ -1,0 +1,47 @@
+1. Pokreni SQL Managment Studion
+2. Kada se otvori prozor za konekciju pritisni Cancel
+3. View -> Registered Servers
+4. Otvori Local Server Gropus
+5. Pogledaj da li imas zelenu strelicu
+	a. Ako imas desni klik -> Object Explorer
+	b. Ako nemas -> desni klik na izabranu grupu -> Service Control -> Start -> korak 5a
+6. desni klik na ime servera
+	Security: treba da bude oznaceno SQL Server and Windows Authentication mode
+7. desni klik na Databases -> New Database
+	General:
+		Database name: ime_baze
+		Owner: ne diraj
+	Options:
+		Collation -> Croatian_CI_AS
+		ostalo ne diraj
+	Filegropus:
+		ne diraj
+	OK 
+8. Security -> desni klik na Logins -> New Login
+	General:
+		Login name: username
+		SQL Server authentication
+		Password: pass_usera
+		Confirm password: pass_usera
+		Ugasi Enforce password policy (automatski se gase i ostala dva)
+		Default database: oznaci_svoju_db
+		Default language: ne diraj nista
+	Server Roles:
+		samo PUBLIC treba da bude oznaceno
+	User Mapping:
+		Users mapped to this login:
+			oznaci svoju db
+		Database role membership for: ime_tvoje_db
+			PUBLIC + oznaci db_owner
+	Securables:
+		nista ne diraj
+	Status:
+		oznaci Grant i Enabled
+	OK
+9. Klikni na ikonicu racunara sa crvenim X (Disconnect)
+10. Klikni na ikonicu racunara sa zelenom strelicom (Connect)
+	Server type: Database Engine
+	Server name: ne diraj
+	Authentication: SQL Server authentication
+	Login: username
+	Password: pass_usera
