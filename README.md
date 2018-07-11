@@ -37,7 +37,7 @@ zatim u pretraživaču uneti adresu:
 http://localhost:9000/
 ```
 
-Za zaustavljanje aplikacije u komandnoj liniji koristiti:
+Za zaustavljanje aplikacije koristiti:
 ```
 Ctrl + c
 ```
