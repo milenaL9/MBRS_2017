@@ -15,8 +15,16 @@ git clone https://github.com/milenaL9/MBRS_2017.git
 ```
 
 Pre pokretanja aplikacije je potrebno:
-1. kreirati bazu sa imenom **baza**, i 
-2. instalirati play.
+1. instalirati play, i
+2. kreirati bazu.
+
+### Kreiranje baze podataka
+Nakon kreiranja baze, u fajlu application.conf (conf/application.conf) potrebno je izmeniti sledeće linije:
+```
+ db.default.url=jdbc:jtds:sqlserver://localhost/**nazivBaze**
+ db.default.user=**username**
+ db.default.pass=**password**
+ ```
 
 ## Pokretanje aplikacije
 Za pokretanje aplikacije koristiti komandu play run test, gde je **test** naziv projekta (potrebno je preći u folder gde se nalazi projekat):
