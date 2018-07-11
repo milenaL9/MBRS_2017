@@ -32,7 +32,7 @@ Za pokretanje aplikacije koristiti komandu play run test, gde je **test** naziv 
 play run test
 ```
 
-zatim u pretraživaču uneti adresu:
+zatim u pretraživaču uneti:
 ```
 http://localhost:9000/
 ```
