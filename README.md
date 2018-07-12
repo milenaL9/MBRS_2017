@@ -14,7 +14,14 @@ Klonirati projekat na lokalnu mašinu:
 git clone https://github.com/milenaL9/MBRS_2017.git
 ```
 
+
+Pre pokretanja aplikacije je potrebno:
+1. instalirati play, i
+2. kreirati bazu.
+
+
 ## Ubacivanje plugin-a u MagicDraw
+```
 1. Otvoriti projekat PluginDevelopment
 2. Pronaci fajl build.properties i promeniti putanju do MagicDraw-a
 3. Desnim klikom na naziv projekta, odabrati Properties, zatim Java Build Path -> Libraries. Obrisati sve sto se crveni i dodati sve biblioteke iz foldera gde je instaliran MagicDraw (plugins -> libs)
@@ -24,10 +31,8 @@ git clone https://github.com/milenaL9/MBRS_2017.git
 7. Restartovati MagicDraw i trebalo bi da se pojavi obavestenje da je plugin inicijalizovan
 8. Pojavi se stavka Generate -> Code Generation (izgenerisane klase se nalaze na C:/temp)
 
+```
 
-Pre pokretanja aplikacije je potrebno:
-1. instalirati play, i
-2. kreirati bazu.
 
 ### Kreiranje baze podataka
 Nakon kreiranja baze, u fajlu application.conf (conf/application.conf) potrebno je izmeniti sledeće linije:
