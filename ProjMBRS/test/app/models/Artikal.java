@@ -14,10 +14,10 @@ public class Artikal extends Model {
   	
   	public String opisStavkeKataloga;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "artikal")
+    @OneToMany(mappedBy = "artikal")
   	public List<StavkaFakture> stavkeFakture;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "artikal")
+    @OneToMany(mappedBy = "artikal")
   	public List<StavkaCenovnika> stavkeCenovnika;
   	
 	@ManyToOne

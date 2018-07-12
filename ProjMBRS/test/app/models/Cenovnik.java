@@ -12,7 +12,7 @@ public class Cenovnik extends Model {
   
   	public String datumVazenja;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cenovnik")
+    @OneToMany(mappedBy = "cenovnik")
   	public List<StavkaCenovnika> stavkeCenovnika;
   	
   	public String naziv;

@@ -8,9 +8,9 @@ import models.VrstaPDVa;
 
 public class VrstePDVa extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<VrstaPDVa> vrstePDVa = checkCache();
 

@@ -12,10 +12,10 @@ public class VrstaPDVa extends Model {
   
   	public String nazivVrstePDVa;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "vrstaPDVa")
+    @OneToMany(mappedBy = "vrstaPDVa")
   	public List<Grupa> grupa;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "vrstaPDVa")
+    @OneToMany(mappedBy = "vrstaPDVa")
   	public List<StopaPDVa> stopePDVa;
   	
 

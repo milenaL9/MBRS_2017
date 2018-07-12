@@ -9,9 +9,9 @@ import models.PoslovniPartner;
 
 public class PoslovniPartneri extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<Preduzece> preduzeca = Preduzeca.checkCache();
 		List<PoslovniPartner> poslovniPartneri = checkCache();

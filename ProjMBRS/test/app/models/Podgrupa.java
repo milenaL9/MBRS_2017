@@ -12,7 +12,7 @@ public class Podgrupa extends Model {
   
   	public String nazivPodgrupe;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "podgrupa")
+    @OneToMany(mappedBy = "podgrupa")
   	public List<Artikal> artikli;
   	
 	@ManyToOne

@@ -9,9 +9,9 @@ import models.Podgrupa;
 
 public class Podgrupe extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<Grupa> grupe = Grupe.checkCache();
 		List<Podgrupa> podgrupe = checkCache();

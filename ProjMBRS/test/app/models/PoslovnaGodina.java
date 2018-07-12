@@ -14,7 +14,7 @@ public class PoslovnaGodina extends Model {
   	
   	public char aktivna;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "poslovnaGodina")
+    @OneToMany(mappedBy = "poslovnaGodina")
   	public List<Faktura> fakture;
   	
 	@ManyToOne

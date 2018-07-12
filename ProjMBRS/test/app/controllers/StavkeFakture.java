@@ -10,9 +10,9 @@ import models.StavkaFakture;
 
 public class StavkeFakture extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<Artikal> artikli = Artikli.checkCache();
 		List<Faktura> fakture = Fakture.checkCache();

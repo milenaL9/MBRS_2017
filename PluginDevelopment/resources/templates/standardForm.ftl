@@ -185,10 +185,9 @@ ${r"#{"}extends 'main.html'/}
 		src="@{'/public/images/logo.png'}" width="170" height="70"
 		class="d-inline-block align-top" alt="">
 	</a> 
-	<a href="@{Application.index()}" style="margin-top: 40px;">Početna</a> 
+	<a href="@{Application.index()}" style="margin-top: 40px;">PoÄ�etna</a> 
 	<a href="@{Preduzeca.show()}" style="margin-top: 40px;">Servis</a> 
-	<a href="@{Application.about()}" style="margin-top: 40px;">O nama</a> 
-	<a href="@{Application.contact()}" style="margin-top: 40px;">Kontakt</a> 
+
 	<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
 

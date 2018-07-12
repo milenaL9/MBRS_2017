@@ -9,9 +9,9 @@ import models.StopaPDVa;
 
 public class StopePDVa extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
 		List<StopaPDVa> stopePDVa = checkCache();

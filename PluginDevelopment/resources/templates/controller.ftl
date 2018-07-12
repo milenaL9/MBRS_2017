@@ -11,9 +11,9 @@ import models.${class.name};
 
 ${class.visibility} class ${class.controllerName} extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		<#list class.propertiesManyToOne as property>
 		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();

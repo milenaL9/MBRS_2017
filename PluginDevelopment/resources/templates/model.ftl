@@ -18,7 +18,7 @@ ${class.visibility} class ${class.name} extends Model {
   	${property.visibility} ${property.type} ${property.name};
   	
     <#elseif property.upper == -1 >    
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "${property.mappedBy}")
+    @OneToMany(mappedBy = "${property.mappedBy}")
   	${property.visibility} List<${property.type}> ${property.name};
   	
     <#else>   

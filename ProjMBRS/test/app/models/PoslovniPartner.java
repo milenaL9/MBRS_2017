@@ -24,7 +24,7 @@ public class PoslovniPartner extends Model {
   	
   	public String tekuciRacun;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "poslovniPartner")
+    @OneToMany(mappedBy = "poslovniPartner")
   	public List<Faktura> fakture;
   	
 	@ManyToOne

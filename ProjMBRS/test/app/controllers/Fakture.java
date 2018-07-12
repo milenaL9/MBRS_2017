@@ -10,9 +10,9 @@ import models.Faktura;
 
 public class Fakture extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<PoslovnaGodina> poslovneGodine = PoslovneGodine.checkCache();
 		List<PoslovniPartner> poslovniPartneri = PoslovniPartneri.checkCache();

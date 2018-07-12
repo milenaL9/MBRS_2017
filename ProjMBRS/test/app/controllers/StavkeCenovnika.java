@@ -10,9 +10,9 @@ import models.StavkaCenovnika;
 
 public class StavkeCenovnika extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<Artikal> artikli = Artikli.checkCache();
 		List<Cenovnik> cenovnici = Cenovnici.checkCache();

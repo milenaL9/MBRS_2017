@@ -8,9 +8,9 @@ import models.Cenovnik;
 
 public class Cenovnici extends Controller{ 
 
-	public static void show() {	
+	public static void show(String mode) {	
 		session.put("mode", "edit");
-		String mode = session.get("mode");
+	    mode = session.get("mode");
 
 		List<Cenovnik> cenovnici = checkCache();
 
