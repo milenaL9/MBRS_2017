@@ -30,6 +30,7 @@ Nakon kreiranja baze, u fajlu application.conf (conf/application.conf) potrebno 
 
 ## Pokretanje aplikacije
 Potrebno je podesiti Java Build Path -> Libraries -> play 1.4.4. 
+
 Pre pokretanja aplikacije potrebno je izvrsiti komandu play dependencies test.
 Za pokretanje aplikacije koristiti komandu play run test, gde je **test** naziv projekta (potrebno je preći u folder gde se nalazi projekat):
 
@@ -43,6 +44,11 @@ play run test
 zatim u pretraživaču uneti:
 ```
 http://localhost:9000/
+```
+
+ako se zeli pristupiti konkretnoj stranici, npr. stranici preduzeca, ukucati sledece:
+```
+http://localhost:9000/preduzeca/show
 ```
 
 Za zaustavljanje aplikacije koristiti:
