@@ -20,20 +20,6 @@ Pre pokretanja aplikacije je potrebno:
 2. kreirati bazu.
 
 
-## Ubacivanje plugin-a u MagicDraw
-```
-1. Otvoriti projekat PluginDevelopment
-2. Pronaci fajl build.properties i promeniti putanju do MagicDraw-a
-3. Desnim klikom na naziv projekta, odabrati Properties, zatim Java Build Path -> Libraries. Obrisati sve sto se crveni i dodati sve biblioteke iz foldera gde je instaliran MagicDraw (plugins -> libs)
-4. Otvoriti build.xml i prevuci ga u Ant konzolu (Windows->Others->Ant)
-5. Odraditi build, pa deploy 
-6. Automatski se napravi .jar koji je smesten u MagicDraw -> plugins -> myplugin
-7. Restartovati MagicDraw i trebalo bi da se pojavi obavestenje da je plugin inicijalizovan
-8. Pojavi se stavka Generate -> Code Generation (izgenerisane klase se nalaze na C:/temp)
-
-```
-
-
 ### Kreiranje baze podataka
 Nakon kreiranja baze, u fajlu application.conf (conf/application.conf) potrebno je izmeniti sledeće linije:
 ```
@@ -43,7 +29,13 @@ Nakon kreiranja baze, u fajlu application.conf (conf/application.conf) potrebno 
  ```
 
 ## Pokretanje aplikacije
+Potrebno je podesiti Java Build Path -> Libraries -> play 1.4.4
+Pre pokretanja aplikacije potrebno je izvrsiti komandu play dependencies test.
 Za pokretanje aplikacije koristiti komandu play run test, gde je **test** naziv projekta (potrebno je preći u folder gde se nalazi projekat):
+
+```
+play dependencies test
+```
 ```
 play run test
 ```
@@ -56,4 +48,18 @@ http://localhost:9000/
 Za zaustavljanje aplikacije koristiti:
 ```
 Ctrl + c
+```
+
+
+## Ubacivanje plugin-a u MagicDraw
+```
+1. Otvoriti projekat PluginDevelopment
+2. Pronaci fajl build.properties i promeniti putanju do MagicDraw-a
+3. Desnim klikom na naziv projekta, odabrati Properties, zatim Java Build Path -> Libraries. Obrisati sve sto se crveni i dodati sve biblioteke iz foldera gde je instaliran MagicDraw (plugins -> libs)
+4. Otvoriti build.xml i prevuci ga u Ant konzolu (Windows->Others->Ant)
+5. Odraditi build, pa deploy 
+6. Automatski se napravi .jar koji je smesten u MagicDraw -> plugins -> myplugin
+7. Restartovati MagicDraw i trebalo bi da se pojavi obavestenje da je plugin inicijalizovan
+8. Pojavi se stavka Generate -> Code Generation (izgenerisane klase se nalaze na C:/temp)
+
 ```
