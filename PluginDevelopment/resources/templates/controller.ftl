@@ -58,12 +58,12 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		// Postavljanje fakture
 		<#if class.incrementBrojFakture>
-			faktura = setUpFaktura(faktura);
+		faktura = setUpFaktura(faktura);
 		</#if>
 		
 		// Postavljanje stavke fakture
 		<#if class.setUpStavkaFakture>
-			stavkaFakture = setUpStavkaFakture(stavkaFakture);
+		stavkaFakture = setUpStavkaFakture(stavkaFakture);
 		</#if>
 		
 
@@ -90,6 +90,14 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 
 		// Poziv pomocnih metoda za Fakturu
+		
+		<#if class.setup>
+		Long idFak = Long.valueOf(session.get("idFakture")).longValue();
+		stavkeFakture = Fakture.findStavkeFakture(idFak);
+		renderTemplate("StavkeFakture/show.html", stavkeFakture, nadredjeneForme, fakture, kataloziRobeIUsluga, idd,
+					mode, stavkeCenovnika);
+		<#/if>
+		
 		<#if !class.incrementBrojFakture>
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 		<#else>
@@ -101,7 +109,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		}		
 		List<StavkaFakture> stavkeFakture = findStavkeFakture(idd);
 		List<Artikal> artikli = Artikal.findAll();
-		
+		session.put("idFakture", faktura.id);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 		</#if>
 	}

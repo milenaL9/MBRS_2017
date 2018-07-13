@@ -110,9 +110,15 @@ public class StavkeFakture extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	
+		Long idFak = Long.valueOf(session.get("idFakture")).longValue();
+		stavkeFakture = Fakture.findStavkeFakture(idFak);
+		
+		renderTemplate("StavkeFakture/show.html", stavkeFakture, fakture, artikli, idd, mode, stavkeCenovnika);
 		// RUCNI KOD: KRAJ
 
-		renderTemplate("StavkeFakture/show.html", idd, mode, stavkeFakture, artikli, fakture);
+	
 	}
 
 	public static void edit(StavkaFakture stavkaFakture, Long artikal, Long faktura) {

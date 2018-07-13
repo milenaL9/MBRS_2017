@@ -75,6 +75,8 @@ public class Fakture extends Controller{
 		List<StavkaFakture> stavkeFakture = findStavkeFakture(idd);
 		List<Artikal> artikli = Artikal.findAll();
 		
+		
+		session.put("idFakture", faktura.id);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
 		 
@@ -156,6 +158,7 @@ public class Fakture extends Controller{
 	}
 		
 	public static Faktura setUpFaktura(Faktura faktura){
+		
 		faktura.brojFakture = incrementBrojFakture();
 		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
 		faktura.ukupnoOsnovica = 0;
