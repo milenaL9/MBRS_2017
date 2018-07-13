@@ -50,7 +50,6 @@ public class StavkeCenovnika extends Controller{
 		stavkeCenovnika = StavkaCenovnika.findAll();
 
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
-		
 	}
 		 
 	public static void edit(StavkaCenovnika stavkaCenovnika,Long artikal,Long cenovnik) {
@@ -106,6 +105,8 @@ public class StavkeCenovnika extends Controller{
 
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
 	}
+	
+		
 	
 	
 	

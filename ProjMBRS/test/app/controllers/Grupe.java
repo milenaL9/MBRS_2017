@@ -50,7 +50,6 @@ public class Grupe extends Controller{
 		grupe = Grupa.findAll();
 
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
-		
 	}
 		 
 	public static void edit(Grupa grupa,Long preduzece,Long vrstaPDVa) {
@@ -106,6 +105,8 @@ public class Grupe extends Controller{
 
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
 	}
+	
+		
 	
 	
 	

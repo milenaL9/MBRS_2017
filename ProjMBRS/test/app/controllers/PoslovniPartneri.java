@@ -45,7 +45,6 @@ public class PoslovniPartneri extends Controller{
 		poslovniPartneri = PoslovniPartner.findAll();
 
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
-		
 	}
 		 
 	public static void edit(PoslovniPartner poslovniPartner,Long preduzece) {
@@ -102,6 +101,8 @@ public class PoslovniPartneri extends Controller{
 
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
 	}
+	
+		
 	
 	
 	

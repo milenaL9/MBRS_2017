@@ -144,6 +144,12 @@ public class ModelAnalyzer {
 			if (findStavkeFaktureList.size() > 0) {
 				fmClass.setFindStavkeFakture((Boolean)findStavkeCenovnikaList.get(0));
 			}
+			
+			
+			List setuUpList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "setUpFaktura");
+			if (setuUpList.size() > 0) {
+				fmClass.setSetUp((Boolean)setuUpList.get(0));
+			}
 		}
 		
 		Stereotype standardFormStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, "StandardForm");
@@ -168,6 +174,7 @@ public class ModelAnalyzer {
 			if (showMenuList.size() > 0) {
 				fmClass.setShowMenu((Boolean)showMenuList.get(0));
 			}
+			
 		}
 
 		Iterator<Property> it = ModelHelper.attributes(cl);

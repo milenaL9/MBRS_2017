@@ -50,7 +50,6 @@ public class StavkeFakture extends Controller{
 		stavkeFakture = StavkaFakture.findAll();
 
 		renderTemplate("StavkeFakture/show.html", idd, mode, stavkeFakture, artikli, fakture);
-		
 	}
 		 
 	public static void edit(StavkaFakture stavkaFakture,Long artikal,Long faktura) {
@@ -113,6 +112,8 @@ public class StavkeFakture extends Controller{
 
 		renderTemplate("StavkeFakture/show.html", idd, mode, stavkeFakture, artikli, fakture);
 	}
+	
+		
 	
 	
 	

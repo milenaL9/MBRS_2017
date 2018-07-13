@@ -66,8 +66,16 @@ public class Fakture extends Controller{
 		fakture.clear();
 		fakture = Faktura.findAll();
 
-		renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
+		try {
+			stavkeCenovnika = findStavkeCenovnika(idd);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		List<StavkaFakture> stavkeFakture = findStavkeFakture(idd);
+		List<Artikal> artikli = Artikal.findAll();
 		
+		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
 		 
 	public static void edit(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
@@ -146,11 +154,10 @@ public class Fakture extends Controller{
 
 		return brojFakture;
 	}
-	
+		
 	public static Faktura setUpFaktura(Faktura faktura){
 		faktura.brojFakture = incrementBrojFakture();
 		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
-		List<Artikal> artikli = Artikal.findAll();
 		faktura.ukupnoOsnovica = 0;
 		faktura.ukupnoPDV = 0;
 		faktura.ukupnoZaPlacanje = 0;
@@ -226,4 +233,5 @@ public class Fakture extends Controller{
 
 		return stavkeFakture;
 	}
+	
 }

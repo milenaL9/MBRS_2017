@@ -40,7 +40,6 @@ public class Preduzeca extends Controller{
 		preduzeca = Preduzece.findAll();
 
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
-		
 	}
 		 
 	public static void edit(Preduzece preduzece) {
@@ -92,6 +91,8 @@ public class Preduzeca extends Controller{
 
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
 	}
+	
+		
 	
 	
 	

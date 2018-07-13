@@ -68,8 +68,20 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${class.controllerName?uncap_first}.clear();
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
 
+		<#if !class.incrementBrojFakture>
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
+		<#else>
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
+		try {
+			stavkeCenovnika = findStavkeCenovnika(idd);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		List<StavkaFakture> stavkeFakture = findStavkeFakture(idd);
+		List<Artikal> artikli = Artikal.findAll();
 		
+		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
+		</#if>
 	}
 		 
 	public static void edit(${class.name} ${class.name?uncap_first}<#list class.propertiesManyToOne as property>,Long ${property.name}</#list>) {
@@ -144,11 +156,12 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		return brojFakture;
 	}
-	
+	</#if>
+		
+	<#if class.setUp>
 	public static Faktura setUpFaktura(Faktura faktura){
 		faktura.brojFakture = incrementBrojFakture();
 		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
-		List<Artikal> artikli = Artikal.findAll();
 		faktura.ukupnoOsnovica = 0;
 		faktura.ukupnoPDV = 0;
 		faktura.ukupnoZaPlacanje = 0;
@@ -231,4 +244,5 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		return stavkeFakture;
 	}
 	</#if>
+	
 }

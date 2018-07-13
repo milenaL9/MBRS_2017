@@ -45,7 +45,6 @@ public class PoslovneGodine extends Controller{
 		poslovneGodine = PoslovnaGodina.findAll();
 
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
-		
 	}
 		 
 	public static void edit(PoslovnaGodina poslovnaGodina,Long preduzece) {
@@ -97,6 +96,8 @@ public class PoslovneGodine extends Controller{
 
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
 	}
+	
+		
 	
 	
 	

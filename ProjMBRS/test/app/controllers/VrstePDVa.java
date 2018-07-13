@@ -40,7 +40,6 @@ public class VrstePDVa extends Controller{
 		vrstePDVa = VrstaPDVa.findAll();
 
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
-		
 	}
 		 
 	public static void edit(VrstaPDVa vrstaPDVa) {
@@ -86,6 +85,8 @@ public class VrstePDVa extends Controller{
 
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
 	}
+	
+		
 	
 	
 	

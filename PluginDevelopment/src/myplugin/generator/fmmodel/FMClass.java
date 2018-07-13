@@ -17,6 +17,8 @@ public class FMClass extends FMType {
 	private boolean findStavkeCenovnika;
 
 	private boolean findStavkeFakture;
+	
+	private boolean setUp;
 
 	private boolean createSF;
 
@@ -198,5 +200,15 @@ public class FMClass extends FMType {
 	public void setShowMenu(boolean showMenu) {
 		this.showMenu = showMenu;
 	}
+
+	public boolean isSetUp() {
+		return setUp;
+	}
+
+	public void setSetUp(boolean setUp) {
+		this.setUp = setUp;
+	}
+	
+	
 
 }

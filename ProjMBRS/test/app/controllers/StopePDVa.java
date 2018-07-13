@@ -45,7 +45,6 @@ public class StopePDVa extends Controller{
 		stopePDVa = StopaPDVa.findAll();
 
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
-		
 	}
 		 
 	public static void edit(StopaPDVa stopaPDVa,Long vrstaPDVa) {
@@ -97,6 +96,8 @@ public class StopePDVa extends Controller{
 
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
 	}
+	
+		
 	
 	
 	

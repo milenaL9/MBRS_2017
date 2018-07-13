@@ -45,7 +45,6 @@ public class Podgrupe extends Controller{
 		podgrupe = Podgrupa.findAll();
 
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
-		
 	}
 		 
 	public static void edit(Podgrupa podgrupa,Long grupa) {
@@ -96,6 +95,8 @@ public class Podgrupe extends Controller{
 
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
 	}
+	
+		
 	
 	
 	

@@ -40,7 +40,6 @@ public class Cenovnici extends Controller{
 		cenovnici = Cenovnik.findAll();
 
 		renderTemplate("Cenovnici/show.html", idd, mode, cenovnici);
-		
 	}
 		 
 	public static void edit(Cenovnik cenovnik) {
@@ -87,6 +86,8 @@ public class Cenovnici extends Controller{
 
 		renderTemplate("Cenovnici/show.html", idd, mode, cenovnici);
 	}
+	
+		
 	
 	
 	
