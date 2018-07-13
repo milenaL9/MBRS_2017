@@ -185,27 +185,26 @@
 		src="@{'/public/images/logo.png'}" width="170" height="70"
 		class="d-inline-block align-top" alt="">
 	</a> 
-	<a href="@{Application.index()}" style="margin-top: 40px;">PoÄ?etna</a> 
+	<a href="@{Application.index()}" style="margin-top: 40px;">Pocetna</a> 
 	<a href="@{Preduzeca.show()}" style="margin-top: 40px;">Servis</a> 
-	<a href="@{Application.about()}" style="margin-top: 40px;">O nama</a> 
-	<a href="@{Application.contact()}" style="margin-top: 40px;">Kontakt</a> 
+
 	<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
 
 <div id="sidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-  <a href="@{Preduzeca.show()}">Preduzece</a>
-  <a href="@{StavkeCenovnika.show()}">Stavka cenovnika</a>
-  <a href="@{Artikli.show()}">Artikli</a>
-  <a href="@{PoslovniPartneri.show()}">Poslovni partner</a>
-  <a href="@{Fakture.show()}">Faktura</a>
-  <a href="@{StavkeFakture.show()}">Stavka fakture</a>
-  <a href="@{VrstePDVa.show()}">Vrsta PDVa</a>
-  <a href="@{PoslovneGodine.show()}">Poslovna godina</a>
-  <a href="@{StopePDVa.show()}">Stopa PDVa</a>
-  <a href="@{Podgrupe.show()}">Podgrupa</a>
-  <a href="@{Cenovnici.show()}">Cenovnik</a>
-  <a href="@{Grupe.show()}">Grupa</a>
+  <a href="@{Preduzeca.show("edit")}">Preduzece</a>
+  <a href="@{StavkeCenovnika.show("edit")}">Stavka cenovnika</a>
+  <a href="@{Artikli.show("edit")}">Artikli</a>
+  <a href="@{PoslovniPartneri.show("edit")}">Poslovni partner</a>
+  <a href="@{Fakture.show("edit")}">Faktura</a>
+  <a href="@{StavkeFakture.show("edit")}">Stavka fakture</a>
+  <a href="@{VrstePDVa.show("edit")}">Vrsta PDVa</a>
+  <a href="@{PoslovneGodine.show("edit")}">Poslovna godina</a>
+  <a href="@{StopePDVa.show("edit")}">Stopa PDVa</a>
+  <a href="@{Podgrupe.show("edit")}">Podgrupa</a>
+  <a href="@{Cenovnici.show("edit")}">Cenovnik</a>
+  <a href="@{Grupe.show("edit")}">Grupa</a>
 </div>
 #{doLayout/}
 

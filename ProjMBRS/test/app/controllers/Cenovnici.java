@@ -8,11 +8,14 @@ import models.Cenovnik;
 
 public class Cenovnici extends Controller{ 
 
-	public static void show() {	
-		session.put("mode", "edit");
-		String mode = session.get("mode");
+	public static void show(String mode) {	
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Cenovnik> cenovnici = checkCache();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
 
 		render(mode, cenovnici);
 	}
@@ -28,7 +31,6 @@ public class Cenovnici extends Controller{
 
 		cenovnik.save();
 		cenovnici.add(cenovnik);
-		Cache.set("cenovnici", cenovnici);
 
 		Long idd = cenovnik.id;
 
@@ -58,22 +60,14 @@ public class Cenovnici extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("cenovnici ", cenovnici );
-
-		cenovnici.clear();
-		cenovnici = Cenovnik.findAll();
-			
+	
 		renderTemplate("Cenovnici/show.html", mode, cenovnici);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Cenovnik> cenovnici = checkCache();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
 
 		Cenovnik cenovnik = Cenovnik.findById(id);
 		Long idd = null;
@@ -88,46 +82,7 @@ public class Cenovnici extends Controller{
 
 		cenovnici.clear();
 		cenovnici = Cenovnik.findAll();
-		Cache.set("cenovnici", cenovnici);
 
 		renderTemplate("Cenovnici/show.html", idd, mode, cenovnici);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<Cenovnik> checkCache() {
-		List<Cenovnik> cenovnici = (List<Cenovnik>) Cache.get("cenovnici");
-
-		if ((cenovnici == null) || (cenovnici.size() == 0)) {
-			cenovnici = Cenovnik.findAll();
-			Cache.set("cenovnici", cenovnici);
-		}
-
-		return cenovnici;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Cenovnik> cenovnici = checkCache();
-
-		renderTemplate("Cenovnici/show.html", cenovnici, mode);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

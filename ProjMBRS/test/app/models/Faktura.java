@@ -22,7 +22,7 @@ public class Faktura extends Model {
   	
   	public float ukupnoZaPlacanje;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "faktura")
+    @OneToMany(mappedBy = "faktura")
   	public List<StavkaFakture> stavkeFakture;
   	
 	@ManyToOne
@@ -30,6 +30,9 @@ public class Faktura extends Model {
   	
 	@ManyToOne
   	public PoslovniPartner poslovniPartner;
+  	
+	@ManyToOne
+  	public Preduzece preduzece;
   	
 
 	public Faktura(String datumFakture, int brojFakture, String datumValute, float ukupnoOsnovica, float ukupnoPDV, float ukupnoZaPlacanje){

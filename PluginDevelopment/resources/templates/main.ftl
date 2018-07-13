@@ -14,7 +14,7 @@
         <script src="@{'/public/javascripts/jquery-3.1.1.min.js'}" type="text/javascript" charset="${r"${_response_encoding}"}"></script>
         <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     	<script src="@{'/public/javascripts/bootstrap.min.js'}"></script>
-    	${r"#{get"} 'moreStyles' /}
+    	${r"#{get"} 'moreScripts' /}
     </head>
     <body>
         ${r"#{doLayout /}"}

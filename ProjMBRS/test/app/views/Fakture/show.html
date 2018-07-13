@@ -15,6 +15,7 @@
 			ukupnoZaPlacanje = item.find(".ukupnoZaPlacanje").html()  		    	
 			poslovnaGodina = item.find(".poslovnaGodina").html()  		    	
 			poslovniPartner = item.find(".poslovniPartner").html()  		    	
+			preduzece = item.find(".preduzece").html()  		    	
 	    	id = item.find(".id").html()   	
 	    	$("#faktura_datumFakture").val(datumFakture);	 
 	    	$("#faktura_brojFakture").val(brojFakture);	 
@@ -36,6 +37,14 @@
 			for (i = 0; i < options1.length; i++) { 
     			if(options1[i].label == poslovniPartner){
     				document.getElementById("poslovniPartner").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+	    	var options2 = document.getElementById("preduzece").children;
+			for (i = 0; i < options2.length; i++) { 
+    			if(options2[i].label == preduzece){
+    				document.getElementById("preduzece").selectedIndex = i;
     				break;
     			}
 			}
@@ -63,6 +72,11 @@
 			<a href="#" onclick="openSideNav()">
 				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
 			</a>
+			
+			<a href="@{Fakture.show("edit")}" id = "refresh">
+				<img src="@{'/public/images/refresh.gif'}"/>
+			</a>
+			
 			<a id = "first">
 				<img src="@{'/public/images/first.gif'}"/>
 			</a>
@@ -95,6 +109,7 @@
 	   				<th>Ukupno za placanje</th>
 	   				<th>Poslovna godina</th>
 	   				<th>Poslovni partner</th>
+	   				<th>Preduzece</th>
 				</tr>
 				
 				#{list items:fakture, as:'faktura'}
@@ -107,6 +122,7 @@
 					<td class = "ukupnoZaPlacanje">${faktura.ukupnoZaPlacanje}</td>
 					<td class = "poslovnaGodina">${faktura.poslovnaGodina}</td>
 					<td class = "poslovniPartner">${faktura.poslovniPartner}</td>
+					<td class = "preduzece">${faktura.preduzece}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${faktura.id}</td>
 				</tr>				
 				#{/list}
@@ -157,6 +173,16 @@
 						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
 							#{list items:poslovniPartneri, as:'poslovniPartner'}
 							<option value="${poslovniPartner.id}">${poslovniPartner.naziv}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					<p>
+						#{field 'preduzece'} <label for="${field.id}">Preduzece</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:preduzeca, as:'preduzece'}
+							<option value="${preduzece.id}">${preduzece.naziv}</option>
 							#{/list}
 						</select>
 						

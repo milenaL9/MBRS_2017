@@ -11,14 +11,17 @@ import models.${class.name};
 
 ${class.visibility} class ${class.controllerName} extends Controller{ 
 
-	public static void show() {	
-		session.put("mode", "edit");
-		String mode = session.get("mode");
+	public static void show(String mode) {	
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
 		<#list class.propertiesManyToOne as property>
-		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();
+		List<${property.type}> ${property.controllerName?uncap_first} = ${property.type}.findAll();
 		</#list>
-		List<${class.name}> ${class.controllerName?uncap_first} = checkCache();
+		List<${class.name}> ${class.controllerName?uncap_first} = ${class.name}.findAll();
 
 		render(mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
@@ -30,7 +33,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		List<${class.name}> ${class.controllerName?uncap_first} = null;
 		<#list class.propertiesManyToOne as property>
-		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();
+		List<${property.type}> ${property.controllerName?uncap_first} = ${property.type}.findAll();
 		</#list>
 
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
@@ -42,7 +45,6 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		${class.name?uncap_first}.save();
 		${class.controllerName?uncap_first}.add(${class.name?uncap_first});
-		Cache.set("${class.controllerName?uncap_first}", ${class.controllerName?uncap_first});
 
 		Long idd = ${class.name?uncap_first}.id;
 
@@ -61,7 +63,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		List<${class.name}> ${class.controllerName?uncap_first} = null;
 		<#list class.propertiesManyToOne as property>
-		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();
+		List<${property.type}> ${property.controllerName?uncap_first} = ${property.type}.findAll();
 		</#list>
 
 	
@@ -85,16 +87,8 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("${class.controllerName?uncap_first} ", ${class.controllerName?uncap_first} );
-
-		${class.controllerName?uncap_first}.clear();
-		${class.controllerName?uncap_first} = ${class.name}.findAll();
-			
+	
 		renderTemplate("${class.controllerName}/show.html", mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
-	
-	
-	
 	}
 	</#if>
 	
@@ -103,9 +97,9 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		String mode = session.get("mode");
 
 		<#list class.propertiesManyToOne as property>
-		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();
+		List<${property.type}> ${property.controllerName?uncap_first} = ${property.type}.findAll();
 		</#list>
-		List<${class.name}> ${class.controllerName?uncap_first} = checkCache();
+		List<${class.name}> ${class.controllerName?uncap_first} = ${class.name}.findAll();
 
 		${class.name} ${class.name?uncap_first} = ${class.name}.findById(id);
 		Long idd = null;
@@ -120,50 +114,8 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		${class.controllerName?uncap_first}.clear();
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
-		Cache.set("${class.controllerName?uncap_first}", ${class.controllerName?uncap_first});
 
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
 	</#if>
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<${class.name}> checkCache() {
-		List<${class.name}> ${class.controllerName?uncap_first} = (List<${class.name}>) Cache.get("${class.controllerName?uncap_first}");
-
-		if ((${class.controllerName?uncap_first} == null) || (${class.controllerName?uncap_first}.size() == 0)) {
-			${class.controllerName?uncap_first} = ${class.name}.findAll();
-			Cache.set("${class.controllerName?uncap_first}", ${class.controllerName?uncap_first});
-		}
-
-		return ${class.controllerName?uncap_first};
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		<#list class.propertiesManyToOne as property>
-		List<${property.type}> ${property.controllerName?uncap_first} = ${property.controllerName}.checkCache();
-		</#list>
-		List<${class.name}> ${class.controllerName?uncap_first} = checkCache();
-
-		renderTemplate("${class.controllerName}/show.html", ${class.controllerName?uncap_first}, mode<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

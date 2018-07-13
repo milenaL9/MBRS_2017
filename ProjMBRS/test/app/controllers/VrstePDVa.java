@@ -8,11 +8,14 @@ import models.VrstaPDVa;
 
 public class VrstePDVa extends Controller{ 
 
-	public static void show() {	
-		session.put("mode", "edit");
-		String mode = session.get("mode");
+	public static void show(String mode) {	
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<VrstaPDVa> vrstePDVa = checkCache();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
 		render(mode, vrstePDVa);
 	}
@@ -28,7 +31,6 @@ public class VrstePDVa extends Controller{
 
 		vrstaPDVa.save();
 		vrstePDVa.add(vrstaPDVa);
-		Cache.set("vrstePDVa", vrstePDVa);
 
 		Long idd = vrstaPDVa.id;
 
@@ -57,22 +59,14 @@ public class VrstePDVa extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("vrstePDVa ", vrstePDVa );
-
-		vrstePDVa.clear();
-		vrstePDVa = VrstaPDVa.findAll();
-			
+	
 		renderTemplate("VrstePDVa/show.html", mode, vrstePDVa);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<VrstaPDVa> vrstePDVa = checkCache();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
 		VrstaPDVa vrstaPDVa = VrstaPDVa.findById(id);
 		Long idd = null;
@@ -87,46 +81,7 @@ public class VrstePDVa extends Controller{
 
 		vrstePDVa.clear();
 		vrstePDVa = VrstaPDVa.findAll();
-		Cache.set("vrstePDVa", vrstePDVa);
 
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<VrstaPDVa> checkCache() {
-		List<VrstaPDVa> vrstePDVa = (List<VrstaPDVa>) Cache.get("vrstePDVa");
-
-		if ((vrstePDVa == null) || (vrstePDVa.size() == 0)) {
-			vrstePDVa = VrstaPDVa.findAll();
-			Cache.set("vrstePDVa", vrstePDVa);
-		}
-
-		return vrstePDVa;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<VrstaPDVa> vrstePDVa = checkCache();
-
-		renderTemplate("VrstePDVa/show.html", vrstePDVa, mode);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

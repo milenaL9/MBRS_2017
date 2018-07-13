@@ -24,14 +24,17 @@ public class Preduzece extends Model {
   	
   	public String tekuciRacun;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "preduzece")
+    @OneToMany(mappedBy = "preduzece")
   	public List<PoslovniPartner> poslovniPartneri;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "preduzece")
+    @OneToMany(mappedBy = "preduzece")
   	public List<PoslovnaGodina> poslovneGodine;
   	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "preduzece")
+    @OneToMany(mappedBy = "preduzece")
   	public List<Grupa> grupe;
+  	
+    @OneToMany(mappedBy = "preduzece")
+  	public List<Faktura> fakture;
   	
 
 	public Preduzece(String naziv, String pib, String mesto, String adresa, String telefon, String maticniBroj, String tekuciRacun){

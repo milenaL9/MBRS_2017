@@ -9,12 +9,15 @@ import models.Podgrupa;
 
 public class Podgrupe extends Controller{ 
 
-	public static void show() {	
-		session.put("mode", "edit");
-		String mode = session.get("mode");
+	public static void show(String mode) {	
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Grupa> grupe = Grupe.checkCache();
-		List<Podgrupa> podgrupe = checkCache();
+		List<Grupa> grupe = Grupa.findAll();
+		List<Podgrupa> podgrupe = Podgrupa.findAll();
 
 		render(mode, podgrupe, grupe);
 	}
@@ -24,7 +27,7 @@ public class Podgrupe extends Controller{
 		String mode = session.get("mode");
 
 		List<Podgrupa> podgrupe = null;
-		List<Grupa> grupe = Grupe.checkCache();
+		List<Grupa> grupe = Grupa.findAll();
 
 		podgrupe = Podgrupa.findAll();
 
@@ -33,7 +36,6 @@ public class Podgrupe extends Controller{
 
 		podgrupa.save();
 		podgrupe.add(podgrupa);
-		Cache.set("podgrupe", podgrupe);
 
 		Long idd = podgrupa.id;
 
@@ -49,7 +51,7 @@ public class Podgrupe extends Controller{
 		String mode = session.get("mode");
 
 		List<Podgrupa> podgrupe = null;
-		List<Grupa> grupe = Grupe.checkCache();
+		List<Grupa> grupe = Grupa.findAll();
 
 	
 		podgrupe  = Podgrupa.findAll();
@@ -66,23 +68,15 @@ public class Podgrupe extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("podgrupe ", podgrupe );
-
-		podgrupe.clear();
-		podgrupe = Podgrupa.findAll();
-			
+	
 		renderTemplate("Podgrupe/show.html", mode, podgrupe, grupe);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Grupa> grupe = Grupe.checkCache();
-		List<Podgrupa> podgrupe = checkCache();
+		List<Grupa> grupe = Grupa.findAll();
+		List<Podgrupa> podgrupe = Podgrupa.findAll();
 
 		Podgrupa podgrupa = Podgrupa.findById(id);
 		Long idd = null;
@@ -97,47 +91,7 @@ public class Podgrupe extends Controller{
 
 		podgrupe.clear();
 		podgrupe = Podgrupa.findAll();
-		Cache.set("podgrupe", podgrupe);
 
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<Podgrupa> checkCache() {
-		List<Podgrupa> podgrupe = (List<Podgrupa>) Cache.get("podgrupe");
-
-		if ((podgrupe == null) || (podgrupe.size() == 0)) {
-			podgrupe = Podgrupa.findAll();
-			Cache.set("podgrupe", podgrupe);
-		}
-
-		return podgrupe;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Grupa> grupe = Grupe.checkCache();
-		List<Podgrupa> podgrupe = checkCache();
-
-		renderTemplate("Podgrupe/show.html", podgrupe, mode, grupe);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

@@ -10,13 +10,16 @@ import models.StavkaCenovnika;
 
 public class StavkeCenovnika extends Controller{ 
 
-	public static void show() {	
-		session.put("mode", "edit");
-		String mode = session.get("mode");
+	public static void show(String mode) {	
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Cenovnik> cenovnici = Cenovnici.checkCache();
-		List<StavkaCenovnika> stavkeCenovnika = checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
+		List<StavkaCenovnika> stavkeCenovnika = StavkaCenovnika.findAll();
 
 		render(mode, stavkeCenovnika, artikli, cenovnici);
 	}
@@ -26,8 +29,8 @@ public class StavkeCenovnika extends Controller{
 		String mode = session.get("mode");
 
 		List<StavkaCenovnika> stavkeCenovnika = null;
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Cenovnik> cenovnici = Cenovnici.checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
 
 		stavkeCenovnika = StavkaCenovnika.findAll();
 
@@ -38,7 +41,6 @@ public class StavkeCenovnika extends Controller{
 
 		stavkaCenovnika.save();
 		stavkeCenovnika.add(stavkaCenovnika);
-		Cache.set("stavkeCenovnika", stavkeCenovnika);
 
 		Long idd = stavkaCenovnika.id;
 
@@ -54,8 +56,8 @@ public class StavkeCenovnika extends Controller{
 		String mode = session.get("mode");
 
 		List<StavkaCenovnika> stavkeCenovnika = null;
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Cenovnik> cenovnici = Cenovnici.checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
 
 	
 		stavkeCenovnika  = StavkaCenovnika.findAll();
@@ -75,24 +77,16 @@ public class StavkeCenovnika extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("stavkeCenovnika ", stavkeCenovnika );
-
-		stavkeCenovnika.clear();
-		stavkeCenovnika = StavkaCenovnika.findAll();
-			
+	
 		renderTemplate("StavkeCenovnika/show.html", mode, stavkeCenovnika, artikli, cenovnici);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Cenovnik> cenovnici = Cenovnici.checkCache();
-		List<StavkaCenovnika> stavkeCenovnika = checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
+		List<StavkaCenovnika> stavkeCenovnika = StavkaCenovnika.findAll();
 
 		StavkaCenovnika stavkaCenovnika = StavkaCenovnika.findById(id);
 		Long idd = null;
@@ -107,48 +101,7 @@ public class StavkeCenovnika extends Controller{
 
 		stavkeCenovnika.clear();
 		stavkeCenovnika = StavkaCenovnika.findAll();
-		Cache.set("stavkeCenovnika", stavkeCenovnika);
 
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<StavkaCenovnika> checkCache() {
-		List<StavkaCenovnika> stavkeCenovnika = (List<StavkaCenovnika>) Cache.get("stavkeCenovnika");
-
-		if ((stavkeCenovnika == null) || (stavkeCenovnika.size() == 0)) {
-			stavkeCenovnika = StavkaCenovnika.findAll();
-			Cache.set("stavkeCenovnika", stavkeCenovnika);
-		}
-
-		return stavkeCenovnika;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Cenovnik> cenovnici = Cenovnici.checkCache();
-		List<StavkaCenovnika> stavkeCenovnika = checkCache();
-
-		renderTemplate("StavkeCenovnika/show.html", stavkeCenovnika, mode, artikli, cenovnici);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

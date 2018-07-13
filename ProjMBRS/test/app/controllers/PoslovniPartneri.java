@@ -9,12 +9,15 @@ import models.PoslovniPartner;
 
 public class PoslovniPartneri extends Controller{ 
 
-	public static void show() {	
-		session.put("mode", "edit");
-		String mode = session.get("mode");
+	public static void show(String mode) {	
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<PoslovniPartner> poslovniPartneri = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
 
 		render(mode, poslovniPartneri, preduzeca);
 	}
@@ -24,7 +27,7 @@ public class PoslovniPartneri extends Controller{
 		String mode = session.get("mode");
 
 		List<PoslovniPartner> poslovniPartneri = null;
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 		poslovniPartneri = PoslovniPartner.findAll();
 
@@ -33,7 +36,6 @@ public class PoslovniPartneri extends Controller{
 
 		poslovniPartner.save();
 		poslovniPartneri.add(poslovniPartner);
-		Cache.set("poslovniPartneri", poslovniPartneri);
 
 		Long idd = poslovniPartner.id;
 
@@ -49,7 +51,7 @@ public class PoslovniPartneri extends Controller{
 		String mode = session.get("mode");
 
 		List<PoslovniPartner> poslovniPartneri = null;
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 	
 		poslovniPartneri  = PoslovniPartner.findAll();
@@ -72,23 +74,15 @@ public class PoslovniPartneri extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("poslovniPartneri ", poslovniPartneri );
-
-		poslovniPartneri.clear();
-		poslovniPartneri = PoslovniPartner.findAll();
-			
+	
 		renderTemplate("PoslovniPartneri/show.html", mode, poslovniPartneri, preduzeca);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<PoslovniPartner> poslovniPartneri = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
 
 		PoslovniPartner poslovniPartner = PoslovniPartner.findById(id);
 		Long idd = null;
@@ -103,47 +97,7 @@ public class PoslovniPartneri extends Controller{
 
 		poslovniPartneri.clear();
 		poslovniPartneri = PoslovniPartner.findAll();
-		Cache.set("poslovniPartneri", poslovniPartneri);
 
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<PoslovniPartner> checkCache() {
-		List<PoslovniPartner> poslovniPartneri = (List<PoslovniPartner>) Cache.get("poslovniPartneri");
-
-		if ((poslovniPartneri == null) || (poslovniPartneri.size() == 0)) {
-			poslovniPartneri = PoslovniPartner.findAll();
-			Cache.set("poslovniPartneri", poslovniPartneri);
-		}
-
-		return poslovniPartneri;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<PoslovniPartner> poslovniPartneri = checkCache();
-
-		renderTemplate("PoslovniPartneri/show.html", poslovniPartneri, mode, preduzeca);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
