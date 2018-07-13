@@ -10,11 +10,14 @@ import models.StopaPDVa;
 public class StopePDVa extends Controller{ 
 
 	public static void show(String mode) {	
-		session.put("mode", "edit");
-	    mode = session.get("mode");
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
-		List<StopaPDVa> stopePDVa = checkCache();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
+		List<StopaPDVa> stopePDVa = StopaPDVa.findAll();
 
 		render(mode, stopePDVa, vrstePDVa);
 	}
@@ -24,7 +27,7 @@ public class StopePDVa extends Controller{
 		String mode = session.get("mode");
 
 		List<StopaPDVa> stopePDVa = null;
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
 		stopePDVa = StopaPDVa.findAll();
 
@@ -33,7 +36,6 @@ public class StopePDVa extends Controller{
 
 		stopaPDVa.save();
 		stopePDVa.add(stopaPDVa);
-		Cache.set("stopePDVa", stopePDVa);
 
 		Long idd = stopaPDVa.id;
 
@@ -49,7 +51,7 @@ public class StopePDVa extends Controller{
 		String mode = session.get("mode");
 
 		List<StopaPDVa> stopePDVa = null;
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
 	
 		stopePDVa  = StopaPDVa.findAll();
@@ -67,23 +69,15 @@ public class StopePDVa extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("stopePDVa ", stopePDVa );
-
-		stopePDVa.clear();
-		stopePDVa = StopaPDVa.findAll();
-			
+	
 		renderTemplate("StopePDVa/show.html", mode, stopePDVa, vrstePDVa);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
-		List<StopaPDVa> stopePDVa = checkCache();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
+		List<StopaPDVa> stopePDVa = StopaPDVa.findAll();
 
 		StopaPDVa stopaPDVa = StopaPDVa.findById(id);
 		Long idd = null;
@@ -98,47 +92,7 @@ public class StopePDVa extends Controller{
 
 		stopePDVa.clear();
 		stopePDVa = StopaPDVa.findAll();
-		Cache.set("stopePDVa", stopePDVa);
 
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<StopaPDVa> checkCache() {
-		List<StopaPDVa> stopePDVa = (List<StopaPDVa>) Cache.get("stopePDVa");
-
-		if ((stopePDVa == null) || (stopePDVa.size() == 0)) {
-			stopePDVa = StopaPDVa.findAll();
-			Cache.set("stopePDVa", stopePDVa);
-		}
-
-		return stopePDVa;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
-		List<StopaPDVa> stopePDVa = checkCache();
-
-		renderTemplate("StopePDVa/show.html", stopePDVa, mode, vrstePDVa);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

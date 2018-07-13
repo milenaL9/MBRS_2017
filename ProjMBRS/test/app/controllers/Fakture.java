@@ -1,33 +1,48 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
+import models.Preduzece;
+import models.StavkaCenovnika;
+import models.StavkaFakture;
+import models.Artikal;
+import models.Cenovnik;
 import models.Faktura;
 
 public class Fakture extends Controller{ 
 
 	public static void show(String mode) {	
-		session.put("mode", "edit");
-	    mode = session.get("mode");
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<PoslovnaGodina> poslovneGodine = PoslovneGodine.checkCache();
-		List<PoslovniPartner> poslovniPartneri = PoslovniPartneri.checkCache();
-		List<Faktura> fakture = checkCache();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<Faktura> fakture = Faktura.findAll();
 
-		render(mode, fakture, poslovneGodine, poslovniPartneri);
+		render(mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
 
-	public static void create(Faktura faktura,Long poslovnaGodina,Long poslovniPartner) {
+	public static void create(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
 
 		List<Faktura> fakture = null;
-		List<PoslovnaGodina> poslovneGodine = PoslovneGodine.checkCache();
-		List<PoslovniPartner> poslovniPartneri = PoslovniPartneri.checkCache();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 		fakture = Faktura.findAll();
 
@@ -35,27 +50,62 @@ public class Fakture extends Controller{
 		faktura.poslovnaGodina = findPoslovnaGodina;
 		PoslovniPartner findPoslovniPartner = PoslovniPartner.findById(poslovniPartner);
 		faktura.poslovniPartner = findPoslovniPartner;
+		Preduzece findPreduzece = Preduzece.findById(preduzece);
+		faktura.preduzece = findPreduzece;
+		
+		// RUCNI KOD: POCETAK
+		faktura.brojFakture = incrementBrojFakture();
+		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
+		List<Artikal> artikli = Artikal.findAll();
+		faktura.ukupnoOsnovica = 0;
+		faktura.ukupnoPDV = 0;
+		faktura.ukupnoZaPlacanje = 0;
+		if (stavkeFakture != null) {
+			for (StavkaFakture sf : stavkeFakture) {
+				faktura.ukupnoOsnovica += sf.osnovicaZaPDV;
+				faktura.ukupnoPDV += sf.iznosPDVa;
+				faktura.ukupnoZaPlacanje += sf.ukupno;
+			}
 
+		}
+		// RUCNI KOD: KRAJ
+		
+		
 		faktura.save();
 		fakture.add(faktura);
-		Cache.set("fakture", fakture);
 
 		Long idd = faktura.id;
 
 		fakture.clear();
 		fakture = Faktura.findAll();
-
-		renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri);
 		
+		// RUCNI KOD:POCETAK
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
+		try {
+			stavkeCenovnika = findStavkeCenovnika(faktura.id);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		session.put("fakturaId", idd);
+		// RUCNI KOD: KRAJ
+
+		stavkeFakture = findStavkeFakture(idd);
+		//renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
+		renderTemplate("StavkeFakture/show.html", fakture, stavkeFakture, preduzeca, poslovneGodine,
+				poslovniPartneri, stavkeCenovnika, mode, idd, artikli);
+
 	}
 	
-	public static void edit(Faktura faktura,Long poslovnaGodina,Long poslovniPartner) {
+	public static void edit(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
 
 		List<Faktura> fakture = null;
-		List<PoslovnaGodina> poslovneGodine = PoslovneGodine.checkCache();
-		List<PoslovniPartner> poslovniPartneri = PoslovniPartneri.checkCache();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 	
 		fakture  = Faktura.findAll();
@@ -64,12 +114,15 @@ public class Fakture extends Controller{
 		faktura.poslovnaGodina = findPoslovnaGodina;
 		PoslovniPartner findPoslovniPartner = PoslovniPartner.findById(poslovniPartner);
 		faktura.poslovniPartner = findPoslovniPartner;
+		Preduzece findPreduzece = Preduzece.findById(preduzece);
+		faktura.preduzece = findPreduzece;
 
 
 		for (Faktura tmp : fakture ) {
 			if (tmp.id == faktura.id) {
 				tmp.poslovnaGodina = findPoslovnaGodina;
 				tmp.poslovniPartner = findPoslovniPartner;
+				tmp.preduzece = findPreduzece;
 				tmp.datumFakture = faktura.datumFakture;
 				tmp.brojFakture = faktura.brojFakture;
 				tmp.datumValute = faktura.datumValute;
@@ -80,24 +133,17 @@ public class Fakture extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("fakture ", fakture );
-
-		fakture.clear();
-		fakture = Faktura.findAll();
-			
-		renderTemplate("Fakture/show.html", mode, fakture, poslovneGodine, poslovniPartneri);
 	
-	
-	
+		renderTemplate("Fakture/show.html", mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<PoslovnaGodina> poslovneGodine = PoslovneGodine.checkCache();
-		List<PoslovniPartner> poslovniPartneri = PoslovniPartneri.checkCache();
-		List<Faktura> fakture = checkCache();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<Faktura> fakture = Faktura.findAll();
 
 		Faktura faktura = Faktura.findById(id);
 		Long idd = null;
@@ -112,48 +158,87 @@ public class Fakture extends Controller{
 
 		fakture.clear();
 		fakture = Faktura.findAll();
-		Cache.set("fakture", fakture);
 
-		renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri);
+		renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
 	
 	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<Faktura> checkCache() {
-		List<Faktura> fakture = (List<Faktura>) Cache.get("fakture");
-
-		if ((fakture == null) || (fakture.size() == 0)) {
-			fakture = Faktura.findAll();
-			Cache.set("fakture", fakture);
+	// RUCNI KOD: POCETAK
+	public static int incrementBrojFakture() {
+		List<Faktura> fakture = Faktura.findAll();
+		int brojFakture = 0;
+		if (fakture.size() > 0) {
+			brojFakture = fakture.get(fakture.size() - 1).brojFakture;
+			brojFakture++;
+		} else {
+			brojFakture = 1;
 		}
 
-		return fakture;
+		return brojFakture;
 	}
 	
 	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
+	public static Date convertToDate(String receivedDate) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date date = formatter.parse(receivedDate);
+		return date;
+	}
+	
+	public static List<StavkaCenovnika> findStavkeCenovnika(Long idFakture) throws ParseException {
+		Faktura faktura = Faktura.findById(idFakture);
+		String datumFakture = faktura.datumFakture;
+		Date datumFaktureDate = convertToDate(datumFakture);
+
+		List<Cenovnik> cenovniciSaDatumima = new ArrayList<>();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
+		for (Cenovnik tmp : cenovnici) {
+			String datumCenovnika = tmp.datumVazenja;
+			Date datumCenovnikaDate = convertToDate(datumCenovnika);
+
+			if (!datumCenovnikaDate.after(datumFaktureDate)) {
+				cenovniciSaDatumima.add(tmp);
+			}
 		}
-		session.put("mode", mode);
 
-		List<PoslovnaGodina> poslovneGodine = PoslovneGodine.checkCache();
-		List<PoslovniPartner> poslovniPartneri = PoslovniPartneri.checkCache();
-		List<Faktura> fakture = checkCache();
+		List<Date> datumi = new ArrayList<>();
+		// trazim cenovnik sa najvisim datumom
+		for (Cenovnik tmp : cenovniciSaDatumima) {
+			Date d = convertToDate(tmp.datumVazenja);
+			datumi.add(d);
+		}
 
-		renderTemplate("Fakture/show.html", fakture, mode, poslovneGodine, poslovniPartneri);
+		Collections.sort(datumi, new Comparator<Date>() {
+			@Override
+			public int compare(Date arg0, Date arg1) {
+				return arg0.compareTo(arg1);
+			}
+		});
+
+		// trazim stavke cenovnika
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<>();
+		for (Cenovnik tmp : cenovniciSaDatumima) {
+			String string = new SimpleDateFormat("MM/dd/yyyy").format(datumi.get(datumi.size() - 1));
+			if (tmp.datumVazenja.equals(string)) {
+				stavkeCenovnika = tmp.stavkeCenovnika;
+			}
+		}
+
+		return stavkeCenovnika;
 	}
 	
+	public static List<StavkaFakture> findStavkeFakture(Long idFakture) {
+		List<StavkaFakture> stavkeFaktureAll = StavkaFakture.findAll();
+		List<StavkaFakture> stavkeFakture = new ArrayList<>();
+
+		for (StavkaFakture sc : stavkeFaktureAll) {
+			if (sc.faktura.id == idFakture) {
+				stavkeFakture.add(sc);
+			}
+		}
+
+		return stavkeFakture;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	// RUCNI KOD: KRAJ
+
 }

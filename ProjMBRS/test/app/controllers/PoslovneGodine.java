@@ -10,11 +10,14 @@ import models.PoslovnaGodina;
 public class PoslovneGodine extends Controller{ 
 
 	public static void show(String mode) {	
-		session.put("mode", "edit");
-	    mode = session.get("mode");
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<PoslovnaGodina> poslovneGodine = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
 
 		render(mode, poslovneGodine, preduzeca);
 	}
@@ -24,7 +27,7 @@ public class PoslovneGodine extends Controller{
 		String mode = session.get("mode");
 
 		List<PoslovnaGodina> poslovneGodine = null;
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 		poslovneGodine = PoslovnaGodina.findAll();
 
@@ -33,7 +36,6 @@ public class PoslovneGodine extends Controller{
 
 		poslovnaGodina.save();
 		poslovneGodine.add(poslovnaGodina);
-		Cache.set("poslovneGodine", poslovneGodine);
 
 		Long idd = poslovnaGodina.id;
 
@@ -49,7 +51,7 @@ public class PoslovneGodine extends Controller{
 		String mode = session.get("mode");
 
 		List<PoslovnaGodina> poslovneGodine = null;
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 	
 		poslovneGodine  = PoslovnaGodina.findAll();
@@ -67,23 +69,15 @@ public class PoslovneGodine extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("poslovneGodine ", poslovneGodine );
-
-		poslovneGodine.clear();
-		poslovneGodine = PoslovnaGodina.findAll();
-			
+	
 		renderTemplate("PoslovneGodine/show.html", mode, poslovneGodine, preduzeca);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<PoslovnaGodina> poslovneGodine = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
 
 		PoslovnaGodina poslovnaGodina = PoslovnaGodina.findById(id);
 		Long idd = null;
@@ -98,47 +92,7 @@ public class PoslovneGodine extends Controller{
 
 		poslovneGodine.clear();
 		poslovneGodine = PoslovnaGodina.findAll();
-		Cache.set("poslovneGodine", poslovneGodine);
 
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<PoslovnaGodina> checkCache() {
-		List<PoslovnaGodina> poslovneGodine = (List<PoslovnaGodina>) Cache.get("poslovneGodine");
-
-		if ((poslovneGodine == null) || (poslovneGodine.size() == 0)) {
-			poslovneGodine = PoslovnaGodina.findAll();
-			Cache.set("poslovneGodine", poslovneGodine);
-		}
-
-		return poslovneGodine;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<PoslovnaGodina> poslovneGodine = checkCache();
-
-		renderTemplate("PoslovneGodine/show.html", poslovneGodine, mode, preduzeca);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

@@ -9,10 +9,13 @@ import models.Preduzece;
 public class Preduzeca extends Controller{ 
 
 	public static void show(String mode) {	
-		session.put("mode", "edit");
-	    mode = session.get("mode");
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Preduzece> preduzeca = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 		render(mode, preduzeca);
 	}
@@ -28,7 +31,6 @@ public class Preduzeca extends Controller{
 
 		preduzece.save();
 		preduzeca.add(preduzece);
-		Cache.set("preduzeca", preduzeca);
 
 		Long idd = preduzece.id;
 
@@ -63,22 +65,14 @@ public class Preduzeca extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("preduzeca ", preduzeca );
-
-		preduzeca.clear();
-		preduzeca = Preduzece.findAll();
-			
+	
 		renderTemplate("Preduzeca/show.html", mode, preduzeca);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Preduzece> preduzeca = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
 
 		Preduzece preduzece = Preduzece.findById(id);
 		Long idd = null;
@@ -93,46 +87,7 @@ public class Preduzeca extends Controller{
 
 		preduzeca.clear();
 		preduzeca = Preduzece.findAll();
-		Cache.set("preduzeca", preduzeca);
 
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<Preduzece> checkCache() {
-		List<Preduzece> preduzeca = (List<Preduzece>) Cache.get("preduzeca");
-
-		if ((preduzeca == null) || (preduzeca.size() == 0)) {
-			preduzeca = Preduzece.findAll();
-			Cache.set("preduzeca", preduzeca);
-		}
-
-		return preduzeca;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Preduzece> preduzeca = checkCache();
-
-		renderTemplate("Preduzeca/show.html", preduzeca, mode);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

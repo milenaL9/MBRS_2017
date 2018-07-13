@@ -11,12 +11,15 @@ import models.StavkaFakture;
 public class StavkeFakture extends Controller{ 
 
 	public static void show(String mode) {	
-		session.put("mode", "edit");
-	    mode = session.get("mode");
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Faktura> fakture = Fakture.checkCache();
-		List<StavkaFakture> stavkeFakture = checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Faktura> fakture = Faktura.findAll();
+		List<StavkaFakture> stavkeFakture = StavkaFakture.findAll();
 
 		render(mode, stavkeFakture, artikli, fakture);
 	}
@@ -26,8 +29,8 @@ public class StavkeFakture extends Controller{
 		String mode = session.get("mode");
 
 		List<StavkaFakture> stavkeFakture = null;
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Faktura> fakture = Fakture.checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Faktura> fakture = Faktura.findAll();
 
 		stavkeFakture = StavkaFakture.findAll();
 
@@ -38,7 +41,6 @@ public class StavkeFakture extends Controller{
 
 		stavkaFakture.save();
 		stavkeFakture.add(stavkaFakture);
-		Cache.set("stavkeFakture", stavkeFakture);
 
 		Long idd = stavkaFakture.id;
 
@@ -54,8 +56,8 @@ public class StavkeFakture extends Controller{
 		String mode = session.get("mode");
 
 		List<StavkaFakture> stavkeFakture = null;
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Faktura> fakture = Fakture.checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Faktura> fakture = Faktura.findAll();
 
 	
 		stavkeFakture  = StavkaFakture.findAll();
@@ -82,24 +84,16 @@ public class StavkeFakture extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("stavkeFakture ", stavkeFakture );
-
-		stavkeFakture.clear();
-		stavkeFakture = StavkaFakture.findAll();
-			
+	
 		renderTemplate("StavkeFakture/show.html", mode, stavkeFakture, artikli, fakture);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Faktura> fakture = Fakture.checkCache();
-		List<StavkaFakture> stavkeFakture = checkCache();
+		List<Artikal> artikli = Artikal.findAll();
+		List<Faktura> fakture = Faktura.findAll();
+		List<StavkaFakture> stavkeFakture = StavkaFakture.findAll();
 
 		StavkaFakture stavkaFakture = StavkaFakture.findById(id);
 		Long idd = null;
@@ -114,48 +108,17 @@ public class StavkeFakture extends Controller{
 
 		stavkeFakture.clear();
 		stavkeFakture = StavkaFakture.findAll();
-		Cache.set("stavkeFakture", stavkeFakture);
 
 		renderTemplate("StavkeFakture/show.html", idd, mode, stavkeFakture, artikli, fakture);
 	}
 	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<StavkaFakture> checkCache() {
-		List<StavkaFakture> stavkeFakture = (List<StavkaFakture>) Cache.get("stavkeFakture");
-
-		if ((stavkeFakture == null) || (stavkeFakture.size() == 0)) {
-			stavkeFakture = StavkaFakture.findAll();
-			Cache.set("stavkeFakture", stavkeFakture);
+	// RUCNI KOD
+	public static void saveStavke(Long id) {
+		Faktura faktura = Faktura.findById(id);
+		if (faktura.stavkeFakture.size() == 0) {
+			Fakture.delete(id);
+		} else {
+			Fakture.show("edit");
 		}
-
-		return stavkeFakture;
 	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Artikal> artikli = Artikli.checkCache();
-		List<Faktura> fakture = Fakture.checkCache();
-		List<StavkaFakture> stavkeFakture = checkCache();
-
-		renderTemplate("StavkeFakture/show.html", stavkeFakture, mode, artikli, fakture);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

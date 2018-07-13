@@ -49,6 +49,11 @@ ${r"#{set"} title:'${class.label}' /}
 			<a href="#" onclick="openSideNav()">
 				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
 			</a>
+			
+			<a href="@{${class.controllerName}.show("edit")}" id = "refresh">
+				<img src="@{'/public/images/refresh.gif'}"/>
+			</a>
+			
 			<a id = "first">
 				<img src="@{'/public/images/first.gif'}"/>
 			</a>

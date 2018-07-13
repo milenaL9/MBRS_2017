@@ -11,12 +11,15 @@ import models.Grupa;
 public class Grupe extends Controller{ 
 
 	public static void show(String mode) {	
-		session.put("mode", "edit");
-	    mode = session.get("mode");
+	    if(mode == null || mode.equals("")) {
+	    	mode = "edit";
+	    }
+	    
+	    session.put("mode", mode);
 
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
-		List<Grupa> grupe = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
+		List<Grupa> grupe = Grupa.findAll();
 
 		render(mode, grupe, preduzeca, vrstePDVa);
 	}
@@ -26,8 +29,8 @@ public class Grupe extends Controller{
 		String mode = session.get("mode");
 
 		List<Grupa> grupe = null;
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
 		grupe = Grupa.findAll();
 
@@ -38,7 +41,6 @@ public class Grupe extends Controller{
 
 		grupa.save();
 		grupe.add(grupa);
-		Cache.set("grupe", grupe);
 
 		Long idd = grupa.id;
 
@@ -54,8 +56,8 @@ public class Grupe extends Controller{
 		String mode = session.get("mode");
 
 		List<Grupa> grupe = null;
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
 	
 		grupe  = Grupa.findAll();
@@ -75,24 +77,16 @@ public class Grupe extends Controller{
 				break;
 			}
 		}
-
-		Cache.set("grupe ", grupe );
-
-		grupe.clear();
-		grupe = Grupa.findAll();
-			
+	
 		renderTemplate("Grupe/show.html", mode, grupe, preduzeca, vrstePDVa);
-	
-	
-	
 	}
 	
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
-		List<Grupa> grupe = checkCache();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
+		List<Grupa> grupe = Grupa.findAll();
 
 		Grupa grupa = Grupa.findById(id);
 		Long idd = null;
@@ -107,48 +101,7 @@ public class Grupe extends Controller{
 
 		grupe.clear();
 		grupe = Grupa.findAll();
-		Cache.set("grupe", grupe);
 
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
 	}
-	
-	
-	
-	/**
-	 * Pomocna metoda za proveravanje kesa.
-	 */
-	public static List<Grupa> checkCache() {
-		List<Grupa> grupe = (List<Grupa>) Cache.get("grupe");
-
-		if ((grupe == null) || (grupe.size() == 0)) {
-			grupe = Grupa.findAll();
-			Cache.set("grupe", grupe);
-		}
-
-		return grupe;
-	}
-	
-	
-	public static void changeMode(String mode) {
-		if (mode == null || mode.equals("")) {
-			mode = "edit";
-		}
-		session.put("mode", mode);
-
-		List<Preduzece> preduzeca = Preduzeca.checkCache();
-		List<VrstaPDVa> vrstePDVa = VrstePDVa.checkCache();
-		List<Grupa> grupe = checkCache();
-
-		renderTemplate("Grupe/show.html", grupe, mode, preduzeca, vrstePDVa);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
