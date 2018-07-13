@@ -104,7 +104,8 @@ public class ModelAnalyzer {
 		if (cl.getName() == null)
 			throw new AnalyzeException("Classes must have names!");
 
-		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", "", false, false, false, false);
+		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", "", false, false,
+				false, false);
 
 		// StereotypesHelper.getStereotypedElement(cl);
 
@@ -123,58 +124,102 @@ public class ModelAnalyzer {
 				fmClass.setLabel(showPropertiesList.get(0).toString());
 			}
 		}
-		
-		if(controllerStereotype != null) {
-			List incrementBrojFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "incrementBrojFakture");
+
+		if (controllerStereotype != null) {
+			/**
+			 *    Pomocne metode za Fakturu
+			 */
+			List incrementBrojFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"incrementBrojFakture");
 			if (incrementBrojFaktureList.size() > 0) {
-				fmClass.setIncrementBrojFakture((Boolean)incrementBrojFaktureList.get(0));
+				fmClass.setIncrementBrojFakture((Boolean) incrementBrojFaktureList.get(0));
 			}
-			
-			List convertToDateList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "convertToDate");
+
+			List convertToDateList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"convertToDate");
 			if (convertToDateList.size() > 0) {
-				fmClass.setConvertToDate((Boolean)convertToDateList.get(0));
+				fmClass.setConvertToDate((Boolean) convertToDateList.get(0));
 			}
-			
-			List findStavkeCenovnikaList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "findStavkeCenovnika");
+
+			List findStavkeCenovnikaList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"findStavkeCenovnika");
 			if (findStavkeCenovnikaList.size() > 0) {
-				fmClass.setFindStavkeCenovnika((Boolean)findStavkeCenovnikaList.get(0));
+				fmClass.setFindStavkeCenovnika((Boolean) findStavkeCenovnikaList.get(0));
 			}
-			
-			List findStavkeFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "findStavkeFakture");
+
+			List findStavkeFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"findStavkeFakture");
 			if (findStavkeFaktureList.size() > 0) {
-				fmClass.setFindStavkeFakture((Boolean)findStavkeCenovnikaList.get(0));
+				fmClass.setFindStavkeFakture((Boolean) findStavkeCenovnikaList.get(0));
 			}
-			
-			
+
 			List setuUpList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "setUpFaktura");
 			if (setuUpList.size() > 0) {
-				fmClass.setSetUp((Boolean)setuUpList.get(0));
+				fmClass.setSetUp((Boolean) setuUpList.get(0));
+			}
+			
+			
+
+			/**
+			 *    Pomocne metode za StavkuFakture
+			 */
+			List fillListStavkeCenovnikaList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"fillListStavkeCenovnika");
+			if (fillListStavkeCenovnikaList.size() > 0) {
+				fmClass.setFillListStavkeCenovnika((Boolean) fillListStavkeCenovnikaList.get(0));
+			}
+
+			List findStopaPDVaList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"findStopaPDVa");
+			if (findStopaPDVaList.size() > 0) {
+				fmClass.setFindStopaPDVa((Boolean) findStopaPDVaList.get(0));
+			}
+
+			List setUpStavkaFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
+					"setUpStavkaFakture");
+			if (setUpStavkaFaktureList.size() > 0) {
+				fmClass.setSetUpStavkaFakture((Boolean) setUpStavkaFaktureList.get(0));
 			}
 		}
+
+		
+		/**
+		 *    Metode za operacije koje se nalaze na StandardForm
+		 */
 		
 		Stereotype standardFormStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, "StandardForm");
-		
-		if(standardFormStereotype != null) {
+
+		if (standardFormStereotype != null) {
 			List createList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "create");
 			if (createList.size() > 0) {
-				fmClass.setCreateSF((Boolean)createList.get(0));
+				fmClass.setCreateSF((Boolean) createList.get(0));
 			}
-			
+
 			List editList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "edit");
 			if (editList.size() > 0) {
-				fmClass.setEditSF((Boolean)editList.get(0));
+				fmClass.setEditSF((Boolean) editList.get(0));
 			}
-			
+
 			List deleteList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "delete");
 			if (deleteList.size() > 0) {
-				fmClass.setDeleteSF((Boolean)deleteList.get(0));
+				fmClass.setDeleteSF((Boolean) deleteList.get(0));
 			}
+
 			
+			// stavkaFakture nema padajuci meni
 			List showMenuList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "showMenu");
 			if (showMenuList.size() > 0) {
-				fmClass.setShowMenu((Boolean)showMenuList.get(0));
+				fmClass.setShowMenu((Boolean) showMenuList.get(0));
 			}
+
 			
+			// kada se dodaju sve stavke, da zavrsi sa cuvanjem fakture
+			List saveStavkeList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype,
+					"saveStavke");
+			if (saveStavkeList.size() > 0) {
+				fmClass.setSaveStavke((Boolean) saveStavkeList.get(0));
+			}
+
 		}
 
 		Iterator<Property> it = ModelHelper.attributes(cl);

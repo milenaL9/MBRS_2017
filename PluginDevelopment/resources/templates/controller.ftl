@@ -8,7 +8,7 @@ import play.mvc.Controller;
 import models.${property.type};
 </#list>
 
-<#if class.incrementBrojFakture>
+<#if class.incrementBrojFakture || class.findStopaPDVa>
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,10 +55,17 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${property.type} find${property.type} = ${property.name?cap_first}.findById(${property.name?uncap_first});
 		${class.name?uncap_first}.${property.name?uncap_first} = find${property.type};
 		</#list>
-		
+
+		// Postavljanje fakture
 		<#if class.incrementBrojFakture>
 			faktura = setUpFaktura(faktura);
 		</#if>
+		
+		// Postavljanje stavke fakture
+		<#if class.setUpStavkaFakture>
+			stavkaFakture = setUpStavkaFakture(stavkaFakture);
+		</#if>
+		
 
 		${class.name?uncap_first}.save();
 		${class.controllerName?uncap_first}.add(${class.name?uncap_first});
@@ -67,7 +74,22 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		${class.controllerName?uncap_first}.clear();
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
+		
+		
+		// Za Stavku Fakture
+		<#if class.findStopaPDVa>
+		stavkeFakture.clear();
+		stavkeCenovnika = new ArrayList<StavkaCenovnika>();
+		try {
+			stavkeCenovnika = fillListStavkeCenovnika();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		</#if>
 
+
+		// Poziv pomocnih metoda za Fakturu
 		<#if !class.incrementBrojFakture>
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 		<#else>
@@ -242,6 +264,126 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		}
 
 		return stavkeFakture;
+	}
+	</#if>
+	
+	<#if class.saveStavke>
+	public static void saveStavke() {
+		Long id = Long.parseLong(session.get("idFakture"));
+		Faktura faktura = Faktura.findById(id);
+
+		if (faktura.stavkeFakture.size() == 0) {
+			Fakture.delete(id);
+		} else {
+			Fakture.show();
+		}
+	}	
+	</#if>
+	
+	<#if class.fillListStavkeCenovnika>
+	public static List<StavkaCenovnika> fillListStavkeCenovnika() throws ParseException {
+		List<StavkaCenovnika> stavkeCenovnika = null;
+
+		if (!session.get("idFakture").equals("null")) {
+			Long id = Long.parseLong(session.get("idFakture"));
+			stavkeCenovnika = Fakture.findStavkeCenovnika(id);
+		}
+
+		return stavkeCenovnika;
+	}
+	</#if>
+	
+	<#if class.findStopaPDVa>
+	public static StopaPDVa findStopaPDVa(Long idFakture, VrstaPDVa vrstaPDVa) throws ParseException {
+		Faktura faktura = Faktura.findById(idFakture);
+		String datumFakture = faktura.datumFakture;
+		Date datumFaktureDate = Fakture.convertToDate(datumFakture);
+
+		List<StopaPDVa> stopePDVaSaDatumima = new ArrayList<>();
+		List<StopaPDVa> stopePDVa = StopaPDVa.findAll();
+		for (StopaPDVa tmp : stopePDVa) {
+			String datumStopePDVa = tmp.datumKreiranja;
+			Date datumStopePDVaDate = Fakture.convertToDate(datumStopePDVa);
+
+			if (!datumStopePDVaDate.after(datumFaktureDate) && (tmp.vrstaPDVa.id == vrstaPDVa.id)) {
+				stopePDVaSaDatumima.add(tmp);
+			}
+		}
+
+		List<Date> datumi = new ArrayList<>();
+		for (StopaPDVa tmp : stopePDVaSaDatumima) {
+			Date d = Fakture.convertToDate(tmp.datumKreiranja);
+			datumi.add(d);
+		}
+
+		Collections.sort(datumi, new Comparator<Date>() {
+			@Override
+			public int compare(Date arg0, Date arg1) {
+				return arg0.compareTo(arg1);
+			}
+		});
+
+		// trazim stopuPDVa
+		StopaPDVa stopaPDVa = null;
+		for (StopaPDVa tmp : stopePDVaSaDatumima) {
+			String string = new SimpleDateFormat("MM/dd/yyyy").format(datumi.get(datumi.size() - 1));
+			if (tmp.datumKreiranja.equals(string)) {
+				stopaPDVa = tmp;
+			}
+		}
+
+		return stopaPDVa;
+	}
+	</#if>
+	
+	<#if class.setUpStavkaFakture>
+	public static StavkaFakture setUpStavkaFakture(StavkaFakture stavkaFakture){
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
+		try {
+			stavkeCenovnika = fillListStavkeCenovnika();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// kada je disable- ovan combobox ne pokupi vrednost
+		/*Faktura findFaktura = null;
+		if (faktura == null) {
+			Long id = Long.parseLong(session.get("idFakture"));
+			findFaktura = Faktura.findById(id);
+		} else {
+			findFaktura = Faktura.findById(faktura);
+		}*/
+		
+		for (StavkaCenovnika sc : stavkeCenovnika) {
+			if (sc.artikal.id == stavkaFakture.artikal.id) {
+				stavkaFakture.cena = (float) sc.cena;
+			}
+		}
+		stavkaFakture.vrednost = stavkaFakture.cena * stavkaFakture.kolicina;
+		stavkaFakture.iznosRabata = stavkaFakture.vrednost * (stavkaFakture.rabat / 100);
+		stavkaFakture.osnovicaZaPDV = stavkaFakture.vrednost - stavkaFakture.iznosRabata;
+
+		try {
+			stavkaFakture.stopaPDVa = findStopaPDVa(findFaktura.id,
+					stavkaFakture.artikal.podgrupa.grupa.vrstaPDVa).procenatPDVa;
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		stavkaFakture.iznosPDVa = (stavkaFakture.osnovicaZaPDV * stavkaFakture.stopaPDVa) / 100;
+		stavkaFakture.ukupno = stavkaFakture.vrednost - stavkaFakture.iznosRabata + stavkaFakture.iznosPDVa;
+
+		stavkaFakture.faktura = findFaktura;
+		
+		stavkaFakture.faktura.ukupnoPDV += stavkaFakture.iznosPDVa;
+		stavkaFakture.faktura.ukupnoZaPlacanje += stavkaFakture.ukupno;
+		stavkaFakture.faktura.ukupnoOsnovica += stavkaFakture.osnovicaZaPDV;
+
+		stavkaFakture.faktura.save();
+		
+		return stavkaFakture;
 	}
 	</#if>
 	

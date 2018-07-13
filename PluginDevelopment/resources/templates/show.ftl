@@ -81,6 +81,12 @@ ${r"#{set"} title:'${class.label}' /}
 				<img src="@{'/public/images/remove.gif'}"/>
 			</a>
 			</#if>
+			
+			<#if class.saveStavke>
+			<a href="@{${class.controllerName}.saveStavke}" id="done"> 
+				<img src="@{'/public/images/stavke_fakture_done.png'}" width="22px" height="22px"/>
+			</a>
+			</#if>
 		</div>
 			
 		<div class="container-fluid">

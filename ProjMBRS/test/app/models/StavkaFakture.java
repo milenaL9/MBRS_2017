@@ -31,9 +31,11 @@ public class StavkaFakture extends Model {
   	public float iznosPDVa;
   	
   	public float iznosRabata;
+  	 
+  	public float vrednost;
   	
 
-	public StavkaFakture(float kolicina, float cena, float rabat, float osnovicaZaPDV, float stopaPDVa, float ukupno, float iznosPDVa, float iznosRabata){
+	public StavkaFakture(float kolicina, float cena, float rabat, float osnovicaZaPDV, float stopaPDVa, float ukupno, float iznosPDVa, float iznosRabata, float vrednost){
 		super();
 		this.kolicina = kolicina;
 		this.cena = cena;
@@ -43,6 +45,7 @@ public class StavkaFakture extends Model {
 		this.ukupno = ukupno;
 		this.iznosPDVa = iznosPDVa;
 		this.iznosRabata = iznosRabata;
+		this.vrednost = vrednost;
 	}
 
 }

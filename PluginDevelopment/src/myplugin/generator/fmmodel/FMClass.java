@@ -17,7 +17,7 @@ public class FMClass extends FMType {
 	private boolean findStavkeCenovnika;
 
 	private boolean findStavkeFakture;
-	
+
 	private boolean setUp;
 
 	private boolean createSF;
@@ -27,6 +27,14 @@ public class FMClass extends FMType {
 	private boolean editSF;
 
 	private boolean showMenu;
+
+	private boolean saveStavke;
+
+	private boolean fillListStavkeCenovnika;
+
+	private boolean findStopaPDVa;
+
+	private boolean setUpStavkaFakture;
 
 	private String label;
 
@@ -208,7 +216,37 @@ public class FMClass extends FMType {
 	public void setSetUp(boolean setUp) {
 		this.setUp = setUp;
 	}
-	
-	
+
+	public boolean isSaveStavke() {
+		return saveStavke;
+	}
+
+	public void setSaveStavke(boolean saveStavke) {
+		this.saveStavke = saveStavke;
+	}
+
+	public boolean isFillListStavkeCenovnika() {
+		return fillListStavkeCenovnika;
+	}
+
+	public void setFillListStavkeCenovnika(boolean fillListStavkeCenovnika) {
+		this.fillListStavkeCenovnika = fillListStavkeCenovnika;
+	}
+
+	public boolean isFindStopaPDVa() {
+		return findStopaPDVa;
+	}
+
+	public void setFindStopaPDVa(boolean findStopaPDVa) {
+		this.findStopaPDVa = findStopaPDVa;
+	}
+
+	public boolean isSetUpStavkaFakture() {
+		return setUpStavkaFakture;
+	}
+
+	public void setSetUpStavkaFakture(boolean setUpStavkaFakture) {
+		this.setUpStavkaFakture = setUpStavkaFakture;
+	}
 
 }
