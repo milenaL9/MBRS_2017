@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
+
 import models.Preduzece;
 
 public class Preduzeca extends Controller{ 
@@ -19,7 +20,7 @@ public class Preduzeca extends Controller{
 
 		render(mode, preduzeca);
 	}
-
+ 
 	public static void create(Preduzece preduzece) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -28,6 +29,7 @@ public class Preduzeca extends Controller{
 
 		preduzeca = Preduzece.findAll();
 
+		
 
 		preduzece.save();
 		preduzeca.add(preduzece);
@@ -40,7 +42,7 @@ public class Preduzeca extends Controller{
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
 		
 	}
-	
+		 
 	public static void edit(Preduzece preduzece) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -90,4 +92,8 @@ public class Preduzeca extends Controller{
 
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
 	}
+	
+	
+	
+	
 }

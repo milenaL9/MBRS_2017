@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
+
 import models.VrstaPDVa;
 
 public class VrstePDVa extends Controller{ 
@@ -19,7 +20,7 @@ public class VrstePDVa extends Controller{
 
 		render(mode, vrstePDVa);
 	}
-
+ 
 	public static void create(VrstaPDVa vrstaPDVa) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -28,6 +29,7 @@ public class VrstePDVa extends Controller{
 
 		vrstePDVa = VrstaPDVa.findAll();
 
+		
 
 		vrstaPDVa.save();
 		vrstePDVa.add(vrstaPDVa);
@@ -40,7 +42,7 @@ public class VrstePDVa extends Controller{
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
 		
 	}
-	
+		 
 	public static void edit(VrstaPDVa vrstaPDVa) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -84,4 +86,8 @@ public class VrstePDVa extends Controller{
 
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
 	}
+	
+	
+	
+	
 }

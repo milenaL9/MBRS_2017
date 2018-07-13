@@ -5,6 +5,7 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 import models.Preduzece;
+
 import models.PoslovnaGodina;
 
 public class PoslovneGodine extends Controller{ 
@@ -21,7 +22,7 @@ public class PoslovneGodine extends Controller{
 
 		render(mode, poslovneGodine, preduzeca);
 	}
-
+ 
 	public static void create(PoslovnaGodina poslovnaGodina,Long preduzece) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -33,6 +34,7 @@ public class PoslovneGodine extends Controller{
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);
 		poslovnaGodina.preduzece = findPreduzece;
+		
 
 		poslovnaGodina.save();
 		poslovneGodine.add(poslovnaGodina);
@@ -45,7 +47,7 @@ public class PoslovneGodine extends Controller{
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
 		
 	}
-	
+		 
 	public static void edit(PoslovnaGodina poslovnaGodina,Long preduzece) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -95,4 +97,8 @@ public class PoslovneGodine extends Controller{
 
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
 	}
+	
+	
+	
+	
 }

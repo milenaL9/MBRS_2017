@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
+
 import models.Cenovnik;
 
 public class Cenovnici extends Controller{ 
@@ -19,7 +20,7 @@ public class Cenovnici extends Controller{
 
 		render(mode, cenovnici);
 	}
-
+ 
 	public static void create(Cenovnik cenovnik) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -28,6 +29,7 @@ public class Cenovnici extends Controller{
 
 		cenovnici = Cenovnik.findAll();
 
+		
 
 		cenovnik.save();
 		cenovnici.add(cenovnik);
@@ -40,7 +42,7 @@ public class Cenovnici extends Controller{
 		renderTemplate("Cenovnici/show.html", idd, mode, cenovnici);
 		
 	}
-	
+		 
 	public static void edit(Cenovnik cenovnik) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -85,4 +87,8 @@ public class Cenovnici extends Controller{
 
 		renderTemplate("Cenovnici/show.html", idd, mode, cenovnici);
 	}
+	
+	
+	
+	
 }

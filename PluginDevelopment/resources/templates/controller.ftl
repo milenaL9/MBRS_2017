@@ -7,6 +7,20 @@ import play.mvc.Controller;
 <#list class.propertiesManyToOne as property>
 import models.${property.type};
 </#list>
+
+<#if class.incrementBrojFakture>
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+
+import models.Cenovnik;
+import models.StavkaCenovnika;
+import models.StavkaFakture;
+import models.Artikal;
+</#if>
 import models.${class.name};
 
 ${class.visibility} class ${class.controllerName} extends Controller{ 
@@ -25,8 +39,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 		render(mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
-
-	<#if class.create >	 
+ 
 	public static void create(${class.name} ${class.name?uncap_first}<#list class.propertiesManyToOne as property>,Long ${property.name}</#list>) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -42,6 +55,10 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${property.type} find${property.type} = ${property.name?cap_first}.findById(${property.name?uncap_first});
 		${class.name?uncap_first}.${property.name?uncap_first} = find${property.type};
 		</#list>
+		
+		<#if class.incrementBrojFakture>
+			faktura = setUpFaktura(faktura);
+		</#if>
 
 		${class.name?uncap_first}.save();
 		${class.controllerName?uncap_first}.add(${class.name?uncap_first});
@@ -54,9 +71,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 		
 	}
-	</#if>
-	
-	<#if class.edit >	 
+		 
 	public static void edit(${class.name} ${class.name?uncap_first}<#list class.propertiesManyToOne as property>,Long ${property.name}</#list>) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -90,9 +105,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 	
 		renderTemplate("${class.controllerName}/show.html", mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
-	</#if>
 	
-	<#if class.delete >
 	public static void delete(Long id) {
 		String mode = session.get("mode");
 
@@ -116,6 +129,106 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
 
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
+	}
+	
+	<#if class.incrementBrojFakture>
+	public static int incrementBrojFakture() {
+		List<Faktura> fakture = Faktura.findAll();
+		int brojFakture = 0;
+		if (fakture.size() > 0) {
+			brojFakture = fakture.get(fakture.size() - 1).brojFakture;
+			brojFakture++;
+		} else {
+			brojFakture = 1;
+		}
+
+		return brojFakture;
+	}
+	
+	public static Faktura setUpFaktura(Faktura faktura){
+		faktura.brojFakture = incrementBrojFakture();
+		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
+		List<Artikal> artikli = Artikal.findAll();
+		faktura.ukupnoOsnovica = 0;
+		faktura.ukupnoPDV = 0;
+		faktura.ukupnoZaPlacanje = 0;
+		if (stavkeFakture != null) {
+			for (StavkaFakture sf : stavkeFakture) {
+				faktura.ukupnoOsnovica += sf.osnovicaZaPDV;
+				faktura.ukupnoPDV += sf.iznosPDVa;
+				faktura.ukupnoZaPlacanje += sf.ukupno;
+			}
+ 
+		}
+		
+		return faktura;
+	}
+	</#if>
+	
+	<#if class.convertToDate>
+	public static Date convertToDate(String receivedDate) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date date = formatter.parse(receivedDate);
+		return date;
+	}
+	</#if>
+	
+	<#if class.findStavkeCenovnika>
+	public static List<StavkaCenovnika> findStavkeCenovnika(Long idFakture) throws ParseException {
+		Faktura faktura = Faktura.findById(idFakture);
+		String datumFakture = faktura.datumFakture;
+		Date datumFaktureDate = convertToDate(datumFakture);
+
+		List<Cenovnik> cenovniciSaDatumima = new ArrayList<>();
+		List<Cenovnik> cenovnici = Cenovnik.findAll();
+		for (Cenovnik tmp : cenovnici) {
+			String datumCenovnika = tmp.datumVazenja;
+			Date datumCenovnikaDate = convertToDate(datumCenovnika);
+
+			if (!datumCenovnikaDate.after(datumFaktureDate)) {
+				cenovniciSaDatumima.add(tmp);
+			}
+		}
+
+		List<Date> datumi = new ArrayList<>();
+		// trazim cenovnik sa najvisim datumom
+		for (Cenovnik tmp : cenovniciSaDatumima) {
+			Date d = convertToDate(tmp.datumVazenja);
+			datumi.add(d);
+		}
+
+		Collections.sort(datumi, new Comparator<Date>() {
+			@Override
+			public int compare(Date arg0, Date arg1) {
+				return arg0.compareTo(arg1);
+			}
+		});
+
+		// trazim stavke cenovnika
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<>();
+		for (Cenovnik tmp : cenovniciSaDatumima) {
+			String string = new SimpleDateFormat("MM/dd/yyyy").format(datumi.get(datumi.size() - 1));
+			if (tmp.datumVazenja.equals(string)) {
+				stavkeCenovnika = tmp.stavkeCenovnika;
+			}
+		}
+
+		return stavkeCenovnika;
+	}
+	</#if>
+	
+	<#if class.findStavkeFakture>
+	public static List<StavkaFakture> findStavkeFakture(Long idFakture) {
+		List<StavkaFakture> stavkeFaktureAll = StavkaFakture.findAll();
+		List<StavkaFakture> stavkeFakture = new ArrayList<>();
+
+		for (StavkaFakture sc : stavkeFaktureAll) {
+			if (sc.faktura.id == idFakture) {
+				stavkeFakture.add(sc);
+			}
+		}
+
+		return stavkeFakture;
 	}
 	</#if>
 }

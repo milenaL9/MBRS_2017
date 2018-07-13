@@ -10,11 +10,21 @@ public class FMClass extends FMType {
 
 	private String controllerName;
 
-	private boolean create;
+	private boolean incrementBrojFakture;
 
-	private boolean edit;
+	private boolean convertToDate;
 
-	private boolean delete;
+	private boolean findStavkeCenovnika;
+
+	private boolean findStavkeFakture;
+
+	private boolean createSF;
+
+	private boolean deleteSF;
+
+	private boolean editSF;
+
+	private boolean showMenu;
 
 	private String label;
 
@@ -32,15 +42,17 @@ public class FMClass extends FMType {
 
 	/** @ToDo: add list of methods */
 
-	public FMClass(String name, String classPackage, String visibility, String controllerName, boolean create,
-			boolean edit, boolean delete, String label) {
+	public FMClass(String name, String classPackage, String visibility, String controllerName, String label,
+			boolean incrementBrojFakture, boolean convertToDate, boolean findStavkeCenovnika,
+			boolean findStavkeFakture) {
 		super(name, classPackage);
 		this.visibility = visibility;
 		this.controllerName = controllerName;
-		this.create = create;
-		this.edit = edit;
-		this.delete = delete;
 		this.label = label;
+		this.incrementBrojFakture = incrementBrojFakture;
+		this.convertToDate = convertToDate;
+		this.findStavkeCenovnika = findStavkeCenovnika;
+		this.findStavkeFakture = findStavkeFakture;
 	}
 
 	public List<FMProperty> getProperties() {
@@ -99,36 +111,12 @@ public class FMClass extends FMType {
 		this.propertiesManyToOne = propertiesManyToOne;
 	}
 
-	public boolean isCreate() {
-		return create;
-	}
-
-	public void setCreate(boolean create) {
-		this.create = create;
-	}
-
 	public List<FMProperty> getClassProperties() {
 		return classProperties;
 	}
 
 	public void setClassProperties(List<FMProperty> classProperties) {
 		this.classProperties = classProperties;
-	}
-
-	public boolean isEdit() {
-		return edit;
-	}
-
-	public void setEdit(boolean edit) {
-		this.edit = edit;
-	}
-
-	public boolean isDelete() {
-		return delete;
-	}
-
-	public void setDelete(boolean delete) {
-		this.delete = delete;
 	}
 
 	public String getLabel() {
@@ -145,6 +133,70 @@ public class FMClass extends FMType {
 
 	public void setPropertiesNoZoom(List<FMProperty> propertiesNoZoom) {
 		this.propertiesNoZoom = propertiesNoZoom;
+	}
+
+	public boolean isIncrementBrojFakture() {
+		return incrementBrojFakture;
+	}
+
+	public void setIncrementBrojFakture(boolean incrementBrojFakture) {
+		this.incrementBrojFakture = incrementBrojFakture;
+	}
+
+	public boolean isConvertToDate() {
+		return convertToDate;
+	}
+
+	public void setConvertToDate(boolean convertToDate) {
+		this.convertToDate = convertToDate;
+	}
+
+	public boolean isFindStavkeCenovnika() {
+		return findStavkeCenovnika;
+	}
+
+	public void setFindStavkeCenovnika(boolean findStavkeCenovnika) {
+		this.findStavkeCenovnika = findStavkeCenovnika;
+	}
+
+	public boolean isFindStavkeFakture() {
+		return findStavkeFakture;
+	}
+
+	public void setFindStavkeFakture(boolean findStavkeFakture) {
+		this.findStavkeFakture = findStavkeFakture;
+	}
+
+	public boolean isCreateSF() {
+		return createSF;
+	}
+
+	public void setCreateSF(boolean createSF) {
+		this.createSF = createSF;
+	}
+
+	public boolean isDeleteSF() {
+		return deleteSF;
+	}
+
+	public void setDeleteSF(boolean deleteSF) {
+		this.deleteSF = deleteSF;
+	}
+
+	public boolean isEditSF() {
+		return editSF;
+	}
+
+	public void setEditSF(boolean editSF) {
+		this.editSF = editSF;
+	}
+
+	public boolean isShowMenu() {
+		return showMenu;
+	}
+
+	public void setShowMenu(boolean showMenu) {
+		this.showMenu = showMenu;
 	}
 
 }

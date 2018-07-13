@@ -5,6 +5,7 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 import models.Grupa;
+
 import models.Podgrupa;
 
 public class Podgrupe extends Controller{ 
@@ -21,7 +22,7 @@ public class Podgrupe extends Controller{
 
 		render(mode, podgrupe, grupe);
 	}
-
+ 
 	public static void create(Podgrupa podgrupa,Long grupa) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -33,6 +34,7 @@ public class Podgrupe extends Controller{
 
 		Grupa findGrupa = Grupa.findById(grupa);
 		podgrupa.grupa = findGrupa;
+		
 
 		podgrupa.save();
 		podgrupe.add(podgrupa);
@@ -45,7 +47,7 @@ public class Podgrupe extends Controller{
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
 		
 	}
-	
+		 
 	public static void edit(Podgrupa podgrupa,Long grupa) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -94,4 +96,8 @@ public class Podgrupe extends Controller{
 
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
 	}
+	
+	
+	
+	
 }

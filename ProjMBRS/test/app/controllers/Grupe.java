@@ -6,6 +6,7 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Preduzece;
 import models.VrstaPDVa;
+
 import models.Grupa;
 
 public class Grupe extends Controller{ 
@@ -23,7 +24,7 @@ public class Grupe extends Controller{
 
 		render(mode, grupe, preduzeca, vrstePDVa);
 	}
-
+ 
 	public static void create(Grupa grupa,Long preduzece,Long vrstaPDVa) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -38,6 +39,7 @@ public class Grupe extends Controller{
 		grupa.preduzece = findPreduzece;
 		VrstaPDVa findVrstaPDVa = VrstaPDVa.findById(vrstaPDVa);
 		grupa.vrstaPDVa = findVrstaPDVa;
+		
 
 		grupa.save();
 		grupe.add(grupa);
@@ -50,7 +52,7 @@ public class Grupe extends Controller{
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
 		
 	}
-	
+		 
 	public static void edit(Grupa grupa,Long preduzece,Long vrstaPDVa) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -104,4 +106,8 @@ public class Grupe extends Controller{
 
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
 	}
+	
+	
+	
+	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 import models.VrstaPDVa;
+
 import models.StopaPDVa;
 
 public class StopePDVa extends Controller{ 
@@ -21,7 +22,7 @@ public class StopePDVa extends Controller{
 
 		render(mode, stopePDVa, vrstePDVa);
 	}
-
+ 
 	public static void create(StopaPDVa stopaPDVa,Long vrstaPDVa) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -33,6 +34,7 @@ public class StopePDVa extends Controller{
 
 		VrstaPDVa findVrstaPDVa = VrstaPDVa.findById(vrstaPDVa);
 		stopaPDVa.vrstaPDVa = findVrstaPDVa;
+		
 
 		stopaPDVa.save();
 		stopePDVa.add(stopaPDVa);
@@ -45,7 +47,7 @@ public class StopePDVa extends Controller{
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
 		
 	}
-	
+		 
 	public static void edit(StopaPDVa stopaPDVa,Long vrstaPDVa) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -95,4 +97,8 @@ public class StopePDVa extends Controller{
 
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
 	}
+	
+	
+	
+	
 }

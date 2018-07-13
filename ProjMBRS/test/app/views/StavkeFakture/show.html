@@ -64,9 +64,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="icon-bar">
-			<a href="#" onclick="openSideNav()">
-				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
-			</a>
+		
 			
 			<a href="@{StavkeFakture.show("edit")}" id = "refresh">
 				<img src="@{'/public/images/refresh.gif'}"/>
@@ -84,16 +82,14 @@
 			<a id = "last">
 				<img src="@{'/public/images/last.gif'}"/>
 			</a>
+			
 			<a href="@{StavkeFakture.show("add")}" id = "add">
 				<img src="@{'/public/images/add.gif'}"/>
 			</a>
+			
 			<a href="#" id = "remove">
 				<img src="@{'/public/images/remove.gif'}"/>
 			</a>
-				
-			<a href="@{StavkeFakture.saveStavke(idd)}" id="done"> 
-				<img src="@{'/public/images/stavke_fakture_done.png'}" width="22px" height="22px"/>
-			</a> 
 		</div>
 			
 		<div class="container-fluid">

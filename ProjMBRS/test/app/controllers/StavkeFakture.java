@@ -6,6 +6,7 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Artikal;
 import models.Faktura;
+
 import models.StavkaFakture;
 
 public class StavkeFakture extends Controller{ 
@@ -23,7 +24,7 @@ public class StavkeFakture extends Controller{
 
 		render(mode, stavkeFakture, artikli, fakture);
 	}
-
+ 
 	public static void create(StavkaFakture stavkaFakture,Long artikal,Long faktura) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -38,6 +39,7 @@ public class StavkeFakture extends Controller{
 		stavkaFakture.artikal = findArtikal;
 		Faktura findFaktura = Faktura.findById(faktura);
 		stavkaFakture.faktura = findFaktura;
+		
 
 		stavkaFakture.save();
 		stavkeFakture.add(stavkaFakture);
@@ -50,7 +52,7 @@ public class StavkeFakture extends Controller{
 		renderTemplate("StavkeFakture/show.html", idd, mode, stavkeFakture, artikli, fakture);
 		
 	}
-	
+		 
 	public static void edit(StavkaFakture stavkaFakture,Long artikal,Long faktura) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -112,13 +114,7 @@ public class StavkeFakture extends Controller{
 		renderTemplate("StavkeFakture/show.html", idd, mode, stavkeFakture, artikli, fakture);
 	}
 	
-	// RUCNI KOD
-	public static void saveStavke(Long id) {
-		Faktura faktura = Faktura.findById(id);
-		if (faktura.stavkeFakture.size() == 0) {
-			Fakture.delete(id);
-		} else {
-			Fakture.show("edit");
-		}
-	}
+	
+	
+	
 }

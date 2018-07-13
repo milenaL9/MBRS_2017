@@ -1,21 +1,24 @@
 package controllers;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
 import models.Preduzece;
+
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+
+import models.Cenovnik;
 import models.StavkaCenovnika;
 import models.StavkaFakture;
 import models.Artikal;
-import models.Cenovnik;
 import models.Faktura;
 
 public class Fakture extends Controller{ 
@@ -34,7 +37,7 @@ public class Fakture extends Controller{
 
 		render(mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
-
+ 
 	public static void create(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -53,24 +56,8 @@ public class Fakture extends Controller{
 		Preduzece findPreduzece = Preduzece.findById(preduzece);
 		faktura.preduzece = findPreduzece;
 		
-		// RUCNI KOD: POCETAK
-		faktura.brojFakture = incrementBrojFakture();
-		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
-		List<Artikal> artikli = Artikal.findAll();
-		faktura.ukupnoOsnovica = 0;
-		faktura.ukupnoPDV = 0;
-		faktura.ukupnoZaPlacanje = 0;
-		if (stavkeFakture != null) {
-			for (StavkaFakture sf : stavkeFakture) {
-				faktura.ukupnoOsnovica += sf.osnovicaZaPDV;
-				faktura.ukupnoPDV += sf.iznosPDVa;
-				faktura.ukupnoZaPlacanje += sf.ukupno;
-			}
+			faktura = setUpFaktura(faktura);
 
-		}
-		// RUCNI KOD: KRAJ
-		
-		
 		faktura.save();
 		fakture.add(faktura);
 
@@ -78,26 +65,11 @@ public class Fakture extends Controller{
 
 		fakture.clear();
 		fakture = Faktura.findAll();
-		
-		// RUCNI KOD:POCETAK
-		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
-		try {
-			stavkeCenovnika = findStavkeCenovnika(faktura.id);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		session.put("fakturaId", idd);
-		// RUCNI KOD: KRAJ
 
-		stavkeFakture = findStavkeFakture(idd);
-		//renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
-		renderTemplate("StavkeFakture/show.html", fakture, stavkeFakture, preduzeca, poslovneGodine,
-				poslovniPartneri, stavkeCenovnika, mode, idd, artikli);
-
+		renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
+		
 	}
-	
+		 
 	public static void edit(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -162,8 +134,6 @@ public class Fakture extends Controller{
 		renderTemplate("Fakture/show.html", idd, mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
 	
-	
-	// RUCNI KOD: POCETAK
 	public static int incrementBrojFakture() {
 		List<Faktura> fakture = Faktura.findAll();
 		int brojFakture = 0;
@@ -177,6 +147,24 @@ public class Fakture extends Controller{
 		return brojFakture;
 	}
 	
+	public static Faktura setUpFaktura(Faktura faktura){
+		faktura.brojFakture = incrementBrojFakture();
+		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
+		List<Artikal> artikli = Artikal.findAll();
+		faktura.ukupnoOsnovica = 0;
+		faktura.ukupnoPDV = 0;
+		faktura.ukupnoZaPlacanje = 0;
+		if (stavkeFakture != null) {
+			for (StavkaFakture sf : stavkeFakture) {
+				faktura.ukupnoOsnovica += sf.osnovicaZaPDV;
+				faktura.ukupnoPDV += sf.iznosPDVa;
+				faktura.ukupnoZaPlacanje += sf.ukupno;
+			}
+ 
+		}
+		
+		return faktura;
+	}
 	
 	public static Date convertToDate(String receivedDate) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -238,7 +226,4 @@ public class Fakture extends Controller{
 
 		return stavkeFakture;
 	}
-	
-	// RUCNI KOD: KRAJ
-
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 import models.Preduzece;
+
 import models.PoslovniPartner;
 
 public class PoslovniPartneri extends Controller{ 
@@ -21,7 +22,7 @@ public class PoslovniPartneri extends Controller{
 
 		render(mode, poslovniPartneri, preduzeca);
 	}
-
+ 
 	public static void create(PoslovniPartner poslovniPartner,Long preduzece) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -33,6 +34,7 @@ public class PoslovniPartneri extends Controller{
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);
 		poslovniPartner.preduzece = findPreduzece;
+		
 
 		poslovniPartner.save();
 		poslovniPartneri.add(poslovniPartner);
@@ -45,7 +47,7 @@ public class PoslovniPartneri extends Controller{
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
 		
 	}
-	
+		 
 	public static void edit(PoslovniPartner poslovniPartner,Long preduzece) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -100,4 +102,8 @@ public class PoslovniPartneri extends Controller{
 
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
 	}
+	
+	
+	
+	
 }

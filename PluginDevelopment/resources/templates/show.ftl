@@ -46,9 +46,12 @@ ${r"#{set"} title:'${class.label}' /}
 <div class="container-fluid">
 	<div class="row">
 		<div class="icon-bar">
+		
+			<#if class.showMenu>
 			<a href="#" onclick="openSideNav()">
 				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
 			</a>
+			</#if>
 			
 			<a href="@{${class.controllerName}.show("edit")}" id = "refresh">
 				<img src="@{'/public/images/refresh.gif'}"/>
@@ -66,12 +69,18 @@ ${r"#{set"} title:'${class.label}' /}
 			<a id = "last">
 				<img src="@{'/public/images/last.gif'}"/>
 			</a>
+			
+			<#if class.createSF>
 			<a href="@{${class.controllerName}.show("add")}" id = "add">
 				<img src="@{'/public/images/add.gif'}"/>
 			</a>
+			</#if>
+			
+			<#if class.deleteSF>
 			<a href="#" id = "remove">
 				<img src="@{'/public/images/remove.gif'}"/>
 			</a>
+			</#if>
 		</div>
 			
 		<div class="container-fluid">
@@ -102,6 +111,7 @@ ${r"#{set"} title:'${class.label}' /}
 			${r"#{/else}"}
     		${r"#{/set}"}
     	
+    		<#if class.editSF>
 			<div class="panel">
 				<form action=${r"${action}"} method="post">
 					<p>
@@ -142,6 +152,7 @@ ${r"#{set"} title:'${class.label}' /}
 					</div>				
 				</form>
 			</div>
+			</#if>
 		</div>
 	</div>
 </div>

@@ -104,8 +104,7 @@ public class ModelAnalyzer {
 		if (cl.getName() == null)
 			throw new AnalyzeException("Classes must have names!");
 
-		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", true, true, true,
-				"");
+		FMClass fmClass = new FMClass(cl.getName(), packageName, cl.getVisibility().toString(), "", "", false, false, false, false);
 
 		// StereotypesHelper.getStereotypedElement(cl);
 
@@ -119,17 +118,55 @@ public class ModelAnalyzer {
 				fmClass.setControllerName(showPropertiesList.get(0).toString());
 			}
 
-			// TODO: Pitati asistenta, kako da dobijemo create iz stereotipa Controller;
-			// ovako ne radi
-			/*
-			 * List createList = StereotypesHelper.getStereotypePropertyValue(cl,
-			 * controllerStereotype, "create"); if (createList.size() > 0) {
-			 * fmClass.setCreate((Boolean)createList.get(0)); }
-			 */
-
 			showPropertiesList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "label");
 			if (showPropertiesList.size() > 0) {
 				fmClass.setLabel(showPropertiesList.get(0).toString());
+			}
+		}
+		
+		if(controllerStereotype != null) {
+			List incrementBrojFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "incrementBrojFakture");
+			if (incrementBrojFaktureList.size() > 0) {
+				fmClass.setIncrementBrojFakture((Boolean)incrementBrojFaktureList.get(0));
+			}
+			
+			List convertToDateList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "convertToDate");
+			if (convertToDateList.size() > 0) {
+				fmClass.setConvertToDate((Boolean)convertToDateList.get(0));
+			}
+			
+			List findStavkeCenovnikaList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "findStavkeCenovnika");
+			if (findStavkeCenovnikaList.size() > 0) {
+				fmClass.setFindStavkeCenovnika((Boolean)findStavkeCenovnikaList.get(0));
+			}
+			
+			List findStavkeFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype, "findStavkeFakture");
+			if (findStavkeFaktureList.size() > 0) {
+				fmClass.setFindStavkeFakture((Boolean)findStavkeCenovnikaList.get(0));
+			}
+		}
+		
+		Stereotype standardFormStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, "StandardForm");
+		
+		if(standardFormStereotype != null) {
+			List createList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "create");
+			if (createList.size() > 0) {
+				fmClass.setCreateSF((Boolean)createList.get(0));
+			}
+			
+			List editList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "edit");
+			if (editList.size() > 0) {
+				fmClass.setEditSF((Boolean)editList.get(0));
+			}
+			
+			List deleteList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "delete");
+			if (deleteList.size() > 0) {
+				fmClass.setDeleteSF((Boolean)deleteList.get(0));
+			}
+			
+			List showMenuList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "showMenu");
+			if (showMenuList.size() > 0) {
+				fmClass.setShowMenu((Boolean)showMenuList.get(0));
 			}
 		}
 

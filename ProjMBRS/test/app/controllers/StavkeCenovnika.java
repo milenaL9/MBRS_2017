@@ -6,6 +6,7 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Artikal;
 import models.Cenovnik;
+
 import models.StavkaCenovnika;
 
 public class StavkeCenovnika extends Controller{ 
@@ -23,7 +24,7 @@ public class StavkeCenovnika extends Controller{
 
 		render(mode, stavkeCenovnika, artikli, cenovnici);
 	}
-
+ 
 	public static void create(StavkaCenovnika stavkaCenovnika,Long artikal,Long cenovnik) {
 		session.put("mode", "add");
 		String mode = session.get("mode");
@@ -38,6 +39,7 @@ public class StavkeCenovnika extends Controller{
 		stavkaCenovnika.artikal = findArtikal;
 		Cenovnik findCenovnik = Cenovnik.findById(cenovnik);
 		stavkaCenovnika.cenovnik = findCenovnik;
+		
 
 		stavkaCenovnika.save();
 		stavkeCenovnika.add(stavkaCenovnika);
@@ -50,7 +52,7 @@ public class StavkeCenovnika extends Controller{
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
 		
 	}
-	
+		 
 	public static void edit(StavkaCenovnika stavkaCenovnika,Long artikal,Long cenovnik) {
 		session.put("mode", "edit");
 		String mode = session.get("mode");
@@ -104,4 +106,8 @@ public class StavkeCenovnika extends Controller{
 
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
 	}
+	
+	
+	
+	
 }
