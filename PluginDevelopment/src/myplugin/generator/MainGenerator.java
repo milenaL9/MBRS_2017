@@ -2,6 +2,7 @@ package myplugin.generator;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ public class MainGenerator extends BasicGenerator{
 			out = getWriter("main", "");
 			if (out != null) {
 				context.clear();
+				context.put("currentDate", new Date().toString());
 				getTemplate().process(context, out);
 				out.flush();
 			}

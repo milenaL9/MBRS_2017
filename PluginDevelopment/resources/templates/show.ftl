@@ -1,3 +1,7 @@
+<!--${currentDate}-->
+<!--Generisano na osnovu sablona: show.ftl-->
+<!--Element modela: <#list importedPackages as package>${package}::</#list>${class.name}-->
+
 ${r"#{extends"} 'standardForm.html' /}
 ${r"#{set"} title:'${class.label}' /}
 

@@ -1,3 +1,7 @@
+//${currentDate}
+//Generisano na osnovu sablona: controller.ftl
+//Element modela: <#list importedPackages as package>${importedPackages}::</#list>${class.name}
+
 package ${class.typePackage};
 
 import java.util.ArrayList;

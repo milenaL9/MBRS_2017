@@ -1,3 +1,6 @@
+<!--${currentDate}-->
+<!--Generisano na osnovu sablona: standarForm.ftl-->
+
 ${r"#{"}extends 'main.html'/}
 
 <script>

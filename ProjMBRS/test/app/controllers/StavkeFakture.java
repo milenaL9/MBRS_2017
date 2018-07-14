@@ -1,3 +1,7 @@
+//Sat Jul 14 19:05:03 CEST 2018
+//Generisano na osnovu sablona: controller.ftl
+//Element modela: StavkaFakture
+
 package controllers;
 
 import java.util.ArrayList;

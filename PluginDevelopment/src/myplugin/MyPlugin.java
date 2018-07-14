@@ -30,7 +30,8 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		 *        from ProjectOptions.xml and take ejb generator options
 		 */
 
-		String pathProjekat = "C:/temp/projekat";
+		//D:\Fakultet\master\MBRS\git\MBRS_2017\ProjMBRS\test
+		String pathProjekat = "D:/Fakultet/master/MBRS/git/MBRS_2017/ProjMBRS/test";
 		// for test purpose only:
 		// GeneratorOptions ejbOptions = new GeneratorOptions("c:/temp", "ejbclass", "templates", "{0}.java", true, "ejb");
 

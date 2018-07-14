@@ -2,6 +2,7 @@ package myplugin.generator;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class StandardFormGenerator extends BasicGenerator {
 			if (out != null) {
 				context.clear();
 				context.put("classes", classes);
+				context.put("currentDate", new Date().toString());
 				getTemplate().process(context, out);
 				out.flush();
 			}

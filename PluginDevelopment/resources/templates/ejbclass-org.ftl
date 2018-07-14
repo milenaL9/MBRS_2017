@@ -1,3 +1,7 @@
+//${currentDate}
+//Generisano na osnovu sablona: ejbclass-org.ftl
+//Element modela: <#list importedPackages as package>${package}::</#list>${class.name}
+
 package ${class.typePackage};
 
 ${class.visibility} class ${class.name} {  

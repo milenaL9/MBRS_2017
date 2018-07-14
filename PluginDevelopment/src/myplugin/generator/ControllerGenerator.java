@@ -2,6 +2,7 @@ package myplugin.generator;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,8 @@ public class ControllerGenerator extends BasicGenerator {
 				if (out != null) {
 					context.clear();
 					context.put("class", cl);
-					context.put("importedPackages", "controllers");
+					context.put("importedPackages", cl.getImportedPackages());
+					context.put("currentDate", new Date().toString());
 					getTemplate().process(context, out);
 					out.flush();
 				}

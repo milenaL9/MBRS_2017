@@ -1,3 +1,7 @@
+//Sat Jul 14 19:05:00 CEST 2018
+//Generisano na osnovu sablona: model.ftl
+//Element modela: PoslovniPartner
+
 package models;
 
 import java.util.List;

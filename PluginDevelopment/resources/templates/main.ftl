@@ -1,3 +1,6 @@
+<!--${currentDate}-->
+<!--Generisano na osnovu sablona: main.ftl-->
+
 <!DOCTYPE html>
 
 <html>
