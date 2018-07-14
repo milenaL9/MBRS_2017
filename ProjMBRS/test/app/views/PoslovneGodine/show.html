@@ -1,0 +1,161 @@
+<!--Sat Jul 14 19:05:06 CEST 2018-->
+<!--Generisano na osnovu sablona: show.ftl-->
+<!--Element modela: PoslovnaGodina-->
+
+#{extends 'standardForm.html' /}
+#{set title:'Poslovna godina' /}
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+<script>
+	function sync(item){
+		if ("${session.mode}" == "edit"){
+			brojGodine = item.find(".brojGodine").html()  		    	
+			aktivna = item.find(".aktivna").html()  		    	
+			preduzece = item.find(".preduzece").html()  		    	
+	    	id = item.find(".id").html()   	
+	    	$("#poslovnaGodina_brojGodine").val(brojGodine);	 
+	    	$("#poslovnaGodina_aktivna").val(aktivna);	 
+	    	$("#poslovnaGodina_id").val(id);
+	    	
+	    	var options0 = document.getElementById("preduzece").children;
+			for (i = 0; i < options0.length; i++) { 
+    			if(options0[i].label == preduzece){
+    				document.getElementById("preduzece").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+    	}
+	}
+	
+	function remove(id){
+		if (id == null){
+			alert("Oznacite red u tabeli!");
+		} else {
+			var r  = confirm("Da li zelite da obrisete slog?");
+			if(r == true) {
+	    		$(location).attr('href', '/PoslovneGodine/delete?id='+id);
+			}else{
+				txt = "You pressed Cancel"
+			}
+		}
+	}
+	
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="icon-bar">
+		
+			<a href="#" onclick="openSideNav()">
+				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
+			</a>
+			
+			<a href="@{PoslovneGodine.show("edit")}" id = "refresh">
+				<img src="@{'/public/images/refresh.gif'}"/>
+			</a>
+			
+			<a id = "first">
+				<img src="@{'/public/images/first.gif'}"/>
+			</a>
+			<a id = "prev">
+				<img src="@{'/public/images/prev.gif'}"/>
+			</a>
+			<a id = "next">
+				<img src="@{'/public/images/next.gif'}"/>
+			</a>
+			<a id = "last">
+				<img src="@{'/public/images/last.gif'}"/>
+			</a>
+			
+			<a href="@{PoslovneGodine.show("add")}" id = "add">
+				<img src="@{'/public/images/add.gif'}"/>
+			</a>
+			
+			<a href="#" id = "remove">
+				<img src="@{'/public/images/remove.gif'}"/>
+			</a>
+			
+		</div>
+			
+		<div class="container-fluid">
+			<h1>Poslovna godina</h1>
+			<table>
+				<tr class = "header">
+	   				<th>Broj godine</th>
+	   				<th>Aktivna</th>
+	   				
+	   				<th>Preduzece</th>
+				</tr>
+				
+				#{list items:poslovneGodine, as:'poslovnaGodina'}
+				<tr #{if poslovnaGodina.id == idd} class = "highlighted" #{/if} class="tableRow">
+					<td class = "brojGodine">${poslovnaGodina.brojGodine}</td>
+					<td class = "aktivna">${poslovnaGodina.aktivna}</td>
+					<td class = "preduzece">${poslovnaGodina.preduzece.naziv}</td>
+					<td style = "visibility: hidden; max-width: 0px" class = "id">${poslovnaGodina.id}</td>
+				</tr>				
+				#{/list}
+			</table>
+			
+			#{set 'action'}
+			#{if mode == 'add'}
+    			@{PoslovneGodine.create()}
+			#{/if}
+			#{else mode == 'edit'}
+   				@{PoslovneGodine.edit()}
+			#{/else}
+    		#{/set}
+    	
+			<div class="panel">
+				<form action=${action} method="post">
+					<p>
+						#{field 'poslovnaGodina.id'}
+							<input type = "hidden" name = "${field.name}" id = "${field.id}" value="${session.idVPDVa}"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'poslovnaGodina.brojGodine'}
+							<label for = "${field.id}">Broj godine</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					<p>
+						#{field 'poslovnaGodina.aktivna'}
+							<label for = "${field.id}">Aktivna</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'preduzece'} <label for="${field.id}">Preduzece</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:preduzeca, as:'preduzece'}
+							<option value="${preduzece.id}">${preduzece.naziv}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					
+					<div id = "formActions">
+						<input type = "submit" value = "Potvrdi" style="margin-left:6em" class="btn btn-success"/>
+						<a href = "@{PoslovneGodine.show("edit")}" style="margin-left:1em">
+							<button type="button" class="btn btn-danger">Otkazi</button>
+						</a>
+					</div>				
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="status_line">Trenutni režim: ${session.mode}</p>
+
+<button onclick="topFunction()" id="myBtn" title="Idi na vrh">
+	<img src="@{'/public/images/back_top.png'}" alt=""
+		class="rounded-circle" width="40" height="40">
+</button>

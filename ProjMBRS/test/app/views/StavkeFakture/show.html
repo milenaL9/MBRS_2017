@@ -1,0 +1,210 @@
+<!--Sat Jul 14 19:05:06 CEST 2018-->
+<!--Generisano na osnovu sablona: show.ftl-->
+<!--Element modela: StavkaFakture-->
+
+#{extends 'standardForm.html' /}
+#{set title:'Stavka fakture' /}
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+<script>
+	function sync(item){
+		if ("${session.mode}" == "edit"){
+			kolicina = item.find(".kolicina").html()  		    	
+			cena = item.find(".cena").html()  		    	
+			rabat = item.find(".rabat").html()  		    	
+			osnovicaZaPDV = item.find(".osnovicaZaPDV").html()  		    	
+			stopaPDVa = item.find(".stopaPDVa").html()  		    	
+			ukupno = item.find(".ukupno").html()  		    	
+			artikal = item.find(".artikal").html()  		    	
+			faktura = item.find(".faktura").html()  		    	
+			iznosPDVa = item.find(".iznosPDVa").html()  		    	
+			iznosRabata = item.find(".iznosRabata").html()  		    	
+			vrednost = item.find(".vrednost").html()  		    	
+	    	id = item.find(".id").html()   	
+	    	$("#stavkaFakture_kolicina").val(kolicina);	 
+	    	$("#stavkaFakture_cena").val(cena);	 
+	    	$("#stavkaFakture_rabat").val(rabat);	 
+	    	$("#stavkaFakture_osnovicaZaPDV").val(osnovicaZaPDV);	 
+	    	$("#stavkaFakture_stopaPDVa").val(stopaPDVa);	 
+	    	$("#stavkaFakture_ukupno").val(ukupno);	 
+	    	$("#stavkaFakture_iznosPDVa").val(iznosPDVa);	 
+	    	$("#stavkaFakture_iznosRabata").val(iznosRabata);	 
+	    	$("#stavkaFakture_vrednost").val(vrednost);	 
+	    	$("#stavkaFakture_id").val(id);
+	    	
+	    	var options0 = document.getElementById("artikal").children;
+			for (i = 0; i < options0.length; i++) { 
+    			if(options0[i].label == artikal){
+    				document.getElementById("artikal").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+	    	var options1 = document.getElementById("faktura").children;
+			for (i = 0; i < options1.length; i++) { 
+    			if(options1[i].label == faktura){
+    				document.getElementById("faktura").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+    	}
+	}
+	
+	function remove(id){
+		if (id == null){
+			alert("Oznacite red u tabeli!");
+		} else {
+			var r  = confirm("Da li zelite da obrisete slog?");
+			if(r == true) {
+	    		$(location).attr('href', '/StavkeFakture/delete?id='+id);
+			}else{
+				txt = "You pressed Cancel"
+			}
+		}
+	}
+	
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="icon-bar">
+		
+			
+			<a href="@{StavkeFakture.show("edit")}" id = "refresh">
+				<img src="@{'/public/images/refresh.gif'}"/>
+			</a>
+			
+			<a id = "first">
+				<img src="@{'/public/images/first.gif'}"/>
+			</a>
+			<a id = "prev">
+				<img src="@{'/public/images/prev.gif'}"/>
+			</a>
+			<a id = "next">
+				<img src="@{'/public/images/next.gif'}"/>
+			</a>
+			<a id = "last">
+				<img src="@{'/public/images/last.gif'}"/>
+			</a>
+			
+			<a href="@{StavkeFakture.show("add")}" id = "add">
+				<img src="@{'/public/images/add.gif'}"/>
+			</a>
+			
+			<a href="#" id = "remove">
+				<img src="@{'/public/images/remove.gif'}"/>
+			</a>
+			
+			<a href="@{StavkeFakture.saveStavke}" id="done"> 
+				<img src="@{'/public/images/stavke_fakture_done.png'}" width="22px" height="22px"/>
+			</a>
+		</div>
+			
+		<div class="container-fluid">
+			<h1>Stavka fakture</h1>
+			<table>
+				<tr class = "header">
+	   				<th>Kolicina</th>
+	   				<th>Cena stavke</th>
+	   				<th>Rabat</th>
+	   				<th>Osnovica za pdv</th>
+	   				<th>Stopa PDVa</th>
+	   				<th>Ukupno</th>
+	   				<th>Iznos PDVa</th>
+	   				<th>Iznos rabata</th>
+	   				<th>vrednost</th>
+	   				
+	   				<th>Artikal</th>
+	   				<th>Faktura</th>
+				</tr>
+				
+				#{list items:stavkeFakture, as:'stavkaFakture'}
+				<tr #{if stavkaFakture.id == idd} class = "highlighted" #{/if} class="tableRow">
+					<td class = "kolicina">${stavkaFakture.kolicina}</td>
+					<td class = "cena">${stavkaFakture.cena}</td>
+					<td class = "rabat">${stavkaFakture.rabat}</td>
+					<td class = "osnovicaZaPDV">${stavkaFakture.osnovicaZaPDV}</td>
+					<td class = "stopaPDVa">${stavkaFakture.stopaPDVa}</td>
+					<td class = "ukupno">${stavkaFakture.ukupno}</td>
+					<td class = "iznosPDVa">${stavkaFakture.iznosPDVa}</td>
+					<td class = "iznosRabata">${stavkaFakture.iznosRabata}</td>
+					<td class = "vrednost">${stavkaFakture.vrednost}</td>
+					<td class = "artikal">${stavkaFakture.artikal.nazivStavkeKataloga}</td>
+					<td class = "faktura">${stavkaFakture.faktura.brojFakture}</td>
+					<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkaFakture.id}</td>
+				</tr>				
+				#{/list}
+			</table>
+			
+			#{set 'action'}
+			#{if mode == 'add'}
+    			@{StavkeFakture.create()}
+			#{/if}
+			#{else mode == 'edit'}
+   				@{StavkeFakture.edit()}
+			#{/else}
+    		#{/set}
+    	
+			<div class="panel">
+				<form action=${action} method="post">
+					<p>
+						#{field 'stavkaFakture.id'}
+							<input type = "hidden" name = "${field.name}" id = "${field.id}" value="${session.idVPDVa}"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'stavkaFakture.kolicina'}
+							<label for = "${field.id}">Kolicina</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					<p>
+						#{field 'stavkaFakture.rabat'}
+							<label for = "${field.id}">Rabat</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'artikal'} <label for="${field.id}">Artikal</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:artikli, as:'artikal'}
+							<option value="${artikal.id}">${artikal.nazivStavkeKataloga}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					<p>
+						#{field 'faktura'} <label for="${field.id}">Faktura</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:fakture, as:'faktura'}
+							<option value="${faktura.id}">${faktura.brojFakture}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					
+					<div id = "formActions">
+						<input type = "submit" value = "Potvrdi" style="margin-left:6em" class="btn btn-success"/>
+						<a href = "@{StavkeFakture.show("edit")}" style="margin-left:1em">
+							<button type="button" class="btn btn-danger">Otkazi</button>
+						</a>
+					</div>				
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="status_line">Trenutni režim: ${session.mode}</p>
+
+<button onclick="topFunction()" id="myBtn" title="Idi na vrh">
+	<img src="@{'/public/images/back_top.png'}" alt=""
+		class="rounded-circle" width="40" height="40">
+</button>

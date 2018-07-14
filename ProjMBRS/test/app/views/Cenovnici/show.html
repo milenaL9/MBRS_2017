@@ -1,0 +1,143 @@
+<!--Sat Jul 14 19:05:06 CEST 2018-->
+<!--Generisano na osnovu sablona: show.ftl-->
+<!--Element modela: Cenovnik-->
+
+#{extends 'standardForm.html' /}
+#{set title:'Cenovnik' /}
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+<script>
+	function sync(item){
+		if ("${session.mode}" == "edit"){
+			datumVazenja = item.find(".datumVazenja").html()  		    	
+			naziv = item.find(".naziv").html()  		    	
+	    	id = item.find(".id").html()   	
+	    	$("#cenovnik_datumVazenja").val(datumVazenja);	 
+	    	$("#cenovnik_naziv").val(naziv);	 
+	    	$("#cenovnik_id").val(id);
+	    	
+    	}
+	}
+	
+	function remove(id){
+		if (id == null){
+			alert("Oznacite red u tabeli!");
+		} else {
+			var r  = confirm("Da li zelite da obrisete slog?");
+			if(r == true) {
+	    		$(location).attr('href', '/Cenovnici/delete?id='+id);
+			}else{
+				txt = "You pressed Cancel"
+			}
+		}
+	}
+	
+	$(function(){
+		$( "#cenovnik_datumVazenja" ).datepicker();
+	});
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="icon-bar">
+		
+			<a href="#" onclick="openSideNav()">
+				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
+			</a>
+			
+			<a href="@{Cenovnici.show("edit")}" id = "refresh">
+				<img src="@{'/public/images/refresh.gif'}"/>
+			</a>
+			
+			<a id = "first">
+				<img src="@{'/public/images/first.gif'}"/>
+			</a>
+			<a id = "prev">
+				<img src="@{'/public/images/prev.gif'}"/>
+			</a>
+			<a id = "next">
+				<img src="@{'/public/images/next.gif'}"/>
+			</a>
+			<a id = "last">
+				<img src="@{'/public/images/last.gif'}"/>
+			</a>
+			
+			<a href="@{Cenovnici.show("add")}" id = "add">
+				<img src="@{'/public/images/add.gif'}"/>
+			</a>
+			
+			<a href="#" id = "remove">
+				<img src="@{'/public/images/remove.gif'}"/>
+			</a>
+			
+		</div>
+			
+		<div class="container-fluid">
+			<h1>Cenovnik</h1>
+			<table>
+				<tr class = "header">
+	   				<th>Datum vazenja</th>
+	   				<th>Naziv cenovnika</th>
+	   				
+				</tr>
+				
+				#{list items:cenovnici, as:'cenovnik'}
+				<tr #{if cenovnik.id == idd} class = "highlighted" #{/if} class="tableRow">
+					<td class = "datumVazenja">${cenovnik.datumVazenja}</td>
+					<td class = "naziv">${cenovnik.naziv}</td>
+					<td style = "visibility: hidden; max-width: 0px" class = "id">${cenovnik.id}</td>
+				</tr>				
+				#{/list}
+			</table>
+			
+			#{set 'action'}
+			#{if mode == 'add'}
+    			@{Cenovnici.create()}
+			#{/if}
+			#{else mode == 'edit'}
+   				@{Cenovnici.edit()}
+			#{/else}
+    		#{/set}
+    	
+			<div class="panel">
+				<form action=${action} method="post">
+					<p>
+						#{field 'cenovnik.id'}
+							<input type = "hidden" name = "${field.name}" id = "${field.id}" value="${session.idVPDVa}"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'cenovnik.datumVazenja'}
+							<label for = "${field.id}">Datum vazenja</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					<p>
+						#{field 'cenovnik.naziv'}
+							<label for = "${field.id}">Naziv cenovnika</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					
+					
+					<div id = "formActions">
+						<input type = "submit" value = "Potvrdi" style="margin-left:6em" class="btn btn-success"/>
+						<a href = "@{Cenovnici.show("edit")}" style="margin-left:1em">
+							<button type="button" class="btn btn-danger">Otkazi</button>
+						</a>
+					</div>				
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="status_line">Trenutni režim: ${session.mode}</p>
+
+<button onclick="topFunction()" id="myBtn" title="Idi na vrh">
+	<img src="@{'/public/images/back_top.png'}" alt=""
+		class="rounded-circle" width="40" height="40">
+</button>

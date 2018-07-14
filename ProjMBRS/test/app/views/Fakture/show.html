@@ -1,0 +1,225 @@
+<!--Sat Jul 14 19:05:06 CEST 2018-->
+<!--Generisano na osnovu sablona: show.ftl-->
+<!--Element modela: Faktura-->
+
+#{extends 'standardForm.html' /}
+#{set title:'Faktura' /}
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+<script>
+	function sync(item){
+		if ("${session.mode}" == "edit"){
+			datumFakture = item.find(".datumFakture").html()  		    	
+			brojFakture = item.find(".brojFakture").html()  		    	
+			datumValute = item.find(".datumValute").html()  		    	
+			ukupnoOsnovica = item.find(".ukupnoOsnovica").html()  		    	
+			ukupnoPDV = item.find(".ukupnoPDV").html()  		    	
+			ukupnoZaPlacanje = item.find(".ukupnoZaPlacanje").html()  		    	
+			poslovnaGodina = item.find(".poslovnaGodina").html()  		    	
+			poslovniPartner = item.find(".poslovniPartner").html()  		    	
+			preduzece = item.find(".preduzece").html()  		    	
+	    	id = item.find(".id").html()   	
+	    	$("#faktura_datumFakture").val(datumFakture);	 
+	    	$("#faktura_brojFakture").val(brojFakture);	 
+	    	$("#faktura_datumValute").val(datumValute);	 
+	    	$("#faktura_ukupnoOsnovica").val(ukupnoOsnovica);	 
+	    	$("#faktura_ukupnoPDV").val(ukupnoPDV);	 
+	    	$("#faktura_ukupnoZaPlacanje").val(ukupnoZaPlacanje);	 
+	    	$("#faktura_id").val(id);
+	    	
+	    	var options0 = document.getElementById("poslovnaGodina").children;
+			for (i = 0; i < options0.length; i++) { 
+    			if(options0[i].label == poslovnaGodina){
+    				document.getElementById("poslovnaGodina").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+	    	var options1 = document.getElementById("poslovniPartner").children;
+			for (i = 0; i < options1.length; i++) { 
+    			if(options1[i].label == poslovniPartner){
+    				document.getElementById("poslovniPartner").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+	    	var options2 = document.getElementById("preduzece").children;
+			for (i = 0; i < options2.length; i++) { 
+    			if(options2[i].label == preduzece){
+    				document.getElementById("preduzece").selectedIndex = i;
+    				break;
+    			}
+			}
+			
+    	}
+	}
+	
+	function remove(id){
+		if (id == null){
+			alert("Oznacite red u tabeli!");
+		} else {
+			var r  = confirm("Da li zelite da obrisete slog?");
+			if(r == true) {
+	    		$(location).attr('href', '/Fakture/delete?id='+id);
+			}else{
+				txt = "You pressed Cancel"
+			}
+		}
+	}
+	
+	$(function(){
+		$( "#faktura_datumFakture" ).datepicker({  maxDate: new Date() });
+	});
+	$(function(){
+		$( "#faktura_datumValute" ).datepicker({  minDate: 0  });
+	});
+</script>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="icon-bar">
+		
+			<a href="#" onclick="openSideNav()">
+				<img width="16px" height="16px" src="@{'/public/images/menu_icon.png'}" />
+			</a>
+			
+			<a href="@{Fakture.show("edit")}" id = "refresh">
+				<img src="@{'/public/images/refresh.gif'}"/>
+			</a>
+			
+			<a id = "first">
+				<img src="@{'/public/images/first.gif'}"/>
+			</a>
+			<a id = "prev">
+				<img src="@{'/public/images/prev.gif'}"/>
+			</a>
+			<a id = "next">
+				<img src="@{'/public/images/next.gif'}"/>
+			</a>
+			<a id = "last">
+				<img src="@{'/public/images/last.gif'}"/>
+			</a>
+			
+			<a href="@{Fakture.show("add")}" id = "add">
+				<img src="@{'/public/images/add.gif'}"/>
+			</a>
+			
+			<a href="#" id = "remove">
+				<img src="@{'/public/images/remove.gif'}"/>
+			</a>
+			
+		</div>
+			
+		<div class="container-fluid">
+			<h1>Faktura</h1>
+			<table>
+				<tr class = "header">
+	   				<th>Datum fakture</th>
+	   				<th>Broj fakture</th>
+	   				<th>Datum valute</th>
+	   				<th>Ukupno osnovica</th>
+	   				<th>Ukupno PDV</th>
+	   				<th>Ukupno za placanje</th>
+	   				
+	   				<th>Poslovna godina</th>
+	   				<th>Poslovni partner</th>
+	   				<th>Preduzece</th>
+				</tr>
+				
+				#{list items:fakture, as:'faktura'}
+				<tr #{if faktura.id == idd} class = "highlighted" #{/if} class="tableRow">
+					<td class = "datumFakture">${faktura.datumFakture}</td>
+					<td class = "brojFakture">${faktura.brojFakture}</td>
+					<td class = "datumValute">${faktura.datumValute}</td>
+					<td class = "ukupnoOsnovica">${faktura.ukupnoOsnovica}</td>
+					<td class = "ukupnoPDV">${faktura.ukupnoPDV}</td>
+					<td class = "ukupnoZaPlacanje">${faktura.ukupnoZaPlacanje}</td>
+					<td class = "poslovnaGodina">${faktura.poslovnaGodina.brojGodine}</td>
+					<td class = "poslovniPartner">${faktura.poslovniPartner.naziv}</td>
+					<td class = "preduzece">${faktura.preduzece.naziv}</td>
+					<td style = "visibility: hidden; max-width: 0px" class = "id">${faktura.id}</td>
+				</tr>				
+				#{/list}
+			</table>
+			
+			#{set 'action'}
+			#{if mode == 'add'}
+    			@{Fakture.create()}
+			#{/if}
+			#{else mode == 'edit'}
+   				@{Fakture.edit()}
+			#{/else}
+    		#{/set}
+    	
+			<div class="panel">
+				<form action=${action} method="post">
+					<p>
+						#{field 'faktura.id'}
+							<input type = "hidden" name = "${field.name}" id = "${field.id}" value="${session.idVPDVa}"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'faktura.datumFakture'}
+							<label for = "${field.id}">Datum fakture</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					<p>
+						#{field 'faktura.datumValute'}
+							<label for = "${field.id}">Datum valute</label>
+							<input type = "text" name = "${field.name}" id = "${field.id}" maxlength="40" size="40"/>
+						#{/}
+					</p>
+					
+					<p>
+						#{field 'poslovnaGodina'} <label for="${field.id}">Poslovna godina</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:poslovneGodine, as:'poslovnaGodina'}
+							<option value="${poslovnaGodina.id}">${poslovnaGodina.brojGodine}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					<p>
+						#{field 'poslovniPartner'} <label for="${field.id}">Poslovni partner</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:poslovniPartneri, as:'poslovniPartner'}
+							<option value="${poslovniPartner.id}">${poslovniPartner.naziv}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					<p>
+						#{field 'preduzece'} <label for="${field.id}">Preduzece</label>
+						&nbsp &nbsp &nbsp <select name="${field.name}" id="${field.id}">
+							#{list items:preduzeca, as:'preduzece'}
+							<option value="${preduzece.id}">${preduzece.naziv}</option>
+							#{/list}
+						</select>
+						
+						#{/}
+					</p>
+					
+					<div id = "formActions">
+						<input type = "submit" value = "Potvrdi" style="margin-left:6em" class="btn btn-success"/>
+						<a href = "@{Fakture.show("edit")}" style="margin-left:1em">
+							<button type="button" class="btn btn-danger">Otkazi</button>
+						</a>
+					</div>				
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="status_line">Trenutni režim: ${session.mode}</p>
+
+<button onclick="topFunction()" id="myBtn" title="Idi na vrh">
+	<img src="@{'/public/images/back_top.png'}" alt=""
+		class="rounded-circle" width="40" height="40">
+</button>
