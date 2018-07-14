@@ -7,6 +7,8 @@ import play.mvc.Controller;
 import models.Preduzece;
 import models.VrstaPDVa;
 
+
+
 import models.Grupa;
 
 public class Grupe extends Controller{ 
@@ -21,6 +23,7 @@ public class Grupe extends Controller{
 		List<Preduzece> preduzeca = Preduzece.findAll();
 		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 		List<Grupa> grupe = Grupa.findAll();
+
 
 		render(mode, grupe, preduzeca, vrstePDVa);
 	}
@@ -39,6 +42,10 @@ public class Grupe extends Controller{
 		grupa.preduzece = findPreduzece;
 		VrstaPDVa findVrstaPDVa = VrstaPDVa.findById(vrstaPDVa);
 		grupa.vrstaPDVa = findVrstaPDVa;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		grupa.save();
@@ -48,8 +55,16 @@ public class Grupe extends Controller{
 
 		grupe.clear();
 		grupe = Grupa.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
+		
 	}
 		 
 	public static void edit(Grupa grupa,Long preduzece,Long vrstaPDVa) {
@@ -107,6 +122,10 @@ public class Grupe extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

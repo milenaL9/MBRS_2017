@@ -19,6 +19,8 @@ import models.Cenovnik;
 import models.StavkaCenovnika;
 import models.StavkaFakture;
 import models.Artikal;
+
+
 import models.Faktura;
 
 public class Fakture extends Controller{ 
@@ -34,6 +36,7 @@ public class Fakture extends Controller{
 		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
 		List<Preduzece> preduzeca = Preduzece.findAll();
 		List<Faktura> fakture = Faktura.findAll();
+
 
 		render(mode, fakture, poslovneGodine, poslovniPartneri, preduzeca);
 	}
@@ -55,8 +58,13 @@ public class Fakture extends Controller{
 		faktura.poslovniPartner = findPoslovniPartner;
 		Preduzece findPreduzece = Preduzece.findById(preduzece);
 		faktura.preduzece = findPreduzece;
+
 		
-			faktura = setUpFaktura(faktura);
+		// Postavljanje fakture
+		faktura = setUpFaktura(faktura);
+		
+		// Postavljanje stavke fakture
+		
 
 		faktura.save();
 		fakture.add(faktura);
@@ -65,7 +73,14 @@ public class Fakture extends Controller{
 
 		fakture.clear();
 		fakture = Faktura.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Poziv pomocnih metoda za Fakturu
 		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
 		try {
 			stavkeCenovnika = findStavkeCenovnika(idd);
@@ -74,10 +89,10 @@ public class Fakture extends Controller{
 		}		
 		List<StavkaFakture> stavkeFakture = findStavkeFakture(idd);
 		List<Artikal> artikli = Artikal.findAll();
-		
-		
 		session.put("idFakture", faktura.id);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, fakture, poslovneGodine, poslovniPartneri, preduzeca);
+		
+		
 	}
 		 
 	public static void edit(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
@@ -158,7 +173,6 @@ public class Fakture extends Controller{
 	}
 		
 	public static Faktura setUpFaktura(Faktura faktura){
-		
 		faktura.brojFakture = incrementBrojFakture();
 		List<StavkaFakture> stavkeFakture = faktura.stavkeFakture;
 		faktura.ukupnoOsnovica = 0;
@@ -236,5 +250,9 @@ public class Fakture extends Controller{
 
 		return stavkeFakture;
 	}
+	
+	
+	
+	
 	
 }

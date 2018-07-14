@@ -5,6 +5,8 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 
+
+
 import models.Preduzece;
 
 public class Preduzeca extends Controller{ 
@@ -18,6 +20,7 @@ public class Preduzeca extends Controller{
 
 		List<Preduzece> preduzeca = Preduzece.findAll();
 
+
 		render(mode, preduzeca);
 	}
  
@@ -29,6 +32,10 @@ public class Preduzeca extends Controller{
 
 		preduzeca = Preduzece.findAll();
 
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		preduzece.save();
@@ -38,8 +45,16 @@ public class Preduzeca extends Controller{
 
 		preduzeca.clear();
 		preduzeca = Preduzece.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
+		
 	}
 		 
 	public static void edit(Preduzece preduzece) {
@@ -93,6 +108,10 @@ public class Preduzeca extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

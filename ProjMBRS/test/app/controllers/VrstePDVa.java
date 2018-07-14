@@ -5,6 +5,8 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 
+
+
 import models.VrstaPDVa;
 
 public class VrstePDVa extends Controller{ 
@@ -18,6 +20,7 @@ public class VrstePDVa extends Controller{
 
 		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
+
 		render(mode, vrstePDVa);
 	}
  
@@ -29,6 +32,10 @@ public class VrstePDVa extends Controller{
 
 		vrstePDVa = VrstaPDVa.findAll();
 
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		vrstaPDVa.save();
@@ -38,8 +45,16 @@ public class VrstePDVa extends Controller{
 
 		vrstePDVa.clear();
 		vrstePDVa = VrstaPDVa.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
+		
 	}
 		 
 	public static void edit(VrstaPDVa vrstaPDVa) {
@@ -87,6 +102,10 @@ public class VrstePDVa extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

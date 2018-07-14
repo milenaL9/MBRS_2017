@@ -6,6 +6,8 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Grupa;
 
+
+
 import models.Podgrupa;
 
 public class Podgrupe extends Controller{ 
@@ -19,6 +21,7 @@ public class Podgrupe extends Controller{
 
 		List<Grupa> grupe = Grupa.findAll();
 		List<Podgrupa> podgrupe = Podgrupa.findAll();
+
 
 		render(mode, podgrupe, grupe);
 	}
@@ -34,6 +37,10 @@ public class Podgrupe extends Controller{
 
 		Grupa findGrupa = Grupa.findById(grupa);
 		podgrupa.grupa = findGrupa;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		podgrupa.save();
@@ -43,8 +50,16 @@ public class Podgrupe extends Controller{
 
 		podgrupe.clear();
 		podgrupe = Podgrupa.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
+		
 	}
 		 
 	public static void edit(Podgrupa podgrupa,Long grupa) {
@@ -97,6 +112,10 @@ public class Podgrupe extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

@@ -6,6 +6,8 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Preduzece;
 
+
+
 import models.PoslovnaGodina;
 
 public class PoslovneGodine extends Controller{ 
@@ -19,6 +21,7 @@ public class PoslovneGodine extends Controller{
 
 		List<Preduzece> preduzeca = Preduzece.findAll();
 		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
+
 
 		render(mode, poslovneGodine, preduzeca);
 	}
@@ -34,6 +37,10 @@ public class PoslovneGodine extends Controller{
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);
 		poslovnaGodina.preduzece = findPreduzece;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		poslovnaGodina.save();
@@ -43,8 +50,16 @@ public class PoslovneGodine extends Controller{
 
 		poslovneGodine.clear();
 		poslovneGodine = PoslovnaGodina.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
+		
 	}
 		 
 	public static void edit(PoslovnaGodina poslovnaGodina,Long preduzece) {
@@ -98,6 +113,10 @@ public class PoslovneGodine extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

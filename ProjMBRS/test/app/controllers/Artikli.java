@@ -6,6 +6,8 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Podgrupa;
 
+
+
 import models.Artikal;
 
 public class Artikli extends Controller{ 
@@ -19,6 +21,7 @@ public class Artikli extends Controller{
 
 		List<Podgrupa> podgrupe = Podgrupa.findAll();
 		List<Artikal> artikli = Artikal.findAll();
+
 
 		render(mode, artikli, podgrupe);
 	}
@@ -34,6 +37,10 @@ public class Artikli extends Controller{
 
 		Podgrupa findPodgrupa = Podgrupa.findById(podgrupa);
 		artikal.podgrupa = findPodgrupa;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		artikal.save();
@@ -43,8 +50,16 @@ public class Artikli extends Controller{
 
 		artikli.clear();
 		artikli = Artikal.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Artikli/show.html", idd, mode, artikli, podgrupe);
+		
 	}
 		 
 	public static void edit(Artikal artikal,Long podgrupa) {
@@ -98,6 +113,10 @@ public class Artikli extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

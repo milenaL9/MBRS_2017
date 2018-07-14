@@ -17,6 +17,7 @@
 			faktura = item.find(".faktura").html()  		    	
 			iznosPDVa = item.find(".iznosPDVa").html()  		    	
 			iznosRabata = item.find(".iznosRabata").html()  		    	
+			vrednost = item.find(".vrednost").html()  		    	
 	    	id = item.find(".id").html()   	
 	    	$("#stavkaFakture_kolicina").val(kolicina);	 
 	    	$("#stavkaFakture_cena").val(cena);	 
@@ -26,6 +27,7 @@
 	    	$("#stavkaFakture_ukupno").val(ukupno);	 
 	    	$("#stavkaFakture_iznosPDVa").val(iznosPDVa);	 
 	    	$("#stavkaFakture_iznosRabata").val(iznosRabata);	 
+	    	$("#stavkaFakture_vrednost").val(vrednost);	 
 	    	$("#stavkaFakture_id").val(id);
 	    	
 	    	var options0 = document.getElementById("artikal").children;
@@ -90,6 +92,10 @@
 			<a href="#" id = "remove">
 				<img src="@{'/public/images/remove.gif'}"/>
 			</a>
+			
+			<a href="@{StavkeFakture.saveStavke}" id="done"> 
+				<img src="@{'/public/images/stavke_fakture_done.png'}" width="22px" height="22px"/>
+			</a>
 		</div>
 			
 		<div class="container-fluid">
@@ -106,6 +112,7 @@
 	   				<th>Faktura</th>
 	   				<th>Iznos PDVa</th>
 	   				<th>Iznos rabata</th>
+	   				<th>vrednost</th>
 				</tr>
 				
 				#{list items:stavkeFakture, as:'stavkaFakture'}
@@ -120,6 +127,7 @@
 					<td class = "faktura">${stavkaFakture.faktura}</td>
 					<td class = "iznosPDVa">${stavkaFakture.iznosPDVa}</td>
 					<td class = "iznosRabata">${stavkaFakture.iznosRabata}</td>
+					<td class = "vrednost">${stavkaFakture.vrednost}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkaFakture.id}</td>
 				</tr>				
 				#{/list}

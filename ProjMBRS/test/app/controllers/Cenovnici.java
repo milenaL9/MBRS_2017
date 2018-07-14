@@ -5,6 +5,8 @@ import java.util.List;
 import play.cache.Cache;
 import play.mvc.Controller;
 
+
+
 import models.Cenovnik;
 
 public class Cenovnici extends Controller{ 
@@ -18,6 +20,7 @@ public class Cenovnici extends Controller{
 
 		List<Cenovnik> cenovnici = Cenovnik.findAll();
 
+
 		render(mode, cenovnici);
 	}
  
@@ -29,6 +32,10 @@ public class Cenovnici extends Controller{
 
 		cenovnici = Cenovnik.findAll();
 
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		cenovnik.save();
@@ -38,8 +45,16 @@ public class Cenovnici extends Controller{
 
 		cenovnici.clear();
 		cenovnici = Cenovnik.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Cenovnici/show.html", idd, mode, cenovnici);
+		
 	}
 		 
 	public static void edit(Cenovnik cenovnik) {
@@ -88,6 +103,10 @@ public class Cenovnici extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

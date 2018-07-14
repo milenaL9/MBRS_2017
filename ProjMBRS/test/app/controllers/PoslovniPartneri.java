@@ -6,6 +6,8 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.Preduzece;
 
+
+
 import models.PoslovniPartner;
 
 public class PoslovniPartneri extends Controller{ 
@@ -19,6 +21,7 @@ public class PoslovniPartneri extends Controller{
 
 		List<Preduzece> preduzeca = Preduzece.findAll();
 		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
+
 
 		render(mode, poslovniPartneri, preduzeca);
 	}
@@ -34,6 +37,10 @@ public class PoslovniPartneri extends Controller{
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);
 		poslovniPartner.preduzece = findPreduzece;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		poslovniPartner.save();
@@ -43,8 +50,16 @@ public class PoslovniPartneri extends Controller{
 
 		poslovniPartneri.clear();
 		poslovniPartneri = PoslovniPartner.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
+		
 	}
 		 
 	public static void edit(PoslovniPartner poslovniPartner,Long preduzece) {
@@ -103,6 +118,10 @@ public class PoslovniPartneri extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

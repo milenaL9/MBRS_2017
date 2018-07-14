@@ -7,6 +7,8 @@ import play.mvc.Controller;
 import models.Artikal;
 import models.Cenovnik;
 
+
+
 import models.StavkaCenovnika;
 
 public class StavkeCenovnika extends Controller{ 
@@ -21,6 +23,7 @@ public class StavkeCenovnika extends Controller{
 		List<Artikal> artikli = Artikal.findAll();
 		List<Cenovnik> cenovnici = Cenovnik.findAll();
 		List<StavkaCenovnika> stavkeCenovnika = StavkaCenovnika.findAll();
+
 
 		render(mode, stavkeCenovnika, artikli, cenovnici);
 	}
@@ -39,6 +42,10 @@ public class StavkeCenovnika extends Controller{
 		stavkaCenovnika.artikal = findArtikal;
 		Cenovnik findCenovnik = Cenovnik.findById(cenovnik);
 		stavkaCenovnika.cenovnik = findCenovnik;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		stavkaCenovnika.save();
@@ -48,8 +55,16 @@ public class StavkeCenovnika extends Controller{
 
 		stavkeCenovnika.clear();
 		stavkeCenovnika = StavkaCenovnika.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
+		
 	}
 		 
 	public static void edit(StavkaCenovnika stavkaCenovnika,Long artikal,Long cenovnik) {
@@ -107,6 +122,10 @@ public class StavkeCenovnika extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

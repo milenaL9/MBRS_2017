@@ -31,7 +31,7 @@ public class StavkaFakture extends Model {
   	public float iznosPDVa;
   	
   	public float iznosRabata;
-  	 
+  	
   	public float vrednost;
   	
 

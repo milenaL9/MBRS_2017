@@ -6,6 +6,8 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import models.VrstaPDVa;
 
+
+
 import models.StopaPDVa;
 
 public class StopePDVa extends Controller{ 
@@ -19,6 +21,7 @@ public class StopePDVa extends Controller{
 
 		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 		List<StopaPDVa> stopePDVa = StopaPDVa.findAll();
+
 
 		render(mode, stopePDVa, vrstePDVa);
 	}
@@ -34,6 +37,10 @@ public class StopePDVa extends Controller{
 
 		VrstaPDVa findVrstaPDVa = VrstaPDVa.findById(vrstaPDVa);
 		stopaPDVa.vrstaPDVa = findVrstaPDVa;
+
+		
+		
+		// Postavljanje stavke fakture
 		
 
 		stopaPDVa.save();
@@ -43,8 +50,16 @@ public class StopePDVa extends Controller{
 
 		stopePDVa.clear();
 		stopePDVa = StopaPDVa.findAll();
+		
+		
+		// Za Stavku Fakture
 
+
+		
+		
+		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
+		
 	}
 		 
 	public static void edit(StopaPDVa stopaPDVa,Long vrstaPDVa) {
@@ -98,6 +113,10 @@ public class StopePDVa extends Controller{
 	}
 	
 		
+	
+	
+	
+	
 	
 	
 	

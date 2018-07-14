@@ -21,6 +21,13 @@ import models.StavkaCenovnika;
 import models.StavkaFakture;
 import models.Artikal;
 </#if>
+
+<#if class.setUpStavkaFakture>
+import models.StopaPDVa;
+import models.VrstaPDVa;
+import controllers.Fakture;
+</#if>
+
 import models.${class.name};
 
 ${class.visibility} class ${class.controllerName} extends Controller{ 
@@ -36,6 +43,12 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		List<${property.type}> ${property.controllerName?uncap_first} = ${property.type}.findAll();
 		</#list>
 		List<${class.name}> ${class.controllerName?uncap_first} = ${class.name}.findAll();
+
+		<#if class.setUpStavkaFakture>
+		stavkeFakture.clear();
+		Long idFak = Long.parseLong(session.get("idFakture"));
+		stavkeFakture = Fakture.findStavkeFakture(idFak);
+		</#if>
 
 		render(mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
 	}
@@ -56,14 +69,39 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		${class.name?uncap_first}.${property.name?uncap_first} = find${property.type};
 		</#list>
 
-		// Postavljanje fakture
+		
 		<#if class.incrementBrojFakture>
+		// Postavljanje fakture
 		faktura = setUpFaktura(faktura);
 		</#if>
 		
 		// Postavljanje stavke fakture
 		<#if class.setUpStavkaFakture>
+		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
+		try {
+			stavkeCenovnika = fillListStavkeCenovnika();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (StavkaCenovnika sc : stavkeCenovnika) {
+			if (sc.artikal.id == stavkaFakture.artikal.id) {
+				stavkaFakture.cena = (float) sc.cena;
+			}
+		}
+		
+		
 		stavkaFakture = setUpStavkaFakture(stavkaFakture);
+		
+		try {
+			stavkaFakture.stopaPDVa = findStopaPDVa(findFaktura.id,
+					stavkaFakture.artikal.podgrupa.grupa.vrstaPDVa).procenatPDVa;
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		stavkaFakture.faktura = findFaktura;
 		</#if>
 		
 
@@ -90,20 +128,19 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 
 
 		
-		// Poziv za Stavku fakture
+		
 		<#if class.setUpStavkaFakture>
-		Long idFak = Long.valueOf(session.get("idFakture")).longValue();
+		// Poziv za Stavku fakture
+		stavkeFakture.clear();
+		Long idFak = Long.parseLong(session.get("idFakture"));
 		stavkeFakture = Fakture.findStavkeFakture(idFak);
-		renderTemplate("StavkeFakture/show.html", stavkeFakture, nadredjeneForme, fakture, kataloziRobeIUsluga, idd,
+		renderTemplate("StavkeFakture/show.html", stavkeFakture, fakture, artikli, idd,
 					mode, stavkeCenovnika);
 		
 		
-		// Za sve osim Fakture i StavkeFakture
-		<#elseif !class.incrementBrojFakture || !class.setUpStavkaFakture>
-		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
-		
+
+		<#elseif class.incrementBrojFakture >
 		// Poziv pomocnih metoda za Fakturu
-		<#else>
 		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
 		try {
 			stavkeCenovnika = findStavkeCenovnika(idd);
@@ -114,6 +151,12 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		List<Artikal> artikli = Artikal.findAll();
 		session.put("idFakture", faktura.id);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
+		
+		
+		<#else>
+		// Za sve osim Fakture i StavkeFakture
+		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
+		
 		</#if>
 	}
 		 
@@ -286,7 +329,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		if (faktura.stavkeFakture.size() == 0) {
 			Fakture.delete(id);
 		} else {
-			Fakture.show();
+			Fakture.show("edit");
 		}
 	}	
 	</#if>
@@ -349,14 +392,6 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 	
 	<#if class.setUpStavkaFakture>
 	public static StavkaFakture setUpStavkaFakture(StavkaFakture stavkaFakture){
-		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
-		try {
-			stavkeCenovnika = fillListStavkeCenovnika();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		// kada je disable- ovan combobox ne pokupi vrednost
 		/*Faktura findFaktura = null;
 		if (faktura == null) {
@@ -366,28 +401,14 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 			findFaktura = Faktura.findById(faktura);
 		}*/
 		
-		for (StavkaCenovnika sc : stavkeCenovnika) {
-			if (sc.artikal.id == stavkaFakture.artikal.id) {
-				stavkaFakture.cena = (float) sc.cena;
-			}
-		}
 		stavkaFakture.vrednost = stavkaFakture.cena * stavkaFakture.kolicina;
 		stavkaFakture.iznosRabata = stavkaFakture.vrednost * (stavkaFakture.rabat / 100);
 		stavkaFakture.osnovicaZaPDV = stavkaFakture.vrednost - stavkaFakture.iznosRabata;
 
-		try {
-			stavkaFakture.stopaPDVa = findStopaPDVa(findFaktura.id,
-					stavkaFakture.artikal.podgrupa.grupa.vrstaPDVa).procenatPDVa;
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		stavkaFakture.iznosPDVa = (stavkaFakture.osnovicaZaPDV * stavkaFakture.stopaPDVa) / 100;
 		stavkaFakture.ukupno = stavkaFakture.vrednost - stavkaFakture.iznosRabata + stavkaFakture.iznosPDVa;
 
-		stavkaFakture.faktura = findFaktura;
-		
 		stavkaFakture.faktura.ukupnoPDV += stavkaFakture.iznosPDVa;
 		stavkaFakture.faktura.ukupnoZaPlacanje += stavkaFakture.ukupno;
 		stavkaFakture.faktura.ukupnoOsnovica += stavkaFakture.osnovicaZaPDV;
