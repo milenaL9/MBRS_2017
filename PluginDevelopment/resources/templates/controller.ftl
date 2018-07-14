@@ -89,17 +89,20 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		</#if>
 
 
-		// Poziv pomocnih metoda za Fakturu
 		
-		<#if class.setup>
+		// Poziv za Stavku fakture
+		<#if class.setUpStavkaFakture>
 		Long idFak = Long.valueOf(session.get("idFakture")).longValue();
 		stavkeFakture = Fakture.findStavkeFakture(idFak);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, nadredjeneForme, fakture, kataloziRobeIUsluga, idd,
 					mode, stavkeCenovnika);
-		<#/if>
 		
-		<#if !class.incrementBrojFakture>
+		
+		// Za sve osim Fakture i StavkeFakture
+		<#elseif !class.incrementBrojFakture || !class.setUpStavkaFakture>
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
+		
+		// Poziv pomocnih metoda za Fakturu
 		<#else>
 		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
 		try {

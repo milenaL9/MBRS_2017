@@ -1,4 +1,4 @@
-USE [baza_f]
+USE [odbrana_f]
 GO
 
 
@@ -44,7 +44,7 @@ INSERT INTO [dbo].[Preduzece]
            ,[preduzece_id])
      VALUES
            ('D'
-           ,'2017'
+           ,'2018'
            ,1)
 
 	INSERT INTO [dbo].[PoslovnaGodina]
@@ -53,7 +53,7 @@ INSERT INTO [dbo].[Preduzece]
            ,[preduzece_id])
      VALUES
            ('N'
-           ,'2016'
+           ,'2017'
            ,1)
 
 	INSERT INTO [dbo].[Cenovnik]
@@ -61,28 +61,28 @@ INSERT INTO [dbo].[Preduzece]
            ,[datumVazenja])
      VALUES
            ('Januar'
-           ,'01/15/2017')
+           ,'01/15/2018')
 
 	INSERT INTO [dbo].[Cenovnik]
            ([naziv]
            ,[datumVazenja])
      VALUES
            ('Februar'
-           ,'02/14/2017')
+           ,'02/14/2018')
 
 	INSERT INTO [dbo].[Cenovnik]
            ([naziv]
            ,[datumVazenja])
      VALUES
            ('Mart'
-           ,'03/15/2017')
+           ,'03/15/2018')
 
 	INSERT INTO [dbo].[Cenovnik]
            ([naziv]
            ,[datumVazenja])
      VALUES
            ('Avgust'
-           ,'08/15/2017')
+           ,'08/15/2018')
 
 	INSERT INTO [dbo].[VrstaPDVa]
            ([nazivVrstePDva])
@@ -391,7 +391,7 @@ INSERT INTO [dbo].[Preduzece]
            ,[procenatPDVa]
            ,[vrstaPDVa_id])
      VALUES
-           ('03/06/2017'
+           ('03/06/2018'
            ,10
            ,1)
 
@@ -400,7 +400,7 @@ INSERT INTO [dbo].[Preduzece]
            ,[procenatPDVa]
            ,[vrstaPDVa_id])
      VALUES
-           ('08/23/2017'
+           ('08/23/2018'
            ,20
            ,1)
 GO

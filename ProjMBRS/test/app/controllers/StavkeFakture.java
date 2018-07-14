@@ -102,7 +102,6 @@ public class StavkeFakture extends Controller {
 		stavkeFakture.clear();
 		
 		// RUCNI KOD: POCETAK
-		stavkeFakture.clear();
 		stavkeCenovnika = new ArrayList<StavkaCenovnika>();
 		try {
 			stavkeCenovnika = fillListStavkeCenovnika();
@@ -111,11 +110,12 @@ public class StavkeFakture extends Controller {
 			e.printStackTrace();
 		}
 		
-	
-		Long idFak = Long.valueOf(session.get("idFakture")).longValue();
+		Long idFak = Long.parseLong(session.get("idFakture"));
 		stavkeFakture = Fakture.findStavkeFakture(idFak);
 		
-		renderTemplate("StavkeFakture/show.html", stavkeFakture, fakture, artikli, idd, mode, stavkeCenovnika);
+		renderTemplate("StavkeFakture/show.html", stavkeFakture, fakture, artikli, idd,
+				mode, stavkeCenovnika);
+		
 		// RUCNI KOD: KRAJ
 
 	
