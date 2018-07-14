@@ -28,10 +28,15 @@ public class FMProperty extends FMElement {
 
 	// za imena kontrolera
 	private String controllerName;
-	
+
 	private boolean isDateObican;
 	private boolean isDateMin;
 	private boolean isDateMax;
+
+	private boolean radioBtnPolja;
+	private String vrednost1RBtn;
+	private String vrednost2RBtn;
+	private String vrednost3RBtn;
 
 	/**
 	 * @ToDo: Add length, precision, unique... whatever is needed for ejb class
@@ -186,6 +191,38 @@ public class FMProperty extends FMElement {
 
 	public void setDateMax(boolean isDateMax) {
 		this.isDateMax = isDateMax;
+	}
+
+	public boolean isRadioBtnPolja() {
+		return radioBtnPolja;
+	}
+
+	public void setRadioBtnPolja(boolean radioBtnPolja) {
+		this.radioBtnPolja = radioBtnPolja;
+	}
+
+	public String getVrednost1RBtn() {
+		return vrednost1RBtn;
+	}
+
+	public void setVrednost1RBtn(String vrednost1rBtn) {
+		vrednost1RBtn = vrednost1rBtn;
+	}
+
+	public String getVrednost2RBtn() {
+		return vrednost2RBtn;
+	}
+
+	public void setVrednost2RBtn(String vrednost2rBtn) {
+		vrednost2RBtn = vrednost2rBtn;
+	}
+
+	public String getVrednost3RBtn() {
+		return vrednost3RBtn;
+	}
+
+	public void setVrednost3RBtn(String vrednost3rBtn) {
+		vrednost3RBtn = vrednost3rBtn;
 	}
 
 }

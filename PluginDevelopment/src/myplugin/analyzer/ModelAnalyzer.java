@@ -127,7 +127,7 @@ public class ModelAnalyzer {
 
 		if (controllerStereotype != null) {
 			/**
-			 *    Pomocne metode za Fakturu
+			 * Pomocne metode za Fakturu
 			 */
 			List incrementBrojFaktureList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
 					"incrementBrojFakture");
@@ -157,11 +157,9 @@ public class ModelAnalyzer {
 			if (setuUpList.size() > 0) {
 				fmClass.setSetUp((Boolean) setuUpList.get(0));
 			}
-			
-			
 
 			/**
-			 *    Pomocne metode za StavkuFakture
+			 * Pomocne metode za StavkuFakture
 			 */
 			List fillListStavkeCenovnikaList = StereotypesHelper.getStereotypePropertyValue(cl, controllerStereotype,
 					"fillListStavkeCenovnika");
@@ -182,11 +180,10 @@ public class ModelAnalyzer {
 			}
 		}
 
-		
 		/**
-		 *    Metode za operacije koje se nalaze na StandardForm
+		 * Metode za operacije koje se nalaze na StandardForm
 		 */
-		
+
 		Stereotype standardFormStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, "StandardForm");
 
 		if (standardFormStereotype != null) {
@@ -205,14 +202,12 @@ public class ModelAnalyzer {
 				fmClass.setDeleteSF((Boolean) deleteList.get(0));
 			}
 
-			
 			// stavkaFakture nema padajuci meni
 			List showMenuList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype, "showMenu");
 			if (showMenuList.size() > 0) {
 				fmClass.setShowMenu((Boolean) showMenuList.get(0));
 			}
 
-			
 			// kada se dodaju sve stavke, da zavrsi sa cuvanjem fakture
 			List saveStavkeList = StereotypesHelper.getStereotypePropertyValue(cl, standardFormStereotype,
 					"saveStavke");
@@ -306,7 +301,7 @@ public class ModelAnalyzer {
 		if (editableStereotype != null) {
 			prop.setEditable(true);
 		}
-		
+
 		// Provera da li je polje datum
 		if (editableStereotype != null) {
 			List dateObicanList = StereotypesHelper.getStereotypePropertyValue(p, editableStereotype, "isDateObican");
@@ -332,7 +327,39 @@ public class ModelAnalyzer {
 				boolean isDateMaxVrednost = (Boolean) dateMaxList.get(0);
 				prop.setDateMax(isDateMaxVrednost);
 			}
-		}	
+		}
+
+		// Provera da li je polje radio button
+		if (editableStereotype != null) {
+			List radioBtnPoljaList = StereotypesHelper.getStereotypePropertyValue(p, editableStereotype,
+					"radioBtnPolja");
+			if (!radioBtnPoljaList.isEmpty()) {
+				boolean radioBtn = (Boolean) radioBtnPoljaList.get(0);
+				prop.setRadioBtnPolja(true);
+			}
+		}
+
+		Stereotype radioBtnStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "RadioBtn");
+		if (radioBtnStereotype != null) {
+			List vrednost1List = StereotypesHelper.getStereotypePropertyValue(p, radioBtnStereotype, "vrednost1");
+			if (!vrednost1List.isEmpty()) {
+				prop.setVrednost1RBtn(vrednost1List.get(0).toString());
+			}
+		}
+
+		if (radioBtnStereotype != null) {
+			List vrednost1List = StereotypesHelper.getStereotypePropertyValue(p, radioBtnStereotype, "vrednost2");
+			if (!vrednost1List.isEmpty()) {
+				prop.setVrednost2RBtn(vrednost1List.get(0).toString());
+			}
+		}
+
+		if (radioBtnStereotype != null) {
+			List vrednost1List = StereotypesHelper.getStereotypePropertyValue(p, radioBtnStereotype, "vrednost3");
+			if (!vrednost1List.isEmpty()) {
+				prop.setVrednost3RBtn(vrednost1List.get(0).toString());
+			}
+		}
 
 		Stereotype readonlyStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "ReadOnly");
 		if (readonlyStereotype != null) {
@@ -357,8 +384,6 @@ public class ModelAnalyzer {
 				prop.setLabel(label);
 			}
 		}
-		
-	
 
 		/*
 		 * Stereotype sfStereotype = StereotypesHelper.getAppliedStereotypeByString(p,

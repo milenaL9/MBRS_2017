@@ -157,6 +157,13 @@ ${r"#{set"} title:'${class.label}' /}
 					</#list>	
 					
 					<#list class.propertiesManyToOne as property>
+					<#if property.radioBtnPolja>
+					<p>
+						${r"#{field"} '${property.name}'} <label for="${r"${field.id}"}">${property.label}</label>
+							<input type="radio" name="${r"${field.name}"}" id="${r"${field.id}"}${property.vrednost1}" value="${property.vrednost1}" checked> ${property.vrednost1}
+						${r"#{/}"}
+					</p>
+					<#else>
 					<p>
 						${r"#{field"} '${property.name}'} <label for="${r"${field.id}"}">${property.label}</label>
 						&nbsp &nbsp &nbsp <select name="${r"${field.name}"}" id="${r"${field.id}"}">
@@ -167,6 +174,7 @@ ${r"#{set"} title:'${class.label}' /}
 						
 						${r"#{/}"}
 					</p>
+					</#if>
 					</#list>	
 					
 					<div id = "formActions">

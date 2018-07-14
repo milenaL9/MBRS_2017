@@ -1,4 +1,4 @@
-//Sat Jul 14 19:05:03 CEST 2018
+//Sat Jul 14 20:10:44 CEST 2018
 //Generisano na osnovu sablona: controller.ftl
 //Element modela: Artikal
 
