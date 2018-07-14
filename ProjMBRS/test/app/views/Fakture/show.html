@@ -64,6 +64,13 @@
 			}
 		}
 	}
+	
+	$(function(){
+		$( "#faktura_datumFakture" ).datepicker({  maxDate: new Date() });
+	});
+	$(function(){
+		$( "#faktura_datumValute" ).datepicker({  minDate: 0  });
+	});
 </script>
 
 <div class="container-fluid">
@@ -111,6 +118,7 @@
 	   				<th>Ukupno osnovica</th>
 	   				<th>Ukupno PDV</th>
 	   				<th>Ukupno za placanje</th>
+	   				
 	   				<th>Poslovna godina</th>
 	   				<th>Poslovni partner</th>
 	   				<th>Preduzece</th>

@@ -29,6 +29,10 @@
 			}
 		}
 	}
+	
+	$(function(){
+		$( "#cenovnik_datumVazenja" ).datepicker();
+	});
 </script>
 
 <div class="container-fluid">
@@ -72,6 +76,7 @@
 				<tr class = "header">
 	   				<th>Datum vazenja</th>
 	   				<th>Naziv cenovnika</th>
+	   				
 				</tr>
 				
 				#{list items:cenovnici, as:'cenovnik'}

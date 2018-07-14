@@ -306,6 +306,33 @@ public class ModelAnalyzer {
 		if (editableStereotype != null) {
 			prop.setEditable(true);
 		}
+		
+		// Provera da li je polje datum
+		if (editableStereotype != null) {
+			List dateObicanList = StereotypesHelper.getStereotypePropertyValue(p, editableStereotype, "isDateObican");
+			if (!dateObicanList.isEmpty()) {
+				boolean isDateObicanVrednost = (Boolean) dateObicanList.get(0);
+				prop.setIsDateObican(isDateObicanVrednost);
+			}
+		}
+
+		// Provera da li je datum minimalan
+		if (editableStereotype != null) {
+			List dateMinList = StereotypesHelper.getStereotypePropertyValue(p, editableStereotype, "isDateMin");
+			if (!dateMinList.isEmpty()) {
+				boolean isDateMinVrednost = (Boolean) dateMinList.get(0);
+				prop.setDateMin(isDateMinVrednost);
+			}
+		}
+
+		// Provera da li je datum maksimalan
+		if (editableStereotype != null) {
+			List dateMaxList = StereotypesHelper.getStereotypePropertyValue(p, editableStereotype, "isDateMax");
+			if (!dateMaxList.isEmpty()) {
+				boolean isDateMaxVrednost = (Boolean) dateMaxList.get(0);
+				prop.setDateMax(isDateMaxVrednost);
+			}
+		}	
 
 		Stereotype readonlyStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "ReadOnly");
 		if (readonlyStereotype != null) {
@@ -330,6 +357,8 @@ public class ModelAnalyzer {
 				prop.setLabel(label);
 			}
 		}
+		
+	
 
 		/*
 		 * Stereotype sfStereotype = StereotypesHelper.getAppliedStereotypeByString(p,

@@ -41,6 +41,14 @@ ${r"#{set"} title:'${class.label}' /}
 			}
 		}
 	}
+	
+	<#list class.classProperties as property>
+		<#if property.isDateObican()>	
+	$(function(){
+		$( "#${class.name?uncap_first}_${property.name}" ).datepicker(<#if property.isDateMax()>{  maxDate: new Date() }</#if><#if property.isDateMin()>{  minDate: 0  }</#if>);
+	});
+		</#if>
+	</#list>
 </script>
 
 <div class="container-fluid">
@@ -93,7 +101,11 @@ ${r"#{set"} title:'${class.label}' /}
 			<h1>${class.label}</h1>
 			<table>
 				<tr class = "header">
-					<#list class.propertiesNoZoom as property>
+					<#list class.classProperties as property>
+	   				<th>${property.label}</th>
+	   				</#list>
+	   				
+	   				<#list class.propertiesManyToOne as property>
 	   				<th>${property.label}</th>
 	   				</#list>
 				</tr>

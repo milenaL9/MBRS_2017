@@ -28,6 +28,10 @@ public class FMProperty extends FMElement {
 
 	// za imena kontrolera
 	private String controllerName;
+	
+	private boolean isDateObican;
+	private boolean isDateMin;
+	private boolean isDateMax;
 
 	/**
 	 * @ToDo: Add length, precision, unique... whatever is needed for ejb class
@@ -158,6 +162,30 @@ public class FMProperty extends FMElement {
 
 	public void setLookupName(String lookupName) {
 		this.lookupName = lookupName;
+	}
+
+	public boolean isDateObican() {
+		return isDateObican;
+	}
+
+	public void setIsDateObican(boolean isDateObican) {
+		this.isDateObican = isDateObican;
+	}
+
+	public boolean isDateMin() {
+		return isDateMin;
+	}
+
+	public void setDateMin(boolean isDateMin) {
+		this.isDateMin = isDateMin;
+	}
+
+	public boolean isDateMax() {
+		return isDateMax;
+	}
+
+	public void setDateMax(boolean isDateMax) {
+		this.isDateMax = isDateMax;
 	}
 
 }
