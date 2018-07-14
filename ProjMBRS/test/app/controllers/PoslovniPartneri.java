@@ -42,24 +42,16 @@ public class PoslovniPartneri extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		poslovniPartner.save();
 		poslovniPartneri.add(poslovniPartner);
-
 		Long idd = poslovniPartner.id;
-
 		poslovniPartneri.clear();
 		poslovniPartneri = PoslovniPartner.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("PoslovniPartneri/show.html", idd, mode, poslovniPartneri, preduzeca);
-		
 	}
 		 
 	public static void edit(PoslovniPartner poslovniPartner,Long preduzece) {
@@ -69,7 +61,6 @@ public class PoslovniPartneri extends Controller{
 		List<PoslovniPartner> poslovniPartneri = null;
 		List<Preduzece> preduzeca = Preduzece.findAll();
 
-	
 		poslovniPartneri  = PoslovniPartner.findAll();
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);

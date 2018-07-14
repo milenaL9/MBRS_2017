@@ -47,24 +47,16 @@ public class StavkeCenovnika extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		stavkaCenovnika.save();
 		stavkeCenovnika.add(stavkaCenovnika);
-
 		Long idd = stavkaCenovnika.id;
-
 		stavkeCenovnika.clear();
 		stavkeCenovnika = StavkaCenovnika.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("StavkeCenovnika/show.html", idd, mode, stavkeCenovnika, artikli, cenovnici);
-		
 	}
 		 
 	public static void edit(StavkaCenovnika stavkaCenovnika,Long artikal,Long cenovnik) {
@@ -75,7 +67,6 @@ public class StavkeCenovnika extends Controller{
 		List<Artikal> artikli = Artikal.findAll();
 		List<Cenovnik> cenovnici = Cenovnik.findAll();
 
-	
 		stavkeCenovnika  = StavkaCenovnika.findAll();
 
 		Artikal findArtikal = Artikal.findById(artikal);

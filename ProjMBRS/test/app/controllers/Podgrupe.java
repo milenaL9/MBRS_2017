@@ -42,24 +42,16 @@ public class Podgrupe extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		podgrupa.save();
 		podgrupe.add(podgrupa);
-
 		Long idd = podgrupa.id;
-
 		podgrupe.clear();
 		podgrupe = Podgrupa.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Podgrupe/show.html", idd, mode, podgrupe, grupe);
-		
 	}
 		 
 	public static void edit(Podgrupa podgrupa,Long grupa) {
@@ -69,7 +61,6 @@ public class Podgrupe extends Controller{
 		List<Podgrupa> podgrupe = null;
 		List<Grupa> grupe = Grupa.findAll();
 
-	
 		podgrupe  = Podgrupa.findAll();
 
 		Grupa findGrupa = Grupa.findById(grupa);

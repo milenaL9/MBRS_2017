@@ -37,24 +37,16 @@ public class Preduzeca extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		preduzece.save();
 		preduzeca.add(preduzece);
-
 		Long idd = preduzece.id;
-
 		preduzeca.clear();
 		preduzeca = Preduzece.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Preduzeca/show.html", idd, mode, preduzeca);
-		
 	}
 		 
 	public static void edit(Preduzece preduzece) {
@@ -63,7 +55,6 @@ public class Preduzeca extends Controller{
 
 		List<Preduzece> preduzeca = null;
 
-	
 		preduzeca  = Preduzece.findAll();
 
 

@@ -37,24 +37,16 @@ public class VrstePDVa extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		vrstaPDVa.save();
 		vrstePDVa.add(vrstaPDVa);
-
 		Long idd = vrstaPDVa.id;
-
 		vrstePDVa.clear();
 		vrstePDVa = VrstaPDVa.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("VrstePDVa/show.html", idd, mode, vrstePDVa);
-		
 	}
 		 
 	public static void edit(VrstaPDVa vrstaPDVa) {
@@ -63,7 +55,6 @@ public class VrstePDVa extends Controller{
 
 		List<VrstaPDVa> vrstePDVa = null;
 
-	
 		vrstePDVa  = VrstaPDVa.findAll();
 
 

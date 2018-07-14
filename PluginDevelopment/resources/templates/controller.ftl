@@ -90,10 +90,7 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 				stavkaFakture.cena = (float) sc.cena;
 			}
 		}
-		
-		
-		stavkaFakture = setUpStavkaFakture(stavkaFakture);
-		
+
 		try {
 			stavkaFakture.stopaPDVa = findStopaPDVa(findFaktura.id,
 					stavkaFakture.artikal.podgrupa.grupa.vrstaPDVa).procenatPDVa;
@@ -101,18 +98,15 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		stavkaFakture = setUpStavkaFakture(stavkaFakture);
 		stavkaFakture.faktura = findFaktura;
 		</#if>
 		
-
 		${class.name?uncap_first}.save();
 		${class.controllerName?uncap_first}.add(${class.name?uncap_first});
-
 		Long idd = ${class.name?uncap_first}.id;
-
 		${class.controllerName?uncap_first}.clear();
 		${class.controllerName?uncap_first} = ${class.name}.findAll();
-		
 		
 		// Za Stavku Fakture
 		<#if class.findStopaPDVa>
@@ -126,9 +120,6 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		}
 		</#if>
 
-
-		
-		
 		<#if class.setUpStavkaFakture>
 		// Poziv za Stavku fakture
 		stavkeFakture.clear();
@@ -137,8 +128,6 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, fakture, artikli, idd,
 					mode, stavkeCenovnika);
 		
-		
-
 		<#elseif class.incrementBrojFakture >
 		// Poziv pomocnih metoda za Fakturu
 		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
@@ -151,12 +140,9 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		List<Artikal> artikli = Artikal.findAll();
 		session.put("idFakture", faktura.id);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
-		
-		
 		<#else>
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("${class.controllerName}/show.html", idd, mode, ${class.controllerName?uncap_first}<#list class.propertiesManyToOne as property>, ${property.controllerName?uncap_first}</#list>);
-		
 		</#if>
 	}
 		 
@@ -169,7 +155,6 @@ ${class.visibility} class ${class.controllerName} extends Controller{
 		List<${property.type}> ${property.controllerName?uncap_first} = ${property.type}.findAll();
 		</#list>
 
-	
 		${class.controllerName?uncap_first}  = ${class.name}.findAll();
 
 		<#list class.propertiesManyToOne as property>

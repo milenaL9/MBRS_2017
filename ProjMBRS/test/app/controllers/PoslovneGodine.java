@@ -42,24 +42,16 @@ public class PoslovneGodine extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		poslovnaGodina.save();
 		poslovneGodine.add(poslovnaGodina);
-
 		Long idd = poslovnaGodina.id;
-
 		poslovneGodine.clear();
 		poslovneGodine = PoslovnaGodina.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("PoslovneGodine/show.html", idd, mode, poslovneGodine, preduzeca);
-		
 	}
 		 
 	public static void edit(PoslovnaGodina poslovnaGodina,Long preduzece) {
@@ -69,7 +61,6 @@ public class PoslovneGodine extends Controller{
 		List<PoslovnaGodina> poslovneGodine = null;
 		List<Preduzece> preduzeca = Preduzece.findAll();
 
-	
 		poslovneGodine  = PoslovnaGodina.findAll();
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);

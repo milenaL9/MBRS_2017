@@ -42,24 +42,16 @@ public class Artikli extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		artikal.save();
 		artikli.add(artikal);
-
 		Long idd = artikal.id;
-
 		artikli.clear();
 		artikli = Artikal.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Artikli/show.html", idd, mode, artikli, podgrupe);
-		
 	}
 		 
 	public static void edit(Artikal artikal,Long podgrupa) {
@@ -69,7 +61,6 @@ public class Artikli extends Controller{
 		List<Artikal> artikli = null;
 		List<Podgrupa> podgrupe = Podgrupa.findAll();
 
-	
 		artikli  = Artikal.findAll();
 
 		Podgrupa findPodgrupa = Podgrupa.findById(podgrupa);

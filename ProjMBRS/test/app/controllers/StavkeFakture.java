@@ -76,10 +76,7 @@ public class StavkeFakture extends Controller{
 				stavkaFakture.cena = (float) sc.cena;
 			}
 		}
-		
-		
-		stavkaFakture = setUpStavkaFakture(stavkaFakture);
-		
+
 		try {
 			stavkaFakture.stopaPDVa = findStopaPDVa(findFaktura.id,
 					stavkaFakture.artikal.podgrupa.grupa.vrstaPDVa).procenatPDVa;
@@ -87,17 +84,14 @@ public class StavkeFakture extends Controller{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		stavkaFakture = setUpStavkaFakture(stavkaFakture);
 		stavkaFakture.faktura = findFaktura;
 		
-
 		stavkaFakture.save();
 		stavkeFakture.add(stavkaFakture);
-
 		Long idd = stavkaFakture.id;
-
 		stavkeFakture.clear();
 		stavkeFakture = StavkaFakture.findAll();
-		
 		
 		// Za Stavku Fakture
 		stavkeFakture.clear();
@@ -109,9 +103,6 @@ public class StavkeFakture extends Controller{
 			e.printStackTrace();
 		}
 
-
-		
-		
 		// Poziv za Stavku fakture
 		stavkeFakture.clear();
 		Long idFak = Long.parseLong(session.get("idFakture"));
@@ -119,8 +110,6 @@ public class StavkeFakture extends Controller{
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, fakture, artikli, idd,
 					mode, stavkeCenovnika);
 		
-		
-
 	}
 		 
 	public static void edit(StavkaFakture stavkaFakture,Long artikal,Long faktura) {
@@ -131,7 +120,6 @@ public class StavkeFakture extends Controller{
 		List<Artikal> artikli = Artikal.findAll();
 		List<Faktura> fakture = Faktura.findAll();
 
-	
 		stavkeFakture  = StavkaFakture.findAll();
 
 		Artikal findArtikal = Artikal.findById(artikal);

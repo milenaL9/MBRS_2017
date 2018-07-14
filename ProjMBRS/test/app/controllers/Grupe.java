@@ -47,24 +47,16 @@ public class Grupe extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		grupa.save();
 		grupe.add(grupa);
-
 		Long idd = grupa.id;
-
 		grupe.clear();
 		grupe = Grupa.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("Grupe/show.html", idd, mode, grupe, preduzeca, vrstePDVa);
-		
 	}
 		 
 	public static void edit(Grupa grupa,Long preduzece,Long vrstaPDVa) {
@@ -75,7 +67,6 @@ public class Grupe extends Controller{
 		List<Preduzece> preduzeca = Preduzece.findAll();
 		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
-	
 		grupe  = Grupa.findAll();
 
 		Preduzece findPreduzece = Preduzece.findById(preduzece);

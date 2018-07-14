@@ -42,24 +42,16 @@ public class StopePDVa extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		stopaPDVa.save();
 		stopePDVa.add(stopaPDVa);
-
 		Long idd = stopaPDVa.id;
-
 		stopePDVa.clear();
 		stopePDVa = StopaPDVa.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Za sve osim Fakture i StavkeFakture
 		renderTemplate("StopePDVa/show.html", idd, mode, stopePDVa, vrstePDVa);
-		
 	}
 		 
 	public static void edit(StopaPDVa stopaPDVa,Long vrstaPDVa) {
@@ -69,7 +61,6 @@ public class StopePDVa extends Controller{
 		List<StopaPDVa> stopePDVa = null;
 		List<VrstaPDVa> vrstePDVa = VrstaPDVa.findAll();
 
-	
 		stopePDVa  = StopaPDVa.findAll();
 
 		VrstaPDVa findVrstaPDVa = VrstaPDVa.findById(vrstaPDVa);

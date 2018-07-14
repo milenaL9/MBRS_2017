@@ -65,21 +65,14 @@ public class Fakture extends Controller{
 		
 		// Postavljanje stavke fakture
 		
-
 		faktura.save();
 		fakture.add(faktura);
-
 		Long idd = faktura.id;
-
 		fakture.clear();
 		fakture = Faktura.findAll();
 		
-		
 		// Za Stavku Fakture
 
-
-		
-		
 		// Poziv pomocnih metoda za Fakturu
 		List<StavkaCenovnika> stavkeCenovnika = new ArrayList<StavkaCenovnika>();
 		try {
@@ -91,8 +84,6 @@ public class Fakture extends Controller{
 		List<Artikal> artikli = Artikal.findAll();
 		session.put("idFakture", faktura.id);
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, stavkeCenovnika, idd, mode, artikli, fakture, poslovneGodine, poslovniPartneri, preduzeca);
-		
-		
 	}
 		 
 	public static void edit(Faktura faktura,Long poslovnaGodina,Long poslovniPartner,Long preduzece) {
@@ -104,7 +95,6 @@ public class Fakture extends Controller{
 		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();
 		List<Preduzece> preduzeca = Preduzece.findAll();
 
-	
 		fakture  = Faktura.findAll();
 
 		PoslovnaGodina findPoslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);
