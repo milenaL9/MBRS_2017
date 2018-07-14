@@ -76,7 +76,7 @@
 		</div>
 			
 		<div class="container-fluid">
-			<h1>StopePDVa</h1>
+			<h1>Stopa PDVa</h1>
 			<table>
 				<tr class = "header">
 	   				<th>Datum kreiranja</th>
@@ -88,7 +88,7 @@
 				<tr #{if stopaPDVa.id == idd} class = "highlighted" #{/if} class="tableRow">
 					<td class = "datumKreiranja">${stopaPDVa.datumKreiranja}</td>
 					<td class = "procenatPDVa">${stopaPDVa.procenatPDVa}</td>
-					<td class = "vrstaPDVa">${stopaPDVa.vrstaPDVa}</td>
+					<td class = "vrstaPDVa">${stopaPDVa.vrstaPDVa.nazivVrstePDVa}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${stopaPDVa.id}</td>
 				</tr>				
 				#{/list}

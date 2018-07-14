@@ -99,7 +99,7 @@
 		</div>
 			
 		<div class="container-fluid">
-			<h1>StavkeFakture</h1>
+			<h1>Stavka fakture</h1>
 			<table>
 				<tr class = "header">
 	   				<th>Kolicina</th>
@@ -123,11 +123,11 @@
 					<td class = "osnovicaZaPDV">${stavkaFakture.osnovicaZaPDV}</td>
 					<td class = "stopaPDVa">${stavkaFakture.stopaPDVa}</td>
 					<td class = "ukupno">${stavkaFakture.ukupno}</td>
-					<td class = "artikal">${stavkaFakture.artikal}</td>
-					<td class = "faktura">${stavkaFakture.faktura}</td>
 					<td class = "iznosPDVa">${stavkaFakture.iznosPDVa}</td>
 					<td class = "iznosRabata">${stavkaFakture.iznosRabata}</td>
 					<td class = "vrednost">${stavkaFakture.vrednost}</td>
+					<td class = "artikal">${stavkaFakture.artikal.nazivStavkeKataloga}</td>
+					<td class = "faktura">${stavkaFakture.faktura.brojFakture}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkaFakture.id}</td>
 				</tr>				
 				#{/list}

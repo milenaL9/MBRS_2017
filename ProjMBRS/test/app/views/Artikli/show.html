@@ -88,7 +88,7 @@
 				<tr #{if artikal.id == idd} class = "highlighted" #{/if} class="tableRow">
 					<td class = "nazivStavkeKataloga">${artikal.nazivStavkeKataloga}</td>
 					<td class = "opisStavkeKataloga">${artikal.opisStavkeKataloga}</td>
-					<td class = "podgrupa">${artikal.podgrupa}</td>
+					<td class = "podgrupa">${artikal.podgrupa.nazivPodgrupe}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${artikal.id}</td>
 				</tr>				
 				#{/list}

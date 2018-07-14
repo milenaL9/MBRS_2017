@@ -83,7 +83,7 @@
 		</div>
 			
 		<div class="container-fluid">
-			<h1>Grupe</h1>
+			<h1>Grupa</h1>
 			<table>
 				<tr class = "header">
 	   				<th>Naziv grupe</th>
@@ -94,8 +94,8 @@
 				#{list items:grupe, as:'grupa'}
 				<tr #{if grupa.id == idd} class = "highlighted" #{/if} class="tableRow">
 					<td class = "nazivGrupe">${grupa.nazivGrupe}</td>
-					<td class = "preduzece">${grupa.preduzece}</td>
-					<td class = "vrstaPDVa">${grupa.vrstaPDVa}</td>
+					<td class = "preduzece">${grupa.preduzece.naziv}</td>
+					<td class = "vrstaPDVa">${grupa.vrstaPDVa.nazivVrstePDVa}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${grupa.id}</td>
 				</tr>				
 				#{/list}

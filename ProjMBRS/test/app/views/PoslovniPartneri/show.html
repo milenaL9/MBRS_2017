@@ -86,7 +86,7 @@
 		</div>
 			
 		<div class="container-fluid">
-			<h1>PoslovniPartneri</h1>
+			<h1>Poslovni partner</h1>
 			<table>
 				<tr class = "header">
 	   				<th>Naziv partera</th>
@@ -108,7 +108,7 @@
 					<td class = "telefon">${poslovniPartner.telefon}</td>
 					<td class = "pib">${poslovniPartner.pib}</td>
 					<td class = "tekuciRacun">${poslovniPartner.tekuciRacun}</td>
-					<td class = "preduzece">${poslovniPartner.preduzece}</td>
+					<td class = "preduzece">${poslovniPartner.preduzece.naziv}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${poslovniPartner.id}</td>
 				</tr>				
 				#{/list}

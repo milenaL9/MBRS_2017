@@ -74,7 +74,7 @@
 		</div>
 			
 		<div class="container-fluid">
-			<h1>Podgrupe</h1>
+			<h1>Podgrupa</h1>
 			<table>
 				<tr class = "header">
 	   				<th>Naziv podgrupe</th>
@@ -84,7 +84,7 @@
 				#{list items:podgrupe, as:'podgrupa'}
 				<tr #{if podgrupa.id == idd} class = "highlighted" #{/if} class="tableRow">
 					<td class = "nazivPodgrupe">${podgrupa.nazivPodgrupe}</td>
-					<td class = "grupa">${podgrupa.grupa}</td>
+					<td class = "grupa">${podgrupa.grupa.nazivGrupe}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${podgrupa.id}</td>
 				</tr>				
 				#{/list}

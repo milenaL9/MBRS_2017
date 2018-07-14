@@ -90,7 +90,7 @@ ${r"#{set"} title:'${class.label}' /}
 		</div>
 			
 		<div class="container-fluid">
-			<h1>${class.controllerName}</h1>
+			<h1>${class.label}</h1>
 			<table>
 				<tr class = "header">
 					<#list class.propertiesNoZoom as property>
@@ -100,9 +100,12 @@ ${r"#{set"} title:'${class.label}' /}
 				
 				${r"#{list"} items:${class.controllerName?uncap_first}, as:'${class.name?uncap_first}'}
 				<tr ${r"#{if"} ${class.name?uncap_first}.id == idd} class = "highlighted" ${r"#{/if}"} class="tableRow">
-					<#list class.propertiesNoZoom as property>
+					<#list class.classProperties as property>
 					<td class = "${property.name}">${r"${"}${class.name?uncap_first}.${property.name}}</td>
 					</#list>
+					<#list class.propertiesManyToOne as property>
+					<td class = "${property.name}">${r"${"}${class.name?uncap_first}.${property.name}.${property.lookupName}${r"}"}</td>
+					</#list>					
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${r"${"}${class.name?uncap_first}.id}</td>
 				</tr>				
 				${r"#{/list}"}

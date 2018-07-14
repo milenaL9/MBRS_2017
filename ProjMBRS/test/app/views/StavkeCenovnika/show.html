@@ -83,7 +83,7 @@
 		</div>
 			
 		<div class="container-fluid">
-			<h1>StavkeCenovnika</h1>
+			<h1>Stavka cenovnika</h1>
 			<table>
 				<tr class = "header">
 	   				<th>Cena stavke cenovika</th>
@@ -94,8 +94,8 @@
 				#{list items:stavkeCenovnika, as:'stavkaCenovnika'}
 				<tr #{if stavkaCenovnika.id == idd} class = "highlighted" #{/if} class="tableRow">
 					<td class = "cena">${stavkaCenovnika.cena}</td>
-					<td class = "artikal">${stavkaCenovnika.artikal}</td>
-					<td class = "cenovnik">${stavkaCenovnika.cenovnik}</td>
+					<td class = "artikal">${stavkaCenovnika.artikal.nazivStavkeKataloga}</td>
+					<td class = "cenovnik">${stavkaCenovnika.cenovnik.naziv}</td>
 					<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkaCenovnika.id}</td>
 				</tr>				
 				#{/list}
