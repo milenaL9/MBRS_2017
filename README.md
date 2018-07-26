@@ -1,4 +1,4 @@
-# Fakturisanje
+# Generisanje poslovne aplikacije za fakturisanje
 ###### Fakultet tehničkih nauka, Novi Sad
 ###### Metodologije brzog razvoja softvera 2017
 
