@@ -7,6 +7,7 @@
 * [Microsoft SQL Server](https://www.microsoft.com/en-gb/sql-server/sql-server-downloads) - Baza podataka
 * [Freemarker](https://freemarker.apache.org/index.html) - Template engine
 * [MagicDraw](https://www.nomagic.com/products/magicdraw) - Profil i class dijagram
+* [Eclipse Photon](https://www.eclipse.org/downloads/packages/release/Photon/M6)
 
 ## Instalacija
 Klonirati projekat na lokalnu mašinu:
